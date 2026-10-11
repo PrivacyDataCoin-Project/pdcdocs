@@ -1,5 +1,5 @@
 (function () {
-  const endpoint = "https://api.github.com/repos/PrivacyDataCoin-Project/pdc/releases/latest";
+  const endpoint = "https://api.github.com/repos/PrivacyDataCoin-Project/PDC/releases/latest";
 
   function megabytes(size) {
     const mb = Number(size) / 1048576;

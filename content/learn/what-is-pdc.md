@@ -23,7 +23,7 @@ Issuing, minting, and burning a token are separate, explicit operations. An alia
 
 ## Where to look
 
-The desktop wallet and the command-line node ship in release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.2.0</span></a>. The block explorer is [explorer.privacydatacoin.com](https://explorer.privacydatacoin.com/). The project site is [privacydatacoin.com](https://privacydatacoin.com/).
+The desktop wallet and the command-line node ship in release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.4.2</span></a>. The block explorer is [explorer.privacydatacoin.com](https://explorer.privacydatacoin.com/). The project site is [privacydatacoin.com](https://privacydatacoin.com/).
 
 The canonical chain identity is:
 

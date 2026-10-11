@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Proof of stake · PDC Docs</title>
   <meta name="description" content="Zarcanum, coinstake age, and the PoS run limit.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/stake/proof-of-stake.html">
   <link rel="icon" href="../favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +21,7 @@
       <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
       <span><strong>PDC</strong><small>Documentation</small></span>
     </a>
-    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.2.0</span></a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
@@ -50,7 +51,7 @@
 <p><code>get_pos_details.bin</code> returns the proof-of-stake conditions the wallet uses to decide whether a kernel wins. It is a binary wallet call, not a convenience JSON method. <code>getblocktemplate</code> can also build a proof-of-stake template when the request asks for one. The struct comments in <code>core_rpc_server_commands_defs.h</code> describe both.</p>
 <p>If you are checking that staking is alive, <code>getinfo</code> with the proof-of-stake difficulty bit (<code>0x1</code>) and the last proof-of-stake timestamp bit (<code>0x100</code>) is enough.</p>
         <nav class="pager"><a href="../stake/staking.html">← Staking</a><a href="../code/parameters.html">Network parameters →</a></nav>
-        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.2.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/pdc">PrivacyDataCoin-Project/pdc</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>
     <aside class="toc">

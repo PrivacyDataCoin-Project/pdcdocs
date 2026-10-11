@@ -32,7 +32,7 @@ The explorer can show blocks, proof type, and public metadata such as aliases. I
 
 ## Why did my v1 wallet stop working?
 
-Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.2.0</span></a> and create or restore a wallet against this network.
+Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.4.2</span></a> and create or restore a wallet against this network.
 
 ## Are alias fees paid to a foundation?
 
