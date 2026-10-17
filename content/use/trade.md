@@ -26,7 +26,7 @@ BTCX is a confidential asset on PDC. Ordinary transfers of BTCX hide amounts the
 4. Wait for the confirmation count shown on the Bridge status (mainnet bridge uses several confirmations).
 5. When the deposit is confirmed and the custody ceremony finishes, BTCX is minted to your PDC address.
 
-**Minimums** are published on Bridge status (`depositMinSats`, optional `depositMinUsd`). They are operator-configured. A common production floor is about **$100** of BTC (same idea as Confidential Layer / Zano). Lab deployments may temporarily use a lower USD floor.
+**Minimums** are published on Bridge status (`depositMinSats`, optional `depositMinUsd`). They are operator-configured. A common production floor is about **$100** of BTC. Lab deployments may temporarily use a lower USD floor.
 
 **Fees on deposit:** you pay the normal Bitcoin network (miner) fee on your send. The bridge does not take an extra deposit cut. Minted BTCX matches the satoshis received (1:1).
 
