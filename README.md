@@ -19,13 +19,15 @@ Public references used in the manual:
 
 - Site: https://privacydatacoin.com/
 - Explorer: https://explorer.privacydatacoin.com/
+- Trade: https://trade.privacydatacoin.com/
+- Trade API: https://api.trade.privacydatacoin.com/
 - Asset whitelist: https://api.privacydatacoin.com/assets_whitelist.json
 - Current binaries: https://github.com/PrivacyDataCoin-Project/PDC/releases/latest
 
 ## Sections
 
 - Learn: what PDC is, how a transfer works, FAQ
-- Use: install the current release, wallets, security, troubleshooting
+- Use: install the current release, wallets, Trade / BTC bridge, security, troubleshooting
 - Build: compile the tree, node RPC, assets, aliases, escrow and swaps
 - Mine: RandomARQ and stratum port 19777
 - Stake: online staking and the Zarcanum rules
