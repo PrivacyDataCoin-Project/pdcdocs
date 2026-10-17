@@ -68,33 +68,62 @@
 </tr>
 </tbody>
 </table>
-<p>BTCX is a confidential asset on PDC. Ordinary transfers of BTCX hide amounts the same way other confidential assets do. Bridge mint and burn are separate, operator-visible steps that keep the BTC reserve and the circulating BTCX matched.</p>
+<p>BTCX is a confidential asset on PDC (8 decimals, satoshi-aligned). Ordinary transfers of BTCX hide amounts the same way other confidential assets do. Bridge mint and burn keep the BTC reserve and circulating BTCX matched <strong>1:1</strong>.</p>
+<p>Live limits, fees, pause flags, and confirmation counts are always on Bridge status — prefer that JSON over any fixed number in this page if they disagree.</p>
+<h2 id="peg-and-fees-btc-btcx">Peg and fees (BTC ↔ BTCX)</h2>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Peg</th>
+<th>Who pays the Bitcoin miner fee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deposit BTC → mint BTCX</td>
+<td>1 sat received → 1 sat of BTCX minted</td>
+<td>You, on the Bitcoin send</td>
+</tr>
+<tr>
+<td>Withdraw BTCX → BTC</td>
+<td>Burn amount <strong>A</strong> → pool outflows <strong>A</strong></td>
+<td>Taken from the burn: you receive <strong>A − fee</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The withdraw network fee is <code>withdrawFeeSats</code> on status (currently <strong>800</strong> sats). Example: burn <code>0.001</code> BTCX → receive <code>0.001 BTC − 800 sats</code> on Bitcoin L1. The reserve stays peg-neutral; operators do not need a separate fee float for normal withdrawals.</p>
 <h2 id="deposit-btc-mint-btcx">Deposit BTC (mint BTCX)</h2>
 <ol>
 <li>Connect Companion and open <strong>Bridge</strong>.</li>
 <li>Create a <strong>deposit invoice</strong>. Note the Bitcoin address and the <strong>OP_RETURN</strong> hex shown for that invoice.</li>
-<li>From your own Bitcoin wallet, send BTC to that address <strong>and include the OP_RETURN memo</strong>. Shared TSS deposit addresses require the memo so the invoice can be matched. Fiat on-ramps (MoonPay, Ramp, and similar) usually cannot attach OP_RETURN — buy to a personal wallet first, then send with the memo.</li>
-<li>Wait for the confirmation count shown on the Bridge status (mainnet bridge uses several confirmations).</li>
+<li>From your own Bitcoin wallet, send BTC to that address <strong>and include the OP_RETURN memo</strong>. Shared TSS deposit addresses require the memo so the invoice can be matched. Fiat on-ramps usually cannot attach OP_RETURN — buy to a personal wallet first, then send with the memo.</li>
+<li>Wait for the confirmation count on Bridge status (mainnet currently uses <strong>6</strong> confirmations).</li>
 <li>When the deposit is confirmed and the custody ceremony finishes, BTCX is minted to your PDC address.</li>
 </ol>
-<p><strong>Minimums</strong> are published on Bridge status (<code>depositMinSats</code>, optional <code>depositMinUsd</code>). They are operator-configured. A common production floor is about <strong>$100</strong> of BTC. Lab deployments may temporarily use a lower USD floor.</p>
-<p><strong>Fees on deposit:</strong> you pay the normal Bitcoin network (miner) fee on your send. The bridge does not take an extra deposit cut. Minted BTCX matches the satoshis received (1:1).</p>
+<p><strong>Minimums and maximums</strong> come from status (<code>depositMinSats</code>, optional <code>depositMinUsd</code>, <code>depositMaxSats</code>). They are operator-configured. A typical floor is <strong>10 000 sats</strong> (0.0001 BTC) plus any USD floor shown as <code>depositMinUsd</code>.</p>
+<p><strong>Fees on deposit:</strong> you pay the normal Bitcoin network fee on your send. The bridge does not take an extra deposit cut. Minted BTCX matches the satoshis received (1:1).</p>
+<p>Operators are notified as deposits move through statuses. Manual Accept / Refuse review for large or structured deposits is <strong>not</strong> a live user-facing gate in the current bridge — do not expect a Telegram-style approve step before mint.</p>
 <h2 id="withdraw-btcx-payout-btc">Withdraw BTCX (payout BTC)</h2>
 <ol>
-<li>On <strong>Bridge</strong>, enter a Bitcoin payout address and the BTCX amount to burn (atomic units, 8 decimals).</li>
-<li>After delay / review rules (if any) and the custody ceremony, a Bitcoin payout is broadcast.</li>
-<li>You receive <strong>A − network fee</strong> in BTC, where <strong>A</strong> is the burned amount. The fee (shown as <code>withdrawFeeSats</code> on status, often 800 sats) is taken from that amount so the reserve stays peg-neutral: the pool outflows exactly <strong>A</strong>.</li>
+<li>On <strong>Bridge</strong>, enter a Bitcoin payout address and the BTCX amount (human units, 8 decimals; the UI converts to atomic sats).</li>
+<li>Complete the burn step the UI / status expects: either burn the BTCX yourself, or send the BTCX to the bridge mint wallet when auto-burn is enabled so the worker can burn from that wallet.</li>
+<li>After the burn is recorded, the TSS custody ceremony signs a Bitcoin payout and broadcasts it.</li>
 </ol>
-<p>The bridge does not need an operator top-up for miner fees when deposits already back the peg.</p>
+<p><strong>Minimum withdraw</strong> is <code>withdrawMinSats</code> on status — currently <strong>10 000 sats</strong> (<strong>0.0001 BTCX</strong>). Max and daily caps, when set, also appear on status.</p>
+<p><strong>Delay:</strong> there is currently <strong>no fixed withdraw delay</strong> (<code>withdrawDelaySeconds</code> is <strong>0</strong> on status) — processing starts as soon as burn + custody rules allow. Status may still show optional max sizes, daily caps, or a review threshold for larger amounts; follow the live flags on Bridge.</p>
+<p>You receive <strong>A − withdrawFeeSats</strong> in BTC (fee currently <strong>800</strong> sats). The pool outflows exactly <strong>A</strong>.</p>
+<p>Operators receive status notifications for every withdrawal. Large withdrawals can raise an ops <strong>ALERT</strong> when the amount is above a share of current reserves (default <strong>30%</strong>) or at/above an absolute size (default <strong>0.1 BTC</strong>). Those alerts are <strong>notify-only</strong> — they do not require a Telegram Accept click to pay out.</p>
 <h2 id="custody-model-short">Custody model (short)</h2>
 <p>Live BTC custody for this bridge uses a <strong>threshold signature (TSS)</strong> deposit address (Bridgeless-class flow). No single process holds a full spend key. Users still only interact with the Trade UI and their own wallets; they do not run TSS nodes.</p>
-<p>Public status fields include whether TSS is ready, the withdraw fee, and (when available) peg snapshot fields such as pool balance and bitcoind sync progress.</p>
+<p>Public status fields include whether TSS is ready, <code>withdrawFeeSats</code>, and (when available) peg snapshot fields such as pool balance (<code>tssPoolSats</code>), liability, and bitcoind sync progress.</p>
 <h2 id="safety">Safety</h2>
 <ul>
 <li>Never paste seed phrases into Trade or any website.</li>
 <li>Verify you are on <code>trade.privacydatacoin.com</code> and that Companion is talking to your own wallet.</li>
 <li>For deposits, always use the invoice OP_RETURN from the UI. A plain send to the shared address without the memo may not mint.</li>
 <li>Bridge pause flags appear on status when deposits or withdrawals are temporarily disabled.</li>
+<li>Prefer Bridge status for live mins, maxes, fee, and confirmations before sending funds.</li>
 </ul>
 <h2 id="related">Related</h2>
 <ul>
@@ -111,6 +140,7 @@
       <div class="toc">
 <ul>
 <li><a href="#what-you-can-do">What you can do</a></li>
+<li><a href="#peg-and-fees-btc-btcx">Peg and fees (BTC ↔ BTCX)</a></li>
 <li><a href="#deposit-btc-mint-btcx">Deposit BTC (mint BTCX)</a></li>
 <li><a href="#withdraw-btcx-payout-btc">Withdraw BTCX (payout BTC)</a></li>
 <li><a href="#custody-model-short">Custody model (short)</a></li>
