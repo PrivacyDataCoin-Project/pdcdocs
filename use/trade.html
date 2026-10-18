@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trade and BTC bridge · PDC Docs</title>
-  <meta name="description" content="trade.privacydatacoin.com — BTCX bridge deposits and withdrawals.">
+  <meta name="description" content="trade.privacydatacoin.com — BTCX bridge, order book, and custody notes.">
   <link rel="canonical" href="https://docs.privacydatacoin.com/use/trade.html">
   <link rel="icon" href="../favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/trade.html" aria-current="page">Trade and BTC bridge</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
-<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/trade-api.html">Trade API</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
 <div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
 <div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
 <div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
@@ -36,7 +36,7 @@
         <p class="kicker">Use</p>
         <h1>Trade and BTC bridge</h1>
         <p><a href="https://trade.privacydatacoin.com/">Trade</a> is the PDC exchange surface for confidential assets, including wrapped Bitcoin (<strong>BTCX</strong>). The public site talks to the Trade API at <code>https://api.trade.privacydatacoin.com/</code>. Sign-in uses the PDC Companion wallet (same <code>Px</code> addresses as the desktop wallet).</p>
-<p>This page is for users. Operator runbooks for TSS custody live in the Trade backend repository, not in this manual.</p>
+<p>This page is for users. HTTP endpoints for price monitors and integrators: <a href="../build/trade-api.html">Trade API</a>. Operator runbooks for TSS custody live in the Trade backend repository, not in this manual.</p>
 <h2 id="what-you-can-do">What you can do</h2>
 <table>
 <thead>
@@ -65,6 +65,14 @@
 <tr>
 <td>Public bridge status</td>
 <td><code>GET https://api.trade.privacydatacoin.com/api/bridge/status</code></td>
+</tr>
+<tr>
+<td>Public market ticker</td>
+<td><code>GET https://api.trade.privacydatacoin.com/api/ticker?symbol=PDC-BTCX</code></td>
+</tr>
+<tr>
+<td>USD reference prices</td>
+<td><code>GET https://api.trade.privacydatacoin.com/api/prices/usd</code></td>
 </tr>
 </tbody>
 </table>
@@ -107,26 +115,36 @@
 <h2 id="withdraw-btcx-payout-btc">Withdraw BTCX (payout BTC)</h2>
 <ol>
 <li>On <strong>Bridge</strong>, enter a Bitcoin payout address and the BTCX amount (human units, 8 decimals; the UI converts to atomic sats).</li>
-<li>Complete the burn step the UI / status expects: either burn the BTCX yourself, or send the BTCX to the bridge mint wallet when auto-burn is enabled so the worker can burn from that wallet.</li>
-<li>After the burn is recorded, the TSS custody ceremony signs a Bitcoin payout and broadcasts it.</li>
+<li>Burn the BTCX on-chain (self-burn is the preferred path). Submit the burn transaction id in the UI — Trade verifies <code>burn_asset</code> / PUBLIC_BURN against your amount before any payout.</li>
+<li>After the burn is verified, the TSS custody ceremony signs a Bitcoin payout and broadcasts it.</li>
 </ol>
+<p>If the operator enables custodial auto-burn, the bridge mint wallet may burn on your behalf; payout still requires the same on-chain burn verification.</p>
 <p><strong>Minimum withdraw</strong> is <code>withdrawMinSats</code> on status — currently <strong>10 000 sats</strong> (<strong>0.0001 BTCX</strong>). Max and daily caps, when set, also appear on status.</p>
 <p><strong>Delay:</strong> there is currently <strong>no fixed withdraw delay</strong> (<code>withdrawDelaySeconds</code> is <strong>0</strong> on status) — processing starts as soon as burn + custody rules allow. Status may still show optional max sizes, daily caps, or a review threshold for larger amounts; follow the live flags on Bridge.</p>
 <p>You receive <strong>A − withdrawFeeSats</strong> in BTC (fee currently <strong>800</strong> sats). The pool outflows exactly <strong>A</strong>.</p>
 <p>Operators receive status notifications for every withdrawal. Large withdrawals can raise an ops <strong>ALERT</strong> when the amount is above a share of current reserves (default <strong>30%</strong>) or at/above an absolute size (default <strong>0.1 BTC</strong>). Those alerts are <strong>notify-only</strong> — they do not require a Telegram Accept click to pay out.</p>
 <h2 id="custody-model-short">Custody model (short)</h2>
-<p>Live BTC custody for this bridge uses a <strong>threshold signature (TSS)</strong> deposit address (Bridgeless-class flow). No single process holds a full spend key. Users still only interact with the Trade UI and their own wallets; they do not run TSS nodes.</p>
-<p>Public status fields include whether TSS is ready, <code>withdrawFeeSats</code>, and (when available) peg snapshot fields such as pool balance (<code>tssPoolSats</code>), liability, and bitcoind sync progress.</p>
+<p>Live BTC custody for this bridge uses a <strong>threshold signature (TSS)</strong> deposit address. No single process holds a full spend key. Users still only interact with the Trade UI and their own wallets; they do not run TSS nodes.</p>
+<p>The current production topology is <strong>operator-hosted single-server</strong> (Trade + TSS parties + bitcoind + pdcd on one host). That is a custodial / soft-launch model — not multi-operator Bridgeless. Public status still exposes whether TSS is ready, <code>withdrawFeeSats</code>, peg fields (<code>tssPoolSats</code>, liability, <code>currentSupplySats</code>, <code>pegOk</code>), and bitcoind sync progress.</p>
+<p>When Bitcoin is still in initial block download (IBD), status disables deposits and withdrawals until the node is synced.</p>
+<h2 id="market-api-short">Market API (short)</h2>
+<p>Price monitors and bots can read the book without logging in:</p>
+<pre><code class="language-bash">curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=PDC-BTCX'
+curl -s 'https://api.trade.privacydatacoin.com/api/prices/usd'
+</code></pre>
+<p>Full endpoint list: <a href="../build/trade-api.html">Trade API</a>.</p>
 <h2 id="safety">Safety</h2>
 <ul>
 <li>Never paste seed phrases into Trade or any website.</li>
 <li>Verify you are on <code>trade.privacydatacoin.com</code> and that Companion is talking to your own wallet.</li>
 <li>For deposits, always use the invoice OP_RETURN from the UI. A plain send to the shared address without the memo may not mint.</li>
-<li>Bridge pause flags appear on status when deposits or withdrawals are temporarily disabled.</li>
+<li>Bridge pause and IBD flags appear on status when deposits or withdrawals are temporarily disabled.</li>
 <li>Prefer Bridge status for live mins, maxes, fee, and confirmations before sending funds.</li>
+<li>There is no public mint RPC — only the bridge worker mints BTCX after a confirmed deposit.</li>
 </ul>
 <h2 id="related">Related</h2>
 <ul>
+<li><a href="../build/trade-api.html">Trade API</a> — ticker, market data, bridge status</li>
 <li><a href="../build/assets.html">Confidential assets</a> — how tokens work on PDC</li>
 <li><a href="wallets.html">Wallets</a> — Companion and desktop wallet</li>
 <li><a href="getting-started.html">Getting started</a> — install and sync a node</li>
@@ -144,6 +162,7 @@
 <li><a href="#deposit-btc-mint-btcx">Deposit BTC (mint BTCX)</a></li>
 <li><a href="#withdraw-btcx-payout-btc">Withdraw BTCX (payout BTC)</a></li>
 <li><a href="#custody-model-short">Custody model (short)</a></li>
+<li><a href="#market-api-short">Market API (short)</a></li>
 <li><a href="#safety">Safety</a></li>
 <li><a href="#related">Related</a></li>
 </ul>

@@ -4,7 +4,7 @@ title: Trade and BTC bridge
 
 [Trade](https://trade.privacydatacoin.com/) is the PDC exchange surface for confidential assets, including wrapped Bitcoin (**BTCX**). The public site talks to the Trade API at `https://api.trade.privacydatacoin.com/`. Sign-in uses the PDC Companion wallet (same `Px` addresses as the desktop wallet).
 
-This page is for users. Operator runbooks for TSS custody live in the Trade backend repository, not in this manual.
+This page is for users. HTTP endpoints for price monitors and integrators: [Trade API](../build/trade-api.md). Operator runbooks for TSS custody live in the Trade backend repository, not in this manual.
 
 ## What you can do
 
@@ -15,6 +15,8 @@ This page is for users. Operator runbooks for TSS custody live in the Trade back
 | Withdraw BTCX → BTC | **Bridge** page after login |
 | Trade BTCX against PDC | Order book / pair pages when the market is listed |
 | Public bridge status | `GET https://api.trade.privacydatacoin.com/api/bridge/status` |
+| Public market ticker | `GET https://api.trade.privacydatacoin.com/api/ticker?symbol=PDC-BTCX` |
+| USD reference prices | `GET https://api.trade.privacydatacoin.com/api/prices/usd` |
 
 BTCX is a confidential asset on PDC (8 decimals, satoshi-aligned). Ordinary transfers of BTCX hide amounts the same way other confidential assets do. Bridge mint and burn keep the BTC reserve and circulating BTCX matched **1:1**.
 
@@ -46,8 +48,10 @@ Operators are notified as deposits move through statuses. Manual Accept / Refuse
 ## Withdraw BTCX (payout BTC)
 
 1. On **Bridge**, enter a Bitcoin payout address and the BTCX amount (human units, 8 decimals; the UI converts to atomic sats).
-2. Complete the burn step the UI / status expects: either burn the BTCX yourself, or send the BTCX to the bridge mint wallet when auto-burn is enabled so the worker can burn from that wallet.
-3. After the burn is recorded, the TSS custody ceremony signs a Bitcoin payout and broadcasts it.
+2. Burn the BTCX on-chain (self-burn is the preferred path). Submit the burn transaction id in the UI — Trade verifies `burn_asset` / PUBLIC_BURN against your amount before any payout.
+3. After the burn is verified, the TSS custody ceremony signs a Bitcoin payout and broadcasts it.
+
+If the operator enables custodial auto-burn, the bridge mint wallet may burn on your behalf; payout still requires the same on-chain burn verification.
 
 **Minimum withdraw** is `withdrawMinSats` on status — currently **10 000 sats** (**0.0001 BTCX**). Max and daily caps, when set, also appear on status.
 
@@ -59,20 +63,35 @@ Operators receive status notifications for every withdrawal. Large withdrawals c
 
 ## Custody model (short)
 
-Live BTC custody for this bridge uses a **threshold signature (TSS)** deposit address (Bridgeless-class flow). No single process holds a full spend key. Users still only interact with the Trade UI and their own wallets; they do not run TSS nodes.
+Live BTC custody for this bridge uses a **threshold signature (TSS)** deposit address. No single process holds a full spend key. Users still only interact with the Trade UI and their own wallets; they do not run TSS nodes.
 
-Public status fields include whether TSS is ready, `withdrawFeeSats`, and (when available) peg snapshot fields such as pool balance (`tssPoolSats`), liability, and bitcoind sync progress.
+The current production topology is **operator-hosted single-server** (Trade + TSS parties + bitcoind + pdcd on one host). That is a custodial / soft-launch model — not multi-operator Bridgeless. Public status still exposes whether TSS is ready, `withdrawFeeSats`, peg fields (`tssPoolSats`, liability, `currentSupplySats`, `pegOk`), and bitcoind sync progress.
+
+When Bitcoin is still in initial block download (IBD), status disables deposits and withdrawals until the node is synced.
+
+## Market API (short)
+
+Price monitors and bots can read the book without logging in:
+
+```bash
+curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=PDC-BTCX'
+curl -s 'https://api.trade.privacydatacoin.com/api/prices/usd'
+```
+
+Full endpoint list: [Trade API](../build/trade-api.md).
 
 ## Safety
 
 - Never paste seed phrases into Trade or any website.
 - Verify you are on `trade.privacydatacoin.com` and that Companion is talking to your own wallet.
 - For deposits, always use the invoice OP_RETURN from the UI. A plain send to the shared address without the memo may not mint.
-- Bridge pause flags appear on status when deposits or withdrawals are temporarily disabled.
+- Bridge pause and IBD flags appear on status when deposits or withdrawals are temporarily disabled.
 - Prefer Bridge status for live mins, maxes, fee, and confirmations before sending funds.
+- There is no public mint RPC — only the bridge worker mints BTCX after a confirmed deposit.
 
 ## Related
 
+- [Trade API](../build/trade-api.md) — ticker, market data, bridge status
 - [Confidential assets](../build/assets.md) — how tokens work on PDC
 - [Wallets](wallets.md) — Companion and desktop wallet
 - [Getting started](getting-started.md) — install and sync a node

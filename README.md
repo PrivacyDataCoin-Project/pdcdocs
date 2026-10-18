@@ -28,7 +28,7 @@ Public references used in the manual:
 
 - Learn: what PDC is, how a transfer works, FAQ
 - Use: install the current release, wallets, Trade / BTC bridge, security, troubleshooting
-- Build: compile the tree, node RPC, assets, aliases, escrow and swaps
+- Build: compile the tree, node RPC, Trade API (ticker / market / bridge status), assets, aliases, escrow and swaps
 - Mine: RandomARQ and stratum port 19777
 - Stake: online staking and the Zarcanum rules
 - Code: the parameter table and a map of the source tree
