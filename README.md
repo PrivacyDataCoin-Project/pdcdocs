@@ -2,7 +2,7 @@
 
 English manual for Privacy Data Coin. The section order follows a full-chain manual: learn the protocol, use a wallet, build and integrate, mine, stake, and read the source. The colors, the logo, and the facts are PDC.
 
-Protocol numbers come from the PDC source, especially `src/currency_core/currency_config.h`. The edition number and the install files follow the latest GitHub release of [PrivacyDataCoin-Project/PDC](https://github.com/PrivacyDataCoin-Project/PDC). The published manual reads that release on each page load. The release current at the time of this writing is [v2.4.2](https://github.com/PrivacyDataCoin-Project/PDC/releases/tag/v2.4.2) (10 October 2026).
+Protocol numbers come from the PDC source, especially `src/currency_core/currency_config.h`. The edition number and the install files follow the latest GitHub release of [PrivacyDataCoin-Project/PDC](https://github.com/PrivacyDataCoin-Project/PDC). The published manual reads that release on each page load. The release current at the time of this writing is [v2.4.3](https://github.com/PrivacyDataCoin-Project/PDC/releases/tag/v2.4.3) (19 October 2026).
 
 ## Read it
 

@@ -87,7 +87,7 @@
 <p>Difficulty is adjusted over a window of 720 blocks, with a lag of 15 and a cut of 60 timestamps. The proof-of-work target and the proof-of-stake target are 120 seconds each. <code>DIFFICULTY_TOTAL_TARGET</code> is their sum divided by 4, which is 60 seconds. <code>CURRENCY_BLOCKS_PER_DAY</code> is therefore 1,440.</p>
 <p>Proof-of-stake blocks cannot run forever in a row. <code>BLOCK_POS_STRICT_SEQUENCE_LIMIT</code> is 20, so the longest allowed run is 21 sequential proof-of-stake blocks.</p>
 <h2 id="hard-forks">Hard forks</h2>
-<p>Mainnet heights are fixed in <code>currency_config.h</code>. Hard fork 5 is not scheduled: its height is set far beyond any practical chain length.</p>
+<p>Mainnet heights are fixed in <code>currency_config.h</code>. Hard forks 5, 6, and 7 share one height and activate together after block 1199.</p>
 <table>
 <thead>
 <tr>
@@ -118,13 +118,13 @@
 <td>Mandatory 15 decoys, minimum coin age 10, transaction version 2, Zarcanum stake, confidential assets in their post-fork form</td>
 </tr>
 <tr>
-<td>5</td>
-<td>not scheduled</td>
-<td>Present in the source, not active on mainnet</td>
+<td>5–7</td>
+<td>1199</td>
+<td>HF5 asset-operation validation path (<code>validate_asset_operation_hf5</code>); HF6 and HF7 share the same height. Nodes need min build 4</td>
 </tr>
 </tbody>
 </table>
-<p>The comments next to the mainnet heights record historical timestamps from the code's lineage. On this network the heights are the rules that matter: fork 4 is the one a wallet feels, and it is already active once the chain passes block 100.</p>
+<p>The comments next to the mainnet heights record historical timestamps from the code's lineage. On this network the heights are the rules that matter: fork 4 is already active past block 100, and forks 5–7 are active past block 1199.</p>
 <h2 id="mempool-and-reorgs">Mempool and reorgs</h2>
 <p>A transaction can sit in the pool for 345,600 seconds (4 days) before the lifetime rule drops it. Alternative blocks are kept for a limited time: the live window is about 2 hours of blocks (<code>CURRENCY_ALT_BLOCK_LIVETIME_COUNT</code>), and the stored set is capped at 43,200 entries.</p>
         <nav class="pager"><a href="../learn/what-is-pdc.html">← What PDC is</a><a href="../learn/faq.html">FAQ →</a></nav>

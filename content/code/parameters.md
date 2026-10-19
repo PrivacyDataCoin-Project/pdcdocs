@@ -35,7 +35,7 @@ Mainnet values from `src/currency_core/currency_config.h` unless a row says othe
 | Hard fork 2 | after height 40 |
 | Hard fork 3 | after height 60 |
 | Hard fork 4 | after height 100 |
-| Hard fork 5 | not scheduled (`999999999999999999`) |
+| Hard forks 5, 6, and 7 | after height 1199 (activate together) |
 | Alias minimum public length | 6 |
 | Alias fee | Burned. Cost follows a 7-day median |
 | Asset whitelist | `https://api.privacydatacoin.com/assets_whitelist.json` |
@@ -52,7 +52,7 @@ A binary configured with `-D TESTNET=TRUE` uses:
 | Stratum port | 19888 |
 | Hard forks 1, 2, and 3 | after height 0 |
 | Hard fork 4 | after height 100 |
-| Hard fork 5 | after height 200 |
+| Hard forks 5, 6, and 7 | after height 1199 (same as mainnet) |
 | Asset whitelist | `https://api.privacydatacoin.com/assets_whitelist_testnet.json` |
 
 The testnet seed line in `net_node.inl` points at the same host with the testnet peer port. The network id flag `P2P_NETWORK_ID_TESTNET_FLAG` is 1, so a testnet node will not handshake as mainnet.

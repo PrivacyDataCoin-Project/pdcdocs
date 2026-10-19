@@ -75,7 +75,7 @@
 </tr>
 </tbody>
 </table>
-<p>Hard fork 4 is the fork where these operations take their current form. Hard fork 5 has a separate validation path in <code>blockchain_storage.cpp</code>, and on mainnet that fork is not scheduled.</p>
+<p>Hard fork 4 is where these operations take their Zarcanum-era form. After height 1199, hard fork 5 switches asset operations onto <code>validate_asset_operation_hf5</code> in <code>blockchain_storage.cpp</code> (hard forks 6 and 7 activate at the same height).</p>
 <h2 id="the-public-whitelist">The public whitelist</h2>
 <p>Wallets download:</p>
 <pre><code class="language-text">https://api.privacydatacoin.com/assets_whitelist.json

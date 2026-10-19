@@ -18,7 +18,7 @@ The wallet that deploys the asset is the maintainer.
 | Edit metadata | `update_asset <asset_id> <path_to_metadata_file>` | Maintainer only |
 | Change owner | `transfer_asset_ownership <asset_id> <new_owner_public_key>` | Replaces the owner field |
 
-Hard fork 4 is the fork where these operations take their current form. Hard fork 5 has a separate validation path in `blockchain_storage.cpp`, and on mainnet that fork is not scheduled.
+Hard fork 4 is where these operations take their Zarcanum-era form. After height 1199, hard fork 5 switches asset operations onto `validate_asset_operation_hf5` in `blockchain_storage.cpp` (hard forks 6 and 7 activate at the same height).
 
 ## The public whitelist
 
