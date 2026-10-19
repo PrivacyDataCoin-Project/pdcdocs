@@ -8,4 +8,4 @@ This manual explains how the network behaves. Protocol figures come from the PDC
 
 Install the current release on every wallet and node you run.
 
-Start with [What PDC is](learn/what-is-pdc.md) if you are new, or [Getting started](use/getting-started.md) if you already want a wallet. To move Bitcoin onto PDC as BTCX, see [Trade and BTC bridge](use/trade.md) ([trade.privacydatacoin.com](https://trade.privacydatacoin.com/)). Integrators and price monitors: [Trade API](build/trade-api.md) (`/api/ticker`, `/api/prices/usd`).
+Start with [What PDC is](learn/what-is-pdc.md) if you are new, or [Getting started](use/getting-started.md) if you already want a wallet. To use [trade.privacydatacoin.com](https://trade.privacydatacoin.com/), install [PDC Companion](use/companion.md), then see [Trade and BTC bridge](use/trade.md) for BTCX. Integrators and price monitors: [Trade API](build/trade-api.md) (`/api/ticker`, `/api/prices/usd`).

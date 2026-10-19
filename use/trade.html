@@ -24,7 +24,7 @@
     <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
-<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/trade.html" aria-current="page">Trade and BTC bridge</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/companion.html">PDC Companion</a><a href="../use/trade.html" aria-current="page">Trade and BTC bridge</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/trade-api.html">Trade API</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
 <div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
 <div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
@@ -35,7 +35,7 @@
       <article>
         <p class="kicker">Use</p>
         <h1>Trade and BTC bridge</h1>
-        <p><a href="https://trade.privacydatacoin.com/">Trade</a> is the PDC exchange surface for confidential assets, including wrapped Bitcoin (<strong>BTCX</strong>). The public site talks to the Trade API at <code>https://api.trade.privacydatacoin.com/</code>. Sign-in uses the PDC Companion wallet (same <code>Px</code> addresses as the desktop wallet).</p>
+        <p><a href="https://trade.privacydatacoin.com/">Trade</a> is the PDC exchange surface for confidential assets, including wrapped Bitcoin (<strong>BTCX</strong>). The public site talks to the Trade API at <code>https://api.trade.privacydatacoin.com/</code>. Sign-in uses <a href="companion.html">PDC Companion</a> with the same <code>Px</code> addresses as the desktop wallet.</p>
 <p>This page is for users. HTTP endpoints for price monitors and integrators: <a href="../build/trade-api.html">Trade API</a>. Operator runbooks for TSS custody live in the Trade backend repository, not in this manual.</p>
 <h2 id="what-you-can-do">What you can do</h2>
 <table>
@@ -144,12 +144,13 @@ curl -s 'https://api.trade.privacydatacoin.com/api/prices/usd'
 </ul>
 <h2 id="related">Related</h2>
 <ul>
+<li><a href="companion.html">PDC Companion</a> — install the extension and connect a local wallet</li>
 <li><a href="../build/trade-api.html">Trade API</a> — ticker, market data, bridge status</li>
 <li><a href="../build/assets.html">Confidential assets</a> — how tokens work on PDC</li>
-<li><a href="wallets.html">Wallets</a> — Companion and desktop wallet</li>
+<li><a href="wallets.html">Wallets</a> — desktop wallet and simplewallet</li>
 <li><a href="getting-started.html">Getting started</a> — install and sync a node</li>
 </ul>
-        <nav class="pager"><a href="../use/wallets.html">← Wallets</a><a href="../use/security.html">Security and privacy →</a></nav>
+        <nav class="pager"><a href="../use/companion.html">← PDC Companion</a><a href="../use/security.html">Security and privacy →</a></nav>
         <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>

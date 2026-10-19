@@ -82,7 +82,7 @@ Always treat Bridge status as the source of truth for deposit/withdraw availabil
 | Orders / matches | JWT or bot key | `POST /api/orders`, take / fill / cancel |
 | Token / alias sync | admin key (or true local peer) | `POST /api/tokens/sync` — spoofed `X-Forwarded-For` is **not** enough |
 
-Wallet JWT: Companion signs a challenge; Trade verifies via wallet RPC `verify_message`. Bot keys: see the Trade backend `docs/bot-api.md` in [pdc_trade_backend](https://github.com/PrivacyDataCoin-Project/pdc_trade_backend).
+Wallet JWT: [PDC Companion](../use/companion.md) signs a challenge; Trade verifies via wallet RPC `verify_message`. Bot keys: see the Trade backend `docs/bot-api.md` in [pdc_trade_backend](https://github.com/PrivacyDataCoin-Project/pdc_trade_backend).
 
 There is **no** public `emit_asset` / mint endpoint. BTCX mint happens only in the bridge worker after a confirmed Bitcoin deposit (and custody rules).
 

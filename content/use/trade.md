@@ -2,7 +2,7 @@
 title: Trade and BTC bridge
 ---
 
-[Trade](https://trade.privacydatacoin.com/) is the PDC exchange surface for confidential assets, including wrapped Bitcoin (**BTCX**). The public site talks to the Trade API at `https://api.trade.privacydatacoin.com/`. Sign-in uses the PDC Companion wallet (same `Px` addresses as the desktop wallet).
+[Trade](https://trade.privacydatacoin.com/) is the PDC exchange surface for confidential assets, including wrapped Bitcoin (**BTCX**). The public site talks to the Trade API at `https://api.trade.privacydatacoin.com/`. Sign-in uses [PDC Companion](companion.md) with the same `Px` addresses as the desktop wallet.
 
 This page is for users. HTTP endpoints for price monitors and integrators: [Trade API](../build/trade-api.md). Operator runbooks for TSS custody live in the Trade backend repository, not in this manual.
 
@@ -91,7 +91,8 @@ Full endpoint list: [Trade API](../build/trade-api.md).
 
 ## Related
 
+- [PDC Companion](companion.md) — install the extension and connect a local wallet
 - [Trade API](../build/trade-api.md) — ticker, market data, bridge status
 - [Confidential assets](../build/assets.md) — how tokens work on PDC
-- [Wallets](wallets.md) — Companion and desktop wallet
+- [Wallets](wallets.md) — desktop wallet and simplewallet
 - [Getting started](getting-started.md) — install and sync a node

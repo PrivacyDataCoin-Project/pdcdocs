@@ -17,6 +17,7 @@ NAV = [
     ("Use", [
         ("use/getting-started", "Getting started"),
         ("use/wallets", "Wallets"),
+        ("use/companion", "PDC Companion"),
         ("use/trade", "Trade and BTC bridge"),
         ("use/security", "Security and privacy"),
         ("use/troubleshooting", "Troubleshooting"),
@@ -49,6 +50,7 @@ SUMMARIES = {
     "learn/faq": "Short answers grounded in the source tree.",
     "use/getting-started": "Install the current release, sync, and make a wallet.",
     "use/wallets": "Desktop wallet, simplewallet, and address types.",
+    "use/companion": "Browser extension that connects Trade to a local PDC wallet.",
     "use/trade": "trade.privacydatacoin.com — BTCX bridge, order book, and custody notes.",
     "use/security": "What stays private, and what you still have to protect.",
     "use/troubleshooting": "Genesis, ports, and sync.",
