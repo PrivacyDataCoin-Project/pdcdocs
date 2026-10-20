@@ -2,7 +2,7 @@
 title: PDC Companion
 ---
 
-[PDC Companion](https://trade.privacydatacoin.com/api/companion/download) is the browser extension that connects [trade.privacydatacoin.com](https://trade.privacydatacoin.com/) to a wallet running on your machine. Trade never receives your seed or spend key. Companion relays approved JSON-RPC calls to a local wallet and exposes `window.pdcExtension` so the site can read the address, sign a login challenge, and build or accept Ionic Swap proposals.
+[PDC Companion](https://trade.privacydatacoin.com/api/companion/download) is the browser extension that connects [trade.privacydatacoin.com](https://trade.privacydatacoin.com/) to a wallet running on your machine. Trade never receives your seed or spend key. Companion relays approved JSON-RPC calls to a local wallet and exposes `window.pdcExtension` so the site can read the address, sign a login challenge, pay hub trading fees in PDC, and build or accept Ionic Swap proposals.
 
 The published version signal is [trade.privacydatacoin.com/companion/latest.json](https://trade.privacydatacoin.com/companion/latest.json) (also `/api/companion/info`). Prefer those URLs over a fixed version number in this page.
 
@@ -115,8 +115,9 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 
 ## Related
 
-- [Trade and BTC bridge](trade.md) — Bridge, BTCX, market
-- [Trade API](../build/trade-api.md) — JWT auth and public endpoints
+- [Trade](../trade/trade.md) — exchange, fees, Easy Swap
+- [Bridge](../trade/bridge.md) — BTCX and ARQX wrap flows
+- [Trade API](../trade/api.md) — JWT auth and public endpoints
 - [Wallets](wallets.md) — desktop wallet and `simplewallet`
 - [Getting started](getting-started.md) — install and sync
 - [Escrow, swaps, and offers](../build/services.md) — Ionic Swap context in the protocol

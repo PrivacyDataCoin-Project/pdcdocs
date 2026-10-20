@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade · PDC Docs</title>
+  <meta name="description" content="Exchange, hub fees, Easy Swap, and Matches.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/trade/trade.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/companion.html">PDC Companion</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html" aria-current="page">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Trade</p>
+        <h1>Trade</h1>
+        <p><a href="https://trade.privacydatacoin.com/">Trade</a> is the PDC exchange for confidential assets. Sign-in uses <a href="../use/companion.html">PDC Companion</a> with the same <code>Px</code> addresses as the desktop wallet. The site talks to <code>https://api.trade.privacydatacoin.com/</code>.</p>
+<p>Wrap and unwrap native coins on the <a href="bridge.html">Bridge</a>. HTTP endpoints for monitors and integrators: <a href="api.html">Trade API</a>.</p>
+<h2 id="what-you-can-do">What you can do</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Open the UI</td>
+<td><a href="https://trade.privacydatacoin.com/">trade.privacydatacoin.com</a></td>
+</tr>
+<tr>
+<td>Connect a wallet</td>
+<td><a href="../use/companion.html">PDC Companion</a> → <strong>Connect Wallet</strong></td>
+</tr>
+<tr>
+<td>Wrap / unwrap BTCX or ARQX</td>
+<td><a href="bridge.html">Bridge</a> (<code>/bridge</code>)</td>
+</tr>
+<tr>
+<td>Trade pairs (Ionic Swap order book)</td>
+<td>Exchange / pair pages</td>
+</tr>
+<tr>
+<td>Easy Swap</td>
+<td><code>/swap</code> — rate from the live ticker mid/last</td>
+</tr>
+<tr>
+<td>Public ticker / USD prices</td>
+<td><a href="api.html">Trade API</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="markets">Markets</h2>
+<table>
+<thead>
+<tr>
+<th>Pair</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PDC-BTCX</code></td>
+<td>Native PDC vs wrapped Bitcoin</td>
+</tr>
+<tr>
+<td><code>ARQX-BTCX</code></td>
+<td>Wrapped Arqma vs BTCX hub only (no ARQX/PDC)</td>
+</tr>
+</tbody>
+</table>
+<p>Wrap assets (BTCX, ARQX) are confidential assets on PDC. Ordinary transfers hide amounts. How mint and burn work: <a href="bridge.html">Bridge</a>.</p>
+<h2 id="trading-fees">Trading fees</h2>
+<p>Platform trading fees are paid in <strong>native PDC</strong>, separate from Ionic <strong>network gas</strong> (~0.01 PDC on-chain).</p>
+<table>
+<thead>
+<tr>
+<th>Market</th>
+<th>Taker trading fee</th>
+<th>Maker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Native PDC pairs (e.g. <code>PDC-BTCX</code>)</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Wrap hubs (e.g. <code>ARQX-BTCX</code>)</td>
+<td><strong>0.01 PDC flat + 0.10%</strong> of PDC notional</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Live schedule: <code>GET /api/trade-fees</code>. Quote before take: <code>GET /api/trade-fees/quote</code>.</p>
+<p>On a fee-enabled take:</p>
+<ol>
+<li>Match response includes a <code>fee</code> quote (<code>feeDueAtomic</code>, treasury address).</li>
+<li>Taker transfers PDC to the fee treasury (Companion).</li>
+<li>Attach the fee tx with <code>POST /api/matches/:id/fee</code> (<code>feeTxId</code>).</li>
+<li>Maker Apply / taker Accept stay gated until the fee is recorded.</li>
+</ol>
+<p>Collected fees sit in escrow; a <strong>daily sweep</strong> (23:59 Europe/Warsaw by default) moves them to the mint wallet only when unswept total ≥ <strong>5 PDC</strong>. Ionic gas never goes to mint.</p>
+<h2 id="easy-swap-and-matches">Easy Swap and Matches</h2>
+<ul>
+<li><strong>Easy Swap</strong> (<code>/swap</code>) builds a simple swap UX; the displayed rate uses the live ticker mid/last (not a hardcoded 1:1).</li>
+<li><strong>Matches</strong> shows offer/want amounts, price, and the escrow trading-fee plus gas hints when a hub fee applies.</li>
+</ul>
+<h2 id="safety">Safety</h2>
+<ul>
+<li>Never paste seed phrases into Trade or any website.</li>
+<li>Verify you are on <code>trade.privacydatacoin.com</code> and that Companion is talking to your own wallet.</li>
+<li>Prefer live <code>/api/trade-fees</code> and Bridge status before sending size that depends on mins or pause flags.</li>
+</ul>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="bridge.html">Bridge</a> — BTC→BTCX, ARQ→ARQX, custody</li>
+<li><a href="api.html">Trade API</a> — ticker, fees, bridge HTTP routes</li>
+<li><a href="../use/companion.html">PDC Companion</a> — browser extension</li>
+<li><a href="../build/assets.html">Confidential assets</a> — how tokens work on PDC</li>
+<li><a href="../use/wallets.html">Wallets</a> — desktop wallet and simplewallet</li>
+</ul>
+        <nav class="pager"><a href="../use/troubleshooting.html">← Troubleshooting</a><a href="../trade/bridge.html">Bridge →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#what-you-can-do">What you can do</a></li>
+<li><a href="#markets">Markets</a></li>
+<li><a href="#trading-fees">Trading fees</a></li>
+<li><a href="#easy-swap-and-matches">Easy Swap and Matches</a></li>
+<li><a href="#safety">Safety</a></li>
+<li><a href="#related">Related</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>

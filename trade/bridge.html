@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bridge · PDC Docs</title>
+  <meta name="description" content="Wrap BTC→BTCX and ARQ→ARQX; custody and safety.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/trade/bridge.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/companion.html">PDC Companion</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html" aria-current="page">Bridge</a><a href="../trade/api.html">Trade API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Trade</p>
+        <h1>Bridge</h1>
+        <p>The Trade <strong>Bridge</strong> (<code>/bridge</code> on <a href="https://trade.privacydatacoin.com/">trade.privacydatacoin.com</a>) wraps native coins into confidential assets on PDC and unwraps them again. Sign-in uses <a href="../use/companion.html">PDC Companion</a>. Exchange trading after mint is on <a href="trade.html">Trade</a>.</p>
+<p>Live limits, fees, pause flags, and confirmation counts always come from Bridge status JSON — prefer that over any fixed number here if they disagree. HTTP reads: <a href="api.html#bridge-public-reads">Trade API</a>.</p>
+<h2 id="wrap-assets">Wrap assets</h2>
+<p>Trade uses a <strong>markets registry</strong>: one Bridge portal, tabs from <code>GET /api/bridge/assets</code>. Adding a wrap does not require a new UI page.</p>
+<table>
+<thead>
+<tr>
+<th>Native L1</th>
+<th>Wrap CA on PDC</th>
+<th>Decimals</th>
+<th>Bridge</th>
+<th>Listed markets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BTC</td>
+<td><strong>BTCX</strong></td>
+<td>8 (sats)</td>
+<td>Live (Bitcoin + TSS)</td>
+<td><code>PDC-BTCX</code></td>
+</tr>
+<tr>
+<td>ARQ</td>
+<td><strong>ARQX</strong></td>
+<td>9</td>
+<td>Live (Arqma wallet-rpc)</td>
+<td><code>ARQX-BTCX</code> only (no ARQX/PDC)</td>
+</tr>
+</tbody>
+</table>
+<p>Ordinary transfers of wrap assets hide amounts the same way other confidential assets do. Mint and burn keep the native reserve and circulating wrap matched <strong>1:1</strong> (per asset).</p>
+<p>CA mint authority for wraps shares the existing BTCX mint / remote mint-signer path. Users never call <code>emit_asset</code> from Trade.</p>
+<h2 id="how-the-bridge-works">How the Bridge works</h2>
+<pre><code class="language-text">Deposit:  native coin on L1  →  watcher + custody rules  →  mint wrap CA to your Px
+Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L1
+</code></pre>
+<ol>
+<li>Connect Companion and open <strong>Bridge</strong>.</li>
+<li>Pick a tab (<strong>BTC→BTCX</strong> or <strong>ARQ→ARQX</strong>).</li>
+<li>Create a deposit invoice (or start a withdraw).</li>
+<li>After mint, trade on <a href="trade.html">Trade</a> Exchange / Easy Swap. Hub pairs may require a PDC taker fee before Accept.</li>
+</ol>
+<h2 id="btc-btcx-bitcoin">BTC → BTCX (Bitcoin)</h2>
+<h3 id="peg-and-fees">Peg and fees</h3>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Peg</th>
+<th>Who pays the Bitcoin miner fee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deposit BTC → mint BTCX</td>
+<td>1 sat received → 1 sat of BTCX minted</td>
+<td>You, on the Bitcoin send</td>
+</tr>
+<tr>
+<td>Withdraw BTCX → BTC</td>
+<td>Burn amount <strong>A</strong> → pool outflows <strong>A</strong></td>
+<td>Taken from the burn: you receive <strong>A − fee</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The withdraw network fee is <code>withdrawFeeSats</code> on status (currently <strong>800</strong> sats). Example: burn <code>0.001</code> BTCX → receive <code>0.001 BTC − 800 sats</code> on Bitcoin L1. The reserve stays peg-neutral.</p>
+<h3 id="deposit">Deposit</h3>
+<ol>
+<li>Create a <strong>deposit invoice</strong>. Note the Bitcoin address and the <strong>OP_RETURN</strong> hex for that invoice.</li>
+<li>From your own Bitcoin wallet, send BTC to that address <strong>and include the OP_RETURN memo</strong>. Shared TSS deposit addresses require the memo so the invoice can be matched. Fiat on-ramps usually cannot attach OP_RETURN — buy to a personal wallet first, then send with the memo.</li>
+<li>Wait for the confirmation count on Bridge status (mainnet currently uses <strong>6</strong> confirmations).</li>
+<li>When the deposit is confirmed and the custody ceremony finishes, BTCX is minted to your PDC address.</li>
+</ol>
+<p><strong>Minimums and maximums</strong> come from status (<code>depositMinSats</code>, optional <code>depositMinUsd</code>, <code>depositMaxSats</code>). A typical floor is <strong>10 000 sats</strong> (0.0001 BTC) plus any USD floor shown as <code>depositMinUsd</code>.</p>
+<p><strong>Fees on deposit:</strong> you pay the normal Bitcoin network fee on your send. The bridge does not take an extra deposit cut.</p>
+<h3 id="withdraw">Withdraw</h3>
+<ol>
+<li>Enter a Bitcoin payout address and the BTCX amount (human units, 8 decimals).</li>
+<li>Burn the BTCX on-chain (self-burn is preferred). Submit the burn transaction id in the UI — Trade verifies <code>burn_asset</code> / PUBLIC_BURN against your amount before any payout.</li>
+<li>After the burn is verified, the TSS custody ceremony signs a Bitcoin payout and broadcasts it.</li>
+</ol>
+<p><strong>Minimum withdraw</strong> is <code>withdrawMinSats</code> on status — currently <strong>10 000 sats</strong> (<strong>0.0001 BTCX</strong>). Max and daily caps, when set, also appear on status. There is currently <strong>no fixed withdraw delay</strong> (<code>withdrawDelaySeconds</code> is <strong>0</strong>).</p>
+<h3 id="custody-and-sync">Custody and sync</h3>
+<p>Live BTC custody uses a <strong>threshold signature (TSS)</strong> deposit address (status reports 2-of-3 Bridgeless-class controls). No single process holds a full spend key. Users only use the Trade UI and their own wallets; they do not run TSS nodes.</p>
+<p>Production today is still an <strong>operator-hosted</strong> deployment (Trade + ceremony agents + bitcoind + pdcd). Public status exposes whether TSS is ready, <code>withdrawFeeSats</code>, peg fields (<code>tssPoolSats</code>, liability, <code>currentSupplySats</code>, <code>pegOk</code>), and bitcoind sync progress.</p>
+<p>While Bitcoin is in initial block download (IBD), deposits and withdrawals can still proceed when the operator enables <strong>Esplora</strong> watch and broadcast fallback. Status may show IBD progress; treat pause flags and <code>depositEnabled</code> / <code>withdrawEnabled</code> as authoritative.</p>
+<p>Status: <code>GET /api/bridge/status</code>. History: <code>GET /api/bridge/history</code>.</p>
+<h2 id="arq-arqx-arqma-wrap">ARQ → ARQX (Arqma wrap)</h2>
+<p>ARQX is wrapped Arqma on PDC (9 decimals). The Bridge tab <strong>ARQ→ARQX</strong> is live when <code>GET /api/bridge/arqx/status</code> shows <code>depositEnabled</code> / <code>withdrawEnabled</code>.</p>
+<h3 id="deposit_1">Deposit</h3>
+<ol>
+<li>Create an invoice on the ARQX tab. The bridge allocates a <strong>unique Arqma subaddress</strong> (or integrated address) for that invoice — not a shared memo like Bitcoin OP_RETURN.</li>
+<li>Send native <strong>ARQ</strong> from your Arqma wallet to that deposit address. Addresses are single-use; do not reuse a retired invoice address.</li>
+<li>Wait for confirmations (<code>minConfirmations</code> on ARQX status — currently <strong>10</strong>). The UI shows confirmation progress.</li>
+<li>After the watcher confirms the transfer and mint rules pass, <strong>ARQX</strong> is minted to your PDC address.</li>
+</ol>
+<h3 id="withdraw_1">Withdraw</h3>
+<ol>
+<li>Enter an Arqma payout address and the ARQX amount.</li>
+<li>Burn ARQX on PDC and complete the Bridge withdraw flow (same burn-verify idea as BTCX; follow the UI for the wrap slug).</li>
+<li>Native ARQ is paid out from the wrap custody wallet when reserves and status allow.</li>
+</ol>
+<p>Pool / liability fields on ARQX status (<code>poolAtomic</code>, <code>liabilityAtomic</code>, <code>reservesOk</code>) are the peg check for this wrap. Public history: <code>GET /api/bridge/arqx/history</code>.</p>
+<p>After minting ARQX, trade it on <a href="trade.html">Trade</a> against <strong>BTCX</strong> (<code>ARQX-BTCX</code>).</p>
+<h2 id="safety">Safety</h2>
+<ul>
+<li>Never paste seed phrases into Trade or any website.</li>
+<li>BTC deposits: always use the invoice <strong>OP_RETURN</strong>. A plain send to the shared TSS address without the memo may not mint.</li>
+<li>ARQ deposits: send only to the <strong>invoice subaddress</strong> shown for that deposit; do not reuse old addresses.</li>
+<li>Prefer Bridge status for live mins, maxes, fees, and pause flags before sending funds.</li>
+<li>There is no public mint RPC — only the bridge worker mints wrap CAs after a confirmed native deposit (and custody rules).</li>
+</ul>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="trade.html">Trade</a> — order book, fees, Easy Swap</li>
+<li><a href="api.html">Trade API</a> — bridge HTTP routes</li>
+<li><a href="../use/companion.html">PDC Companion</a> — connect a local wallet</li>
+<li><a href="../build/assets.html">Confidential assets</a> — how tokens work on PDC</li>
+</ul>
+        <nav class="pager"><a href="../trade/trade.html">← Trade</a><a href="../trade/api.html">Trade API →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#wrap-assets">Wrap assets</a></li>
+<li><a href="#how-the-bridge-works">How the Bridge works</a></li>
+<li><a href="#btc-btcx-bitcoin">BTC → BTCX (Bitcoin)</a><ul>
+<li><a href="#peg-and-fees">Peg and fees</a></li>
+<li><a href="#deposit">Deposit</a></li>
+<li><a href="#withdraw">Withdraw</a></li>
+<li><a href="#custody-and-sync">Custody and sync</a></li>
+</ul>
+</li>
+<li><a href="#arq-arqx-arqma-wrap">ARQ → ARQX (Arqma wrap)</a><ul>
+<li><a href="#deposit_1">Deposit</a></li>
+<li><a href="#withdraw_1">Withdraw</a></li>
+</ul>
+</li>
+<li><a href="#safety">Safety</a></li>
+<li><a href="#related">Related</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>
