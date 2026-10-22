@@ -19,11 +19,13 @@ User overview and PDCx fee wrap: [Oracle](oracle.md). **Paid** tip path: [Paid a
 | GET | `/api/prices/feed` | none | Full signed document (same schema family as `/usd`) |
 | GET | `/api/prices/streams` | none | Additive Streams-style report (schema v2) — not a replacement for `/usd` |
 | GET | `/api/prices/evm` | none | Optional EVM Aggregator-style report — additive |
+| GET | `/api/methodology` | none | Public price methodology (JSON) — venues, quorum, pair rules |
+| GET | `/methodology` | none | Same methodology as HTML |
 | GET | `/api/sidechain/attestation` | optional Bearer | CA tip attestation (when enabled) |
 | GET | `/api/sidechain/evm` | optional Bearer | Sidechain→EVM report (when enabled) |
 | POST | `/api/admin/refresh` | admin token | Force refresh — must stay private |
 
-Trade consumers should use **`/api/prices/usd` (schema v1)** only for signature verification. Streams / EVM / sidechain are optional extras.
+Trade consumers should use **`/api/prices/usd` (schema v1)** only for signature verification. Streams / EVM / sidechain are optional extras. Methodology is unsigned policy text (not a signed price book).
 
 ## Prices USD (schema v1)
 
@@ -35,9 +37,9 @@ curl -sS 'https://oracle.privacydatacoin.com/api/prices/usd'
 | --- | --- |
 | `schemaVersion` | `1` for the Trade feed |
 | `updatedAt` | Unix seconds of the publish |
-| `prices` | Map of ticker → USD float (`BTCX`, `PDC`, `ARQX`, …) |
-| `pairs` | Explicit pair keys (`BTC_USD`, `PDC_BTCX`, …) |
-| `status` | `verified` \| `degraded` \| `unavailable` |
+| `prices` | Map of ticker → USD float (`BTCX`, `PDC`, `ARQX`, `ETH`, `BNB`, `SOL`, `ZEC`, `XMR`, `DASH`, …) |
+| `pairs` | Explicit pair keys (`BTC_USD`, `BTCX_USD`, `PDC_USD`, `ETH_USD`, …, `PDC_BTCX`, …) |
+| `status` | `verified` \| `degraded` \| `unavailable` (`verified` needs BTC primary quorum ≥ 3) |
 | `sequence` | Monotonic publish counter |
 | `maxAgeSec` | Soft freshness window (often `120`) |
 | `signature` | Ed25519 signature (URL-safe base64) |
@@ -86,6 +88,15 @@ When Trade points at Oracle:
 
 Rollback: disable `ORACLE_FEED_ENABLED` and restart Trade.
 
+## Methodology (public)
+
+```bash
+curl -sS 'https://oracle.privacydatacoin.com/api/methodology'
+# HTML: https://oracle.privacydatacoin.com/methodology
+```
+
+Documents the live policy: primary CEX (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit), BTC quorum **3**, Gecko/CMC as **BTC/pair backup** only, `PDC_USD` from Trade **`trade_book`** (not a fixed manual default), majors (ETH/BNB/SOL) and privacy (ZEC/XMR/DASH). Narrative: [Oracle](oracle.md#primary-venues-and-quorum).
+
 ## Additive APIs (optional)
 
 | Path | Role |
@@ -131,6 +142,8 @@ HTTP alone does **not** pull L1 PDCx. The contract `transferFrom` is the hard fe
 
 ## Related
 
+- [oracle.privacydatacoin.com](https://oracle.privacydatacoin.com/) — dashboard
+- [Methodology](https://oracle.privacydatacoin.com/methodology) — venues and quorum
 - [Oracle](oracle.md) — user guide, status, PDCx fees
 - [Paid attestation](paid-attestation.md) — how payment works end-to-end
 - [Trade API](../trade/api.md) — Trade HTTP including `/api/prices/usd`

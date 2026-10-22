@@ -26,33 +26,51 @@ Dashboard and JSON live at **https://oracle.privacydatacoin.com**. Integrators: 
 
 Oracle aggregates external spot venues (median), applies bounds and freshness rules, then **Ed25519-signs** each successful publish. Consumers trust the **signature + pinned pubkey**, not the HTTPS path alone.
 
+Full public methodology: [oracle.privacydatacoin.com/methodology](https://oracle.privacydatacoin.com/methodology) (also `GET /api/methodology`).
+
 ## Quick start (users)
 
 1. Open [oracle.privacydatacoin.com](https://oracle.privacydatacoin.com/) — dashboard shows the latest feed status and sequence.
 2. Or open prices directly: [Prices API](https://oracle.privacydatacoin.com/api/prices/usd).
-3. On Trade, USD figures come from Trade’s own `/api/prices/usd`, which can consume this Oracle when enabled (`source=oracle` in the JSON).
+3. Read how prices are built: [Methodology](https://oracle.privacydatacoin.com/methodology).
+4. On Trade, USD figures come from Trade’s own `/api/prices/usd`, which can consume this Oracle when enabled (`source=oracle` in the JSON).
 
 You do **not** need Companion or a wallet to read Oracle prices. Companion is only for Trade login, Bridge, and swaps.
 
 ## Price book (what you see)
 
-Typical tickers in `prices` (human USD):
+Typical tickers in `prices` (human USD) and related `pairs`:
 
-| Key | Meaning |
+| Key / pair | Meaning | How it is priced |
+| --- | --- | --- |
+| `BTC` / `BTCX` (`BTC_USD`, `BTCX_USD`) | Bitcoin / wrapped BTC USD | Median of **primary CEX** (below); Gecko/CMC only if that pair’s primary count is 0 |
+| `ETH` / `BNB` / `SOL` | Major spot USD | Same primary CEX median (+ per-pair backup when primary=0) |
+| `ZEC` / `XMR` / `DASH` | Privacy cohort USD | Same pattern; soft-skip delisted/geofenced venues |
+| `PDC` (`PDC_USD`) | Privacy Data Coin USD | **Trade open book** BTCX↔PDC × `BTCX_USD` (`trade_book`) — not a fixed env default |
+| `ARQX` (`ARQX_USD`) | Wrapped Arqma USD | Median of CoinGecko + CoinMarketCap + Trade book BTCX↔ARQX when available |
+| `PDCX` / `PDCx` | Oracle fee CA | 1:1 with PDC when published (fee wrap, not a CEX spot) |
+
+Cross rates also appear under `pairs` (e.g. `PDC_BTCX`, `ARQX_BTCX`). Prefer live JSON over any number hard-coded in this page.
+
+### Primary venues and quorum
+
+**Primary exchanges** (authoritative samples for BTC/BTCX and the major/privacy USD pairs):
+
+Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit.
+
+| Rule | Default |
 | --- | --- |
-| `BTCX` | Wrapped Bitcoin USD (tracks BTC) |
-| `PDC` | Privacy Data Coin USD |
-| `ARQX` | Wrapped Arqma USD |
-| `PDCX` / `PDCx` | Oracle fee CA (1:1 with PDC when published) |
-
-Cross rates also appear under `pairs` (e.g. `PDC_BTCX`, `BTC_USD`). Prefer live JSON over any fixed number in this page.
+| Feed `status=verified` | BTC **primary** quorum ≥ **3** venues (`ORACLE_MIN_SOURCES`) |
+| Majors pair quorum (ETH/BNB/SOL) | **3** (diagnostics; missing majors alone do not degrade the feed) |
+| Privacy pair quorum (ZEC/XMR/DASH) | **2** (`ORACLE_MIN_SOURCES_PRIVACY`) |
+| CoinGecko / CoinMarketCap | **Backup only** when that pair’s `primarySucceeded === 0` (do not count toward BTC verified quorum) |
 
 ### Status
 
 | `status` | Meaning |
 | --- | --- |
-| `verified` | Quorum / multi-venue rules passed; signature present |
-| `degraded` | Published but with reduced source quality — still signed; treat with care |
+| `verified` | Required pairs present and BTC primary quorum met; signature present |
+| `degraded` | Published with reduced source quality (e.g. BTC backup-only, optional ARQX miss) — still signed; treat with care |
 | `unavailable` | Do not treat as a usable verified book |
 
 Also check `sequence` (monotonic), `updatedAt` (unix seconds), and `maxAgeSec` (default **120**). Stale feeds must be rejected by clients.
@@ -60,7 +78,9 @@ Also check `sequence` (monotonic), `updatedAt` (unix seconds), and `maxAgeSec` (
 ## How Trade uses Oracle
 
 ```text
-Venues (Binance, Kraken, …) → Oracle publisher (sign) → Trade backend (verify) → Trade UI USD labels
+Primary CEX (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit)
+  → Oracle publisher (median + quorum + Ed25519 sign)
+  → Trade backend (verify) → Trade UI USD labels
 ```
 
 1. Oracle publishes `GET /api/prices/usd` with `signature` + `publicKey`.
@@ -119,6 +139,8 @@ Full flow, user wrap steps, and integrator `curl` + contract calls: **[Paid atte
 
 ## Related
 
+- Live site: [oracle.privacydatacoin.com](https://oracle.privacydatacoin.com/)
+- [Methodology](https://oracle.privacydatacoin.com/methodology) — venues, quorum, pair rules (`GET /api/methodology`)
 - [Paid attestation](paid-attestation.md) — how the paid path works and how to use it
 - [Oracle API](api.md) — endpoints, fields, verification checklist
 - [Trade](../trade/trade.md) — exchange UI

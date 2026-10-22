@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Oracle · PDC Docs</title>
-  <meta name="description" content="Signed USD price feed — dashboard, status, PDCx fees.">
+  <meta name="description" content="Signed USD feed — CEX quorum, trade_book PDC, methodology links.">
   <link rel="canonical" href="https://docs.privacydatacoin.com/oracle/oracle.html">
   <link rel="icon" href="../favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,42 +90,88 @@
 </tbody>
 </table>
 <p>Oracle aggregates external spot venues (median), applies bounds and freshness rules, then <strong>Ed25519-signs</strong> each successful publish. Consumers trust the <strong>signature + pinned pubkey</strong>, not the HTTPS path alone.</p>
+<p>Full public methodology: <a href="https://oracle.privacydatacoin.com/methodology">oracle.privacydatacoin.com/methodology</a> (also <code>GET /api/methodology</code>).</p>
 <h2 id="quick-start-users">Quick start (users)</h2>
 <ol>
 <li>Open <a href="https://oracle.privacydatacoin.com/">oracle.privacydatacoin.com</a> — dashboard shows the latest feed status and sequence.</li>
 <li>Or open prices directly: <a href="https://oracle.privacydatacoin.com/api/prices/usd">Prices API</a>.</li>
+<li>Read how prices are built: <a href="https://oracle.privacydatacoin.com/methodology">Methodology</a>.</li>
 <li>On Trade, USD figures come from Trade’s own <code>/api/prices/usd</code>, which can consume this Oracle when enabled (<code>source=oracle</code> in the JSON).</li>
 </ol>
 <p>You do <strong>not</strong> need Companion or a wallet to read Oracle prices. Companion is only for Trade login, Bridge, and swaps.</p>
 <h2 id="price-book-what-you-see">Price book (what you see)</h2>
-<p>Typical tickers in <code>prices</code> (human USD):</p>
+<p>Typical tickers in <code>prices</code> (human USD) and related <code>pairs</code>:</p>
 <table>
 <thead>
 <tr>
-<th>Key</th>
+<th>Key / pair</th>
 <th>Meaning</th>
+<th>How it is priced</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>BTCX</code></td>
-<td>Wrapped Bitcoin USD (tracks BTC)</td>
+<td><code>BTC</code> / <code>BTCX</code> (<code>BTC_USD</code>, <code>BTCX_USD</code>)</td>
+<td>Bitcoin / wrapped BTC USD</td>
+<td>Median of <strong>primary CEX</strong> (below); Gecko/CMC only if that pair’s primary count is 0</td>
 </tr>
 <tr>
-<td><code>PDC</code></td>
+<td><code>ETH</code> / <code>BNB</code> / <code>SOL</code></td>
+<td>Major spot USD</td>
+<td>Same primary CEX median (+ per-pair backup when primary=0)</td>
+</tr>
+<tr>
+<td><code>ZEC</code> / <code>XMR</code> / <code>DASH</code></td>
+<td>Privacy cohort USD</td>
+<td>Same pattern; soft-skip delisted/geofenced venues</td>
+</tr>
+<tr>
+<td><code>PDC</code> (<code>PDC_USD</code>)</td>
 <td>Privacy Data Coin USD</td>
+<td><strong>Trade open book</strong> BTCX↔PDC × <code>BTCX_USD</code> (<code>trade_book</code>) — not a fixed env default</td>
 </tr>
 <tr>
-<td><code>ARQX</code></td>
+<td><code>ARQX</code> (<code>ARQX_USD</code>)</td>
 <td>Wrapped Arqma USD</td>
+<td>Median of CoinGecko + CoinMarketCap + Trade book BTCX↔ARQX when available</td>
 </tr>
 <tr>
 <td><code>PDCX</code> / <code>PDCx</code></td>
-<td>Oracle fee CA (1:1 with PDC when published)</td>
+<td>Oracle fee CA</td>
+<td>1:1 with PDC when published (fee wrap, not a CEX spot)</td>
 </tr>
 </tbody>
 </table>
-<p>Cross rates also appear under <code>pairs</code> (e.g. <code>PDC_BTCX</code>, <code>BTC_USD</code>). Prefer live JSON over any fixed number in this page.</p>
+<p>Cross rates also appear under <code>pairs</code> (e.g. <code>PDC_BTCX</code>, <code>ARQX_BTCX</code>). Prefer live JSON over any number hard-coded in this page.</p>
+<h3 id="primary-venues-and-quorum">Primary venues and quorum</h3>
+<p><strong>Primary exchanges</strong> (authoritative samples for BTC/BTCX and the major/privacy USD pairs):</p>
+<p>Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feed <code>status=verified</code></td>
+<td>BTC <strong>primary</strong> quorum ≥ <strong>3</strong> venues (<code>ORACLE_MIN_SOURCES</code>)</td>
+</tr>
+<tr>
+<td>Majors pair quorum (ETH/BNB/SOL)</td>
+<td><strong>3</strong> (diagnostics; missing majors alone do not degrade the feed)</td>
+</tr>
+<tr>
+<td>Privacy pair quorum (ZEC/XMR/DASH)</td>
+<td><strong>2</strong> (<code>ORACLE_MIN_SOURCES_PRIVACY</code>)</td>
+</tr>
+<tr>
+<td>CoinGecko / CoinMarketCap</td>
+<td><strong>Backup only</strong> when that pair’s <code>primarySucceeded === 0</code> (do not count toward BTC verified quorum)</td>
+</tr>
+</tbody>
+</table>
 <h3 id="status">Status</h3>
 <table>
 <thead>
@@ -137,11 +183,11 @@
 <tbody>
 <tr>
 <td><code>verified</code></td>
-<td>Quorum / multi-venue rules passed; signature present</td>
+<td>Required pairs present and BTC primary quorum met; signature present</td>
 </tr>
 <tr>
 <td><code>degraded</code></td>
-<td>Published but with reduced source quality — still signed; treat with care</td>
+<td>Published with reduced source quality (e.g. BTC backup-only, optional ARQX miss) — still signed; treat with care</td>
 </tr>
 <tr>
 <td><code>unavailable</code></td>
@@ -151,7 +197,9 @@
 </table>
 <p>Also check <code>sequence</code> (monotonic), <code>updatedAt</code> (unix seconds), and <code>maxAgeSec</code> (default <strong>120</strong>). Stale feeds must be rejected by clients.</p>
 <h2 id="how-trade-uses-oracle">How Trade uses Oracle</h2>
-<pre><code class="language-text">Venues (Binance, Kraken, …) → Oracle publisher (sign) → Trade backend (verify) → Trade UI USD labels
+<pre><code class="language-text">Primary CEX (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit)
+  → Oracle publisher (median + quorum + Ed25519 sign)
+  → Trade backend (verify) → Trade UI USD labels
 </code></pre>
 <ol>
 <li>Oracle publishes <code>GET /api/prices/usd</code> with <code>signature</code> + <code>publicKey</code>.</li>
@@ -246,6 +294,8 @@
 </ul>
 <h2 id="related">Related</h2>
 <ul>
+<li>Live site: <a href="https://oracle.privacydatacoin.com/">oracle.privacydatacoin.com</a></li>
+<li><a href="https://oracle.privacydatacoin.com/methodology">Methodology</a> — venues, quorum, pair rules (<code>GET /api/methodology</code>)</li>
 <li><a href="paid-attestation.html">Paid attestation</a> — how the paid path works and how to use it</li>
 <li><a href="api.html">Oracle API</a> — endpoints, fields, verification checklist</li>
 <li><a href="../trade/trade.html">Trade</a> — exchange UI</li>
@@ -265,6 +315,7 @@
 <li><a href="#what-it-is-for">What it is for</a></li>
 <li><a href="#quick-start-users">Quick start (users)</a></li>
 <li><a href="#price-book-what-you-see">Price book (what you see)</a><ul>
+<li><a href="#primary-venues-and-quorum">Primary venues and quorum</a></li>
 <li><a href="#status">Status</a></li>
 </ul>
 </li>

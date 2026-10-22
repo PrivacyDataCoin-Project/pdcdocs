@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Oracle API · PDC Docs</title>
-  <meta name="description" content="Oracle HTTP API — verify schema v1 signatures.">
+  <meta name="description" content="Oracle HTTP API — prices, methodology, verify schema v1.">
   <link rel="canonical" href="https://docs.privacydatacoin.com/oracle/api.html">
   <link rel="icon" href="../favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,6 +84,18 @@
 </tr>
 <tr>
 <td>GET</td>
+<td><code>/api/methodology</code></td>
+<td>none</td>
+<td>Public price methodology (JSON) — venues, quorum, pair rules</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/methodology</code></td>
+<td>none</td>
+<td>Same methodology as HTML</td>
+</tr>
+<tr>
+<td>GET</td>
 <td><code>/api/sidechain/attestation</code></td>
 <td>optional Bearer</td>
 <td>CA tip attestation (when enabled)</td>
@@ -102,7 +114,7 @@
 </tr>
 </tbody>
 </table>
-<p>Trade consumers should use <strong><code>/api/prices/usd</code> (schema v1)</strong> only for signature verification. Streams / EVM / sidechain are optional extras.</p>
+<p>Trade consumers should use <strong><code>/api/prices/usd</code> (schema v1)</strong> only for signature verification. Streams / EVM / sidechain are optional extras. Methodology is unsigned policy text (not a signed price book).</p>
 <h2 id="prices-usd-schema-v1">Prices USD (schema v1)</h2>
 <pre><code class="language-bash">curl -sS 'https://oracle.privacydatacoin.com/api/prices/usd'
 </code></pre>
@@ -124,15 +136,15 @@
 </tr>
 <tr>
 <td><code>prices</code></td>
-<td>Map of ticker → USD float (<code>BTCX</code>, <code>PDC</code>, <code>ARQX</code>, …)</td>
+<td>Map of ticker → USD float (<code>BTCX</code>, <code>PDC</code>, <code>ARQX</code>, <code>ETH</code>, <code>BNB</code>, <code>SOL</code>, <code>ZEC</code>, <code>XMR</code>, <code>DASH</code>, …)</td>
 </tr>
 <tr>
 <td><code>pairs</code></td>
-<td>Explicit pair keys (<code>BTC_USD</code>, <code>PDC_BTCX</code>, …)</td>
+<td>Explicit pair keys (<code>BTC_USD</code>, <code>BTCX_USD</code>, <code>PDC_USD</code>, <code>ETH_USD</code>, …, <code>PDC_BTCX</code>, …)</td>
 </tr>
 <tr>
 <td><code>status</code></td>
-<td><code>verified</code> | <code>degraded</code> | <code>unavailable</code></td>
+<td><code>verified</code> | <code>degraded</code> | <code>unavailable</code> (<code>verified</code> needs BTC primary quorum ≥ 3)</td>
 </tr>
 <tr>
 <td><code>sequence</code></td>
@@ -204,6 +216,11 @@
 </tbody>
 </table>
 <p>Rollback: disable <code>ORACLE_FEED_ENABLED</code> and restart Trade.</p>
+<h2 id="methodology-public">Methodology (public)</h2>
+<pre><code class="language-bash">curl -sS 'https://oracle.privacydatacoin.com/api/methodology'
+# HTML: https://oracle.privacydatacoin.com/methodology
+</code></pre>
+<p>Documents the live policy: primary CEX (Binance, Kraken, Coinbase, Bitstamp, OKX, Bybit), BTC quorum <strong>3</strong>, Gecko/CMC as <strong>BTC/pair backup</strong> only, <code>PDC_USD</code> from Trade <strong><code>trade_book</code></strong> (not a fixed manual default), majors (ETH/BNB/SOL) and privacy (ZEC/XMR/DASH). Narrative: <a href="oracle.html#primary-venues-and-quorum">Oracle</a>.</p>
 <h2 id="additive-apis-optional">Additive APIs (optional)</h2>
 <table>
 <thead>
@@ -290,6 +307,8 @@ curl -sS 'https://oracle.privacydatacoin.com/api/sidechain/evm'
 <p>HTTP alone does <strong>not</strong> pull L1 PDCx. The contract <code>transferFrom</code> is the hard fee gate. Mainnet fee amount and go-live notes: publisher <code>docs/oracle-attestation-fee-go-live.md</code>.</p>
 <h2 id="related">Related</h2>
 <ul>
+<li><a href="https://oracle.privacydatacoin.com/">oracle.privacydatacoin.com</a> — dashboard</li>
+<li><a href="https://oracle.privacydatacoin.com/methodology">Methodology</a> — venues and quorum</li>
 <li><a href="oracle.html">Oracle</a> — user guide, status, PDCx fees</li>
 <li><a href="paid-attestation.html">Paid attestation</a> — how payment works end-to-end</li>
 <li><a href="../trade/api.html">Trade API</a> — Trade HTTP including <code>/api/prices/usd</code></li>
@@ -312,6 +331,7 @@ curl -sS 'https://oracle.privacydatacoin.com/api/sidechain/evm'
 <li><a href="#health">Health</a></li>
 <li><a href="#verification-checklist-integrators">Verification checklist (integrators)</a></li>
 <li><a href="#trade-consumer-flags-operators">Trade consumer flags (operators)</a></li>
+<li><a href="#methodology-public">Methodology (public)</a></li>
 <li><a href="#additive-apis-optional">Additive APIs (optional)</a></li>
 <li><a href="#paid-sidechain-attestation">Paid sidechain attestation</a><ul>
 <li><a href="#read-no-l1-debit-on-get">Read (no L1 debit on GET)</a></li>

@@ -85,7 +85,7 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 <p>USD reference (spot-style, not necessarily last trade):</p>
 <pre><code class="language-bash">curl -s 'https://api.trade.privacydatacoin.com/api/prices/usd'
 </code></pre>
-<p>Example shape: <code>{ "updatedAt": …, "prices": { "PDC": …, "BTCX": …, "ARQX": … }, "source": "oracle", "status": "verified", "sequence": … }</code> — when Trade consumes the signed <a href="../oracle/oracle.html">Oracle</a> feed, <code>source</code> is <code>oracle</code>. <code>BTCX</code> tracks Bitcoin USD; <code>ARQX</code> tracks Arqma USD when configured. Direct publisher: <code>https://oracle.privacydatacoin.com/api/prices/usd</code> (<a href="../oracle/api.html">Oracle API</a>).</p>
+<p>Example shape: <code>{ "updatedAt": …, "prices": { "PDC": …, "BTCX": …, "ARQX": …, "ETH": …, … }, "source": "oracle", "status": "verified", "sequence": … }</code> — when Trade consumes the signed <a href="../oracle/oracle.html">Oracle</a> feed, <code>source</code> is <code>oracle</code>. <code>BTCX</code> tracks Bitcoin USD from primary CEX (quorum 3); <code>PDC</code> comes from the Trade book path via Oracle; majors/privacy (ETH, BNB, SOL, ZEC, XMR, DASH) appear when published. Direct publisher: <code>https://oracle.privacydatacoin.com/api/prices/usd</code> (<a href="../oracle/api.html">Oracle API</a>); methodology: <a href="https://oracle.privacydatacoin.com/methodology">oracle.privacydatacoin.com/methodology</a>.</p>
 <h2 id="market-data-public">Market data (public)</h2>
 <table>
 <thead>
