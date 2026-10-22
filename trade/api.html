@@ -24,8 +24,9 @@
     <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
-<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/companion.html">PDC Companion</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
-<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html" aria-current="page">Trade API</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html" aria-current="page">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/api.html">Oracle API</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
 <div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
 <div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
@@ -84,7 +85,7 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 <p>USD reference (spot-style, not necessarily last trade):</p>
 <pre><code class="language-bash">curl -s 'https://api.trade.privacydatacoin.com/api/prices/usd'
 </code></pre>
-<p>Example shape: <code>{ "updatedAt": …, "prices": { "PDC": …, "BTCX": …, "ARQX": … } }</code> — <code>BTCX</code> tracks Bitcoin USD; <code>ARQX</code> tracks Arqma USD when configured; <code>PDC</code> is derived for monitoring.</p>
+<p>Example shape: <code>{ "updatedAt": …, "prices": { "PDC": …, "BTCX": …, "ARQX": … }, "source": "oracle", "status": "verified", "sequence": … }</code> — when Trade consumes the signed <a href="../oracle/oracle.html">Oracle</a> feed, <code>source</code> is <code>oracle</code>. <code>BTCX</code> tracks Bitcoin USD; <code>ARQX</code> tracks Arqma USD when configured. Direct publisher: <code>https://oracle.privacydatacoin.com/api/prices/usd</code> (<a href="../oracle/api.html">Oracle API</a>).</p>
 <h2 id="market-data-public">Market data (public)</h2>
 <table>
 <thead>
@@ -166,6 +167,11 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 <td>ARQX</td>
 <td>9</td>
 <td><code>d59ca1b363d5f44e0f087d9549b734815fbc2a6ab49ef0a877ccd910b1a1b9c3</code></td>
+</tr>
+<tr>
+<td>PDCX</td>
+<td>8</td>
+<td><code>5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd</code></td>
 </tr>
 </tbody>
 </table>
@@ -267,9 +273,14 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 <td><code>/api/bridge/:slug/withdrawals</code></td>
 <td>JWT — list</td>
 </tr>
+<tr>
+<td>GET</td>
+<td><code>/api/bridge/pdcx/status</code></td>
+<td>PDC↔PDCX same-L1 wrap (Oracle fee CA)</td>
+</tr>
 </tbody>
 </table>
-<p>BTCX also keeps the legacy unprefixed write paths (<code>POST /api/bridge/deposit</code>, <code>…/withdraw</code>, <code>…/withdrawals/:id/burn</code>).</p>
+<p>BTCX also keeps the legacy unprefixed write paths (<code>POST /api/bridge/deposit</code>, <code>…/withdraw</code>, <code>…/withdrawals/:id/burn</code>). PDCX uses <code>/api/bridge/pdcx/*</code>.</p>
 <p>Always treat Bridge status as the source of truth for deposit/withdraw availability. User steps: <a href="bridge.html">Bridge</a>.</p>
 <h2 id="auth-and-writes-summary">Auth and writes (summary)</h2>
 <table>
@@ -313,7 +324,7 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 </tr>
 </tbody>
 </table>
-<p>Wallet JWT: <a href="../use/companion.html">PDC Companion</a> signs a challenge; Trade verifies via wallet RPC <code>verify_message</code>. Bot keys: see the Trade backend <code>docs/bot-api.md</code> in <a href="https://github.com/PrivacyDataCoin-Project/pdc_trade_backend">pdc_trade_backend</a>.</p>
+<p>Wallet JWT: <a href="companion.html">PDC Companion</a> signs a challenge; Trade verifies via wallet RPC <code>verify_message</code>. Bot keys: see the Trade backend <code>docs/bot-api.md</code> in <a href="https://github.com/PrivacyDataCoin-Project/pdc_trade_backend">pdc_trade_backend</a>.</p>
 <p>There is <strong>no</strong> public <code>emit_asset</code> / mint endpoint. Wrap mint happens only in the bridge worker after a confirmed native deposit (and custody rules).</p>
 <h2 id="health">Health</h2>
 <pre><code class="language-bash">curl -s 'https://api.trade.privacydatacoin.com/api/health'
@@ -321,11 +332,12 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 <h2 id="related">Related</h2>
 <ul>
 <li><a href="trade.html">Trade</a> — exchange, fees, Easy Swap</li>
-<li><a href="bridge.html">Bridge</a> — BTCX + ARQX wrap flows</li>
+<li><a href="bridge.html">Bridge</a> — BTCX + ARQX + PDCX wrap flows</li>
+<li><a href="../oracle/oracle.html">Oracle</a> — signed USD publisher</li>
 <li><a href="../build/assets.html">Confidential assets</a> — on-chain tokens</li>
 <li><a href="../build/rpc.html">Node RPC</a> — local <code>pdcd</code> JSON-RPC (not the Trade HTTP API)</li>
 </ul>
-        <nav class="pager"><a href="../trade/bridge.html">← Bridge</a><a href="../build/from-source.html">Build from source →</a></nav>
+        <nav class="pager"><a href="../trade/bridge.html">← Bridge</a><a href="../trade/companion.html">PDC Companion →</a></nav>
         <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>

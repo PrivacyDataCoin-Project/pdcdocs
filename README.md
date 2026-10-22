@@ -21,14 +21,16 @@ Public references used in the manual:
 - Explorer: https://explorer.privacydatacoin.com/
 - Trade: https://trade.privacydatacoin.com/
 - Trade API: https://api.trade.privacydatacoin.com/
+- Oracle: https://oracle.privacydatacoin.com/
 - Asset whitelist: https://api.privacydatacoin.com/assets_whitelist.json
 - Current binaries: https://github.com/PrivacyDataCoin-Project/PDC/releases/latest
 
 ## Sections
 
 - Learn: what PDC is, how a transfer works, FAQ
-- Use: install the current release, wallets, PDC Companion, security, troubleshooting
-- Trade: exchange, Bridge (BTCX / ARQX), Trade API (`content/trade/`)
+- Use: install the current release, wallets, security, troubleshooting
+- Trade: exchange, Bridge (BTCX / ARQX / PDCX), Trade API, PDC Companion (`content/trade/`)
+- Oracle: signed USD feed and API (`content/oracle/`)
 - Build: compile the tree, node RPC, assets, aliases, escrow and swaps
 - Mine: RandomARQ and stratum port 19777
 - Stake: online staking and the Zarcanum rules

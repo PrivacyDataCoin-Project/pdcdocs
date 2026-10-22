@@ -2,7 +2,7 @@
 title: Trade
 ---
 
-[Trade](https://trade.privacydatacoin.com/) is the PDC exchange for confidential assets. Sign-in uses [PDC Companion](../use/companion.md) with the same `Px` addresses as the desktop wallet. The site talks to `https://api.trade.privacydatacoin.com/`.
+[Trade](https://trade.privacydatacoin.com/) is the PDC exchange for confidential assets. Sign-in uses [PDC Companion](companion.md) with the same `Px` addresses as the desktop wallet. The site talks to `https://api.trade.privacydatacoin.com/`.
 
 Wrap and unwrap native coins on the [Bridge](bridge.md). HTTP endpoints for monitors and integrators: [Trade API](api.md).
 
@@ -11,7 +11,7 @@ Wrap and unwrap native coins on the [Bridge](bridge.md). HTTP endpoints for moni
 | Action | Where |
 | --- | --- |
 | Open the UI | [trade.privacydatacoin.com](https://trade.privacydatacoin.com/) |
-| Connect a wallet | [PDC Companion](../use/companion.md) → **Connect Wallet** |
+| Connect a wallet | [PDC Companion](companion.md) → **Connect Wallet** |
 | Wrap / unwrap BTCX or ARQX | [Bridge](bridge.md) (`/bridge`) |
 | Trade pairs (Ionic Swap order book) | Exchange / pair pages |
 | Easy Swap | `/swap` — rate from the live ticker mid/last |
@@ -22,7 +22,7 @@ Wrap and unwrap native coins on the [Bridge](bridge.md). HTTP endpoints for moni
 | Pair | Notes |
 | --- | --- |
 | `PDC-BTCX` | Native PDC vs wrapped Bitcoin |
-| `ARQX-BTCX` | Wrapped Arqma vs BTCX hub only (no ARQX/PDC) |
+| `ARQX-BTCX` | Wrapped Arqma vs BTCX |
 
 Wrap assets (BTCX, ARQX) are confidential assets on PDC. Ordinary transfers hide amounts. How mint and burn work: [Bridge](bridge.md).
 
@@ -61,6 +61,6 @@ Collected fees sit in escrow; a **daily sweep** (23:59 Europe/Warsaw by default)
 
 - [Bridge](bridge.md) — BTC→BTCX, ARQ→ARQX, custody
 - [Trade API](api.md) — ticker, fees, bridge HTTP routes
-- [PDC Companion](../use/companion.md) — browser extension
+- [PDC Companion](companion.md) — browser extension
 - [Confidential assets](../build/assets.md) — how tokens work on PDC
 - [Wallets](../use/wallets.md) — desktop wallet and simplewallet

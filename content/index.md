@@ -8,4 +8,4 @@ This manual explains how the network behaves. Protocol figures come from the PDC
 
 Install the current release on every wallet and node you run.
 
-Start with [What PDC is](learn/what-is-pdc.md) if you are new, or [Getting started](use/getting-started.md) if you already want a wallet. For [trade.privacydatacoin.com](https://trade.privacydatacoin.com/), install [PDC Companion](use/companion.md), then the [Trade](trade/trade.md) section: [Trade](trade/trade.md), [Bridge](trade/bridge.md), and [Trade API](trade/api.md).
+Start with [What PDC is](learn/what-is-pdc.md) if you are new, or [Getting started](use/getting-started.md) if you already want a wallet. For [trade.privacydatacoin.com](https://trade.privacydatacoin.com/), see [Trade](trade/trade.md): [Bridge](trade/bridge.md), [Trade API](trade/api.md), and [PDC Companion](trade/companion.md). Signed USD prices: [Oracle](oracle/oracle.md) ([oracle.privacydatacoin.com](https://oracle.privacydatacoin.com/)).

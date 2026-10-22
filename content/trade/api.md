@@ -38,7 +38,7 @@ USD reference (spot-style, not necessarily last trade):
 curl -s 'https://api.trade.privacydatacoin.com/api/prices/usd'
 ```
 
-Example shape: `{ "updatedAt": …, "prices": { "PDC": …, "BTCX": …, "ARQX": … } }` — `BTCX` tracks Bitcoin USD; `ARQX` tracks Arqma USD when configured; `PDC` is derived for monitoring.
+Example shape: `{ "updatedAt": …, "prices": { "PDC": …, "BTCX": …, "ARQX": … }, "source": "oracle", "status": "verified", "sequence": … }` — when Trade consumes the signed [Oracle](../oracle/oracle.md) feed, `source` is `oracle`. `BTCX` tracks Bitcoin USD; `ARQX` tracks Arqma USD when configured. Direct publisher: `https://oracle.privacydatacoin.com/api/prices/usd` ([Oracle API](../oracle/api.md)).
 
 ## Market data (public)
 
@@ -61,6 +61,7 @@ Asset ids (mainnet, from Trade allowlist):
 | PDC | 12 | `d6329b5b1f7c0805b5c345f4957554002a2f557845f64d7645dae0e051a6498a` |
 | BTCX | 8 | `c2bf0410873b49ec7e7dd19d62bca9625d80cd3123670a67b48d997d3127426d` |
 | ARQX | 9 | `d59ca1b363d5f44e0f087d9549b734815fbc2a6ab49ef0a877ccd910b1a1b9c3` |
+| PDCX | 8 | `5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd` |
 
 Prefer `/api/ticker` when you need human floats. Pair-stats and book still use the internal quote-per-base scale (×10¹² with decimal adjustment).
 
@@ -96,8 +97,9 @@ Universal wrap slug API (`slug` from assets, e.g. `arqx`; `btcx` aliases BTCX):
 | GET | `/api/bridge/:slug/deposits` | JWT — list |
 | POST | `/api/bridge/:slug/withdraw` | JWT — start withdraw |
 | GET | `/api/bridge/:slug/withdrawals` | JWT — list |
+| GET | `/api/bridge/pdcx/status` | PDC↔PDCX same-L1 wrap (Oracle fee CA) |
 
-BTCX also keeps the legacy unprefixed write paths (`POST /api/bridge/deposit`, `…/withdraw`, `…/withdrawals/:id/burn`).
+BTCX also keeps the legacy unprefixed write paths (`POST /api/bridge/deposit`, `…/withdraw`, `…/withdrawals/:id/burn`). PDCX uses `/api/bridge/pdcx/*`.
 
 Always treat Bridge status as the source of truth for deposit/withdraw availability. User steps: [Bridge](bridge.md).
 
@@ -112,7 +114,7 @@ Always treat Bridge status as the source of truth for deposit/withdraw availabil
 | Orders / matches / fee attach | JWT or bot key | `POST /api/orders`, take / fill / cancel, `POST /api/matches/:id/fee` |
 | Token / alias sync | admin key (or true local peer) | `POST /api/tokens/sync` — spoofed `X-Forwarded-For` is **not** enough |
 
-Wallet JWT: [PDC Companion](../use/companion.md) signs a challenge; Trade verifies via wallet RPC `verify_message`. Bot keys: see the Trade backend `docs/bot-api.md` in [pdc_trade_backend](https://github.com/PrivacyDataCoin-Project/pdc_trade_backend).
+Wallet JWT: [PDC Companion](companion.md) signs a challenge; Trade verifies via wallet RPC `verify_message`. Bot keys: see the Trade backend `docs/bot-api.md` in [pdc_trade_backend](https://github.com/PrivacyDataCoin-Project/pdc_trade_backend).
 
 There is **no** public `emit_asset` / mint endpoint. Wrap mint happens only in the bridge worker after a confirmed native deposit (and custody rules).
 
@@ -125,6 +127,7 @@ curl -s 'https://api.trade.privacydatacoin.com/api/health'
 ## Related
 
 - [Trade](trade.md) — exchange, fees, Easy Swap
-- [Bridge](bridge.md) — BTCX + ARQX wrap flows
+- [Bridge](bridge.md) — BTCX + ARQX + PDCX wrap flows
+- [Oracle](../oracle/oracle.md) — signed USD publisher
 - [Confidential assets](../build/assets.md) — on-chain tokens
 - [Node RPC](../build/rpc.md) — local `pdcd` JSON-RPC (not the Trade HTTP API)

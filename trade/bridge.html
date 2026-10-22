@@ -24,8 +24,9 @@
     <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
-<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/companion.html">PDC Companion</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
-<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html" aria-current="page">Bridge</a><a href="../trade/api.html">Trade API</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html" aria-current="page">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/api.html">Oracle API</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
 <div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
 <div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
@@ -36,7 +37,7 @@
       <article>
         <p class="kicker">Trade</p>
         <h1>Bridge</h1>
-        <p>The Trade <strong>Bridge</strong> (<code>/bridge</code> on <a href="https://trade.privacydatacoin.com/">trade.privacydatacoin.com</a>) wraps native coins into confidential assets on PDC and unwraps them again. Sign-in uses <a href="../use/companion.html">PDC Companion</a>. Exchange trading after mint is on <a href="trade.html">Trade</a>.</p>
+        <p>The Trade <strong>Bridge</strong> (<code>/bridge</code> on <a href="https://trade.privacydatacoin.com/">trade.privacydatacoin.com</a>) wraps native coins into confidential assets on PDC and unwraps them again. Sign-in uses <a href="companion.html">PDC Companion</a>. Exchange trading after mint is on <a href="trade.html">Trade</a>.</p>
 <p>Live limits, fees, pause flags, and confirmation counts always come from Bridge status JSON — prefer that over any fixed number here if they disagree. HTTP reads: <a href="api.html#bridge-public-reads">Trade API</a>.</p>
 <h2 id="wrap-assets">Wrap assets</h2>
 <p>Trade uses a <strong>markets registry</strong>: one Bridge portal, tabs from <code>GET /api/bridge/assets</code>. Adding a wrap does not require a new UI page.</p>
@@ -63,19 +64,26 @@
 <td><strong>ARQX</strong></td>
 <td>9</td>
 <td>Live (Arqma wallet-rpc)</td>
-<td><code>ARQX-BTCX</code> only (no ARQX/PDC)</td>
+<td><code>ARQX-BTCX</code></td>
+</tr>
+<tr>
+<td>PDC</td>
+<td><strong>PDCX</strong></td>
+<td>8</td>
+<td>Live (same-L1 wrap)</td>
+<td>Oracle fee CA</td>
 </tr>
 </tbody>
 </table>
 <p>Ordinary transfers of wrap assets hide amounts the same way other confidential assets do. Mint and burn keep the native reserve and circulating wrap matched <strong>1:1</strong> (per asset).</p>
-<p>CA mint authority for wraps shares the existing BTCX mint / remote mint-signer path. Users never call <code>emit_asset</code> from Trade.</p>
+<p>CA mint authority for cross-chain wraps shares the existing BTCX mint / remote mint-signer path. Users never call <code>emit_asset</code> from Trade.</p>
 <h2 id="how-the-bridge-works">How the Bridge works</h2>
 <pre><code class="language-text">Deposit:  native coin on L1  →  watcher + custody rules  →  mint wrap CA to your Px
 Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L1
 </code></pre>
 <ol>
 <li>Connect Companion and open <strong>Bridge</strong>.</li>
-<li>Pick a tab (<strong>BTC→BTCX</strong> or <strong>ARQ→ARQX</strong>).</li>
+<li>Pick a tab (<strong>BTC→BTCX</strong>, <strong>ARQ→ARQX</strong>, or <strong>PDC→PDCX</strong>).</li>
 <li>Create a deposit invoice (or start a withdraw).</li>
 <li>After mint, trade on <a href="trade.html">Trade</a> Exchange / Easy Swap. Hub pairs may require a PDC taker fee before Accept.</li>
 </ol>
@@ -141,6 +149,15 @@ Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L
 </ol>
 <p>Pool / liability fields on ARQX status (<code>poolAtomic</code>, <code>liabilityAtomic</code>, <code>reservesOk</code>) are the peg check for this wrap. Public history: <code>GET /api/bridge/arqx/history</code>.</p>
 <p>After minting ARQX, trade it on <a href="trade.html">Trade</a> against <strong>BTCX</strong> (<code>ARQX-BTCX</code>).</p>
+<h2 id="pdc-pdcx-oracle-fee-ca">PDC → PDCX (oracle fee CA)</h2>
+<p><strong>PDCX</strong> (on-chain ticker <strong>PDCx</strong>) is a 1:1 wrap of native PDC used as the Oracle attestation fee asset. It is <strong>same-L1</strong> (not Bitcoin / Arqma).</p>
+<ol>
+<li>Open Bridge → <strong>PDC→PDCX</strong> (status: <code>GET /api/bridge/pdcx/status</code>).</li>
+<li>Create a deposit and send <strong>native PDC</strong> to the custody address in the UI.</li>
+<li>Wait for confirmations (<code>minConfirmations</code> on status — currently <strong>10</strong>). PDCX is minted 1:1 in human units.</li>
+<li>Unwrap: burn PDCX on Bridge → receive native PDC.</li>
+</ol>
+<p>Asset id: <code>5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd</code>. Why it exists: <a href="../oracle/oracle.html#pdcx--fee-asset-for-oracle-attestation">Oracle</a>.</p>
 <h2 id="safety">Safety</h2>
 <ul>
 <li>Never paste seed phrases into Trade or any website.</li>
@@ -153,7 +170,8 @@ Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L
 <ul>
 <li><a href="trade.html">Trade</a> — order book, fees, Easy Swap</li>
 <li><a href="api.html">Trade API</a> — bridge HTTP routes</li>
-<li><a href="../use/companion.html">PDC Companion</a> — connect a local wallet</li>
+<li><a href="../oracle/oracle.html">Oracle</a> — signed USD feed and PDCx fees</li>
+<li><a href="companion.html">PDC Companion</a> — connect a local wallet</li>
 <li><a href="../build/assets.html">Confidential assets</a> — how tokens work on PDC</li>
 </ul>
         <nav class="pager"><a href="../trade/trade.html">← Trade</a><a href="../trade/api.html">Trade API →</a></nav>
@@ -178,6 +196,7 @@ Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L
 <li><a href="#withdraw_1">Withdraw</a></li>
 </ul>
 </li>
+<li><a href="#pdc-pdcx-oracle-fee-ca">PDC → PDCX (oracle fee CA)</a></li>
 <li><a href="#safety">Safety</a></li>
 <li><a href="#related">Related</a></li>
 </ul>

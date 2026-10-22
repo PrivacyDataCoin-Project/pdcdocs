@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oracle API · PDC Docs</title>
+  <meta name="description" content="Oracle HTTP API — verify schema v1 signatures.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/oracle/api.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/api.html" aria-current="page">Oracle API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Oracle</p>
+        <h1>Oracle API</h1>
+        <p>Public HTTP API for <a href="https://oracle.privacydatacoin.com/">PDC Oracle</a>. Base URL:</p>
+<pre><code class="language-text">https://oracle.privacydatacoin.com
+</code></pre>
+<p>User overview and PDCx fee wrap: <a href="oracle.html">Oracle</a>. Trade’s mirrored USD book: <a href="../trade/api.html">Trade API</a>.</p>
+<h2 id="endpoints">Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Auth</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/health</code></td>
+<td>none</td>
+<td>Liveness, sequence, status, feature flags</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/prices/usd</code></td>
+<td>none</td>
+<td>Trade-compatible book + signature envelope (<strong>schemaVersion 1</strong>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/prices/feed</code></td>
+<td>none</td>
+<td>Full signed document (same schema family as <code>/usd</code>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/prices/streams</code></td>
+<td>none</td>
+<td>Additive Streams-style report (schema v2) — not a replacement for <code>/usd</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/prices/evm</code></td>
+<td>none</td>
+<td>Optional EVM Aggregator-style report — additive</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/sidechain/attestation</code></td>
+<td>optional Bearer</td>
+<td>CA tip attestation (when enabled)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/sidechain/evm</code></td>
+<td>optional Bearer</td>
+<td>Sidechain→EVM report (when enabled)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/admin/refresh</code></td>
+<td>admin token</td>
+<td>Force refresh — must stay private</td>
+</tr>
+</tbody>
+</table>
+<p>Trade consumers should use <strong><code>/api/prices/usd</code> (schema v1)</strong> only for signature verification. Streams / EVM / sidechain are optional extras.</p>
+<h2 id="prices-usd-schema-v1">Prices USD (schema v1)</h2>
+<pre><code class="language-bash">curl -sS 'https://oracle.privacydatacoin.com/api/prices/usd'
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>schemaVersion</code></td>
+<td><code>1</code> for the Trade feed</td>
+</tr>
+<tr>
+<td><code>updatedAt</code></td>
+<td>Unix seconds of the publish</td>
+</tr>
+<tr>
+<td><code>prices</code></td>
+<td>Map of ticker → USD float (<code>BTCX</code>, <code>PDC</code>, <code>ARQX</code>, …)</td>
+</tr>
+<tr>
+<td><code>pairs</code></td>
+<td>Explicit pair keys (<code>BTC_USD</code>, <code>PDC_BTCX</code>, …)</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>verified</code> | <code>degraded</code> | <code>unavailable</code></td>
+</tr>
+<tr>
+<td><code>sequence</code></td>
+<td>Monotonic publish counter</td>
+</tr>
+<tr>
+<td><code>maxAgeSec</code></td>
+<td>Soft freshness window (often <code>120</code>)</td>
+</tr>
+<tr>
+<td><code>signature</code></td>
+<td>Ed25519 signature (URL-safe base64)</td>
+</tr>
+<tr>
+<td><code>publicKey</code></td>
+<td>Publisher pubkey hex (pin out-of-band; do not blindly trust)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="live-public-key-pin-this">Live public key (pin this)</h3>
+<p>Current production publisher key (also returned in feed JSON):</p>
+<pre><code class="language-text">cc0e662c6d757856cda001744fbaa819d86aff26e1407695d90249c1a455c21e
+</code></pre>
+<p>Rotate only with an explicit ops process. Trade pins the same value as <code>ORACLE_PUBLIC_KEY_HEX</code>.</p>
+<h2 id="health">Health</h2>
+<pre><code class="language-bash">curl -sS 'https://oracle.privacydatacoin.com/api/health'
+</code></pre>
+<p>Useful fields: <code>ok</code>, <code>hasFeed</code>, <code>sequence</code>, <code>status</code>, <code>updatedAt</code>, <code>adminProtected</code>, optional <code>sidechainAttestation</code> / <code>sidechainRound</code>.</p>
+<h2 id="verification-checklist-integrators">Verification checklist (integrators)</h2>
+<ol>
+<li>Fetch <code>/api/prices/usd</code> over HTTPS.</li>
+<li>Confirm <code>schemaVersion === 1</code>.</li>
+<li>Verify Ed25519 <code>signature</code> over the <strong>canonical payload</strong> (field order / sorted maps as in the publisher <code>sign</code> module) with your <strong>pinned</strong> public key — not merely equality of the <code>publicKey</code> string in the body.</li>
+<li>Reject if age <code>now - updatedAt</code> exceeds <code>maxAgeSec</code> (or your stricter <code>ORACLE_CONSUMER_MAX_AGE_SEC</code>).</li>
+<li>Reject if <code>sequence</code> is not greater than the last accepted sequence.</li>
+<li>Prefer <code>status=verified</code>; decide policy for <code>degraded</code>.</li>
+</ol>
+<p>Reference consumer: Trade <code>oracle-feed</code> module in <a href="https://github.com/PrivacyDataCoin-Project/pdc_trade_backend">pdc_trade_backend</a> (<code>docs/oracle-feed-integration.md</code>).</p>
+<h2 id="trade-consumer-flags-operators">Trade consumer flags (operators)</h2>
+<p>When Trade points at Oracle:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ORACLE_FEED_ENABLED</code></td>
+<td>Prefer signed Oracle</td>
+</tr>
+<tr>
+<td><code>ORACLE_FEED_URL</code></td>
+<td>Default <code>https://oracle.privacydatacoin.com/api/prices/usd</code></td>
+</tr>
+<tr>
+<td><code>ORACLE_PUBLIC_KEY_HEX</code></td>
+<td>Required pin (64 hex chars)</td>
+</tr>
+<tr>
+<td><code>ORACLE_LEGACY_FALLBACK</code></td>
+<td>If <code>1</code>, fall back to unsigned legacy on failure; else fail closed</td>
+</tr>
+<tr>
+<td><code>ORACLE_FEED_TIMEOUT_MS</code></td>
+<td>Fetch timeout (default 8000)</td>
+</tr>
+</tbody>
+</table>
+<p>Rollback: disable <code>ORACLE_FEED_ENABLED</code> and restart Trade.</p>
+<h2 id="additive-apis-optional">Additive APIs (optional)</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/prices/streams</code></td>
+<td>Quorum + per-venue observations (schema v2)</td>
+</tr>
+<tr>
+<td><code>/api/prices/evm</code></td>
+<td>Optional secp256k1 Aggregator-style report for EVM tip contracts</td>
+</tr>
+<tr>
+<td><code>/api/sidechain/*</code></td>
+<td>CA tip attestation / EVM bridge of disclosable tips — does not replace Trade USD</td>
+</tr>
+</tbody>
+</table>
+<p>These must not replace schema v1 verification for Trade USD labels.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="oracle.html">Oracle</a> — user guide, status, PDCx fees</li>
+<li><a href="../trade/api.html">Trade API</a> — Trade HTTP including <code>/api/prices/usd</code></li>
+<li><a href="../trade/bridge.html">Bridge</a> — PDC→PDCX wrap</li>
+<li>Architecture / threat model: <a href="https://github.com/PrivacyDataCoin-Project/oracle/tree/main/docs">oracle repo docs</a></li>
+</ul>
+        <nav class="pager"><a href="../oracle/oracle.html">← Oracle</a><a href="../build/from-source.html">Build from source →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#endpoints">Endpoints</a></li>
+<li><a href="#prices-usd-schema-v1">Prices USD (schema v1)</a><ul>
+<li><a href="#live-public-key-pin-this">Live public key (pin this)</a></li>
+</ul>
+</li>
+<li><a href="#health">Health</a></li>
+<li><a href="#verification-checklist-integrators">Verification checklist (integrators)</a></li>
+<li><a href="#trade-consumer-flags-operators">Trade consumer flags (operators)</a></li>
+<li><a href="#additive-apis-optional">Additive APIs (optional)</a></li>
+<li><a href="#related">Related</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>

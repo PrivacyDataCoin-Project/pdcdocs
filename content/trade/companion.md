@@ -115,9 +115,9 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 
 ## Related
 
-- [Trade](../trade/trade.md) — exchange, fees, Easy Swap
-- [Bridge](../trade/bridge.md) — BTCX and ARQX wrap flows
-- [Trade API](../trade/api.md) — JWT auth and public endpoints
-- [Wallets](wallets.md) — desktop wallet and `simplewallet`
-- [Getting started](getting-started.md) — install and sync
+- [Trade](trade.md) — exchange, fees, Easy Swap
+- [Bridge](bridge.md) — BTCX and ARQX wrap flows
+- [Trade API](api.md) — JWT auth and public endpoints
+- [Wallets](../use/wallets.md) — desktop wallet and `simplewallet`
+- [Getting started](../use/getting-started.md) — install and sync
 - [Escrow, swaps, and offers](../build/services.md) — Ionic Swap context in the protocol

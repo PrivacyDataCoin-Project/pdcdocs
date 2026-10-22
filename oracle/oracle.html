@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oracle · PDC Docs</title>
+  <meta name="description" content="Signed USD price feed — dashboard, status, PDCx fees.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/oracle/oracle.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html" aria-current="page">Oracle</a><a href="../oracle/api.html">Oracle API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Oracle</p>
+        <h1>Oracle</h1>
+        <p><a href="https://oracle.privacydatacoin.com/">PDC Oracle</a> is the signed <strong>USD price publisher</strong> for Privacy Data Coin. Trade and other clients can read a Trade-compatible price book and verify that it was signed by the pinned Oracle public key.</p>
+<p>Oracle is <strong>off-chain</strong>. It is not a Solidity contract on PDC L1 (the chain has no EVM). Native on-chain <code>oracle_update</code> is a future daemon track, not required to use the feed today.</p>
+<p>Dashboard and JSON live at <strong>https://oracle.privacydatacoin.com</strong>. Integrators: <a href="api.html">Oracle API</a>. Trade USD path: <a href="../trade/api.html">Trade API</a>.</p>
+<h2 id="what-it-is-for">What it is for</h2>
+<table>
+<thead>
+<tr>
+<th>Audience</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Traders</td>
+<td>USD subtitles and reference prices on <a href="https://trade.privacydatacoin.com/">Trade</a> (via Trade’s <code>/api/prices/usd</code>)</td>
+</tr>
+<tr>
+<td>Monitors / bots</td>
+<td>Pull <code>GET https://oracle.privacydatacoin.com/api/prices/usd</code> and verify the signature</td>
+</tr>
+<tr>
+<td>Operators</td>
+<td>Run or consume the publisher; pin the public key; never trust unsigned books as “verified”</td>
+</tr>
+</tbody>
+</table>
+<p>Oracle aggregates external spot venues (median), applies bounds and freshness rules, then <strong>Ed25519-signs</strong> each successful publish. Consumers trust the <strong>signature + pinned pubkey</strong>, not the HTTPS path alone.</p>
+<h2 id="quick-start-users">Quick start (users)</h2>
+<ol>
+<li>Open <a href="https://oracle.privacydatacoin.com/">oracle.privacydatacoin.com</a> — dashboard shows the latest feed status and sequence.</li>
+<li>Or open prices directly: <a href="https://oracle.privacydatacoin.com/api/prices/usd">Prices API</a>.</li>
+<li>On Trade, USD figures come from Trade’s own <code>/api/prices/usd</code>, which can consume this Oracle when enabled (<code>source=oracle</code> in the JSON).</li>
+</ol>
+<p>You do <strong>not</strong> need Companion or a wallet to read Oracle prices. Companion is only for Trade login, Bridge, and swaps.</p>
+<h2 id="price-book-what-you-see">Price book (what you see)</h2>
+<p>Typical tickers in <code>prices</code> (human USD):</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BTCX</code></td>
+<td>Wrapped Bitcoin USD (tracks BTC)</td>
+</tr>
+<tr>
+<td><code>PDC</code></td>
+<td>Privacy Data Coin USD</td>
+</tr>
+<tr>
+<td><code>ARQX</code></td>
+<td>Wrapped Arqma USD</td>
+</tr>
+<tr>
+<td><code>PDCX</code> / <code>PDCx</code></td>
+<td>Oracle fee CA (1:1 with PDC when published)</td>
+</tr>
+</tbody>
+</table>
+<p>Cross rates also appear under <code>pairs</code> (e.g. <code>PDC_BTCX</code>, <code>BTC_USD</code>). Prefer live JSON over any fixed number in this page.</p>
+<h3 id="status">Status</h3>
+<table>
+<thead>
+<tr>
+<th><code>status</code></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>verified</code></td>
+<td>Quorum / multi-venue rules passed; signature present</td>
+</tr>
+<tr>
+<td><code>degraded</code></td>
+<td>Published but with reduced source quality — still signed; treat with care</td>
+</tr>
+<tr>
+<td><code>unavailable</code></td>
+<td>Do not treat as a usable verified book</td>
+</tr>
+</tbody>
+</table>
+<p>Also check <code>sequence</code> (monotonic), <code>updatedAt</code> (unix seconds), and <code>maxAgeSec</code> (default <strong>120</strong>). Stale feeds must be rejected by clients.</p>
+<h2 id="how-trade-uses-oracle">How Trade uses Oracle</h2>
+<pre><code class="language-text">Venues (Binance, Kraken, …) → Oracle publisher (sign) → Trade backend (verify) → Trade UI USD labels
+</code></pre>
+<ol>
+<li>Oracle publishes <code>GET /api/prices/usd</code> with <code>signature</code> + <code>publicKey</code>.</li>
+<li>Trade (when <code>ORACLE_FEED_ENABLED</code>) fetches that URL, verifies Ed25519 against a <strong>pinned</strong> <code>ORACLE_PUBLIC_KEY_HEX</code>, checks age and sequence.</li>
+<li>Trade re-exposes <code>GET https://api.trade.privacydatacoin.com/api/prices/usd</code> with additive <code>source=oracle</code> (and <code>status</code> / <code>sequence</code> when present).</li>
+<li>Order-book <strong>mark / last</strong> on the exchange still comes from the book itself — Oracle is for USD reference, not for replacing Ionic Swap fill prices.</li>
+</ol>
+<p>If Oracle verification fails and legacy fallback is off, Trade should fail closed (e.g. <strong>503</strong>), not invent zeros.</p>
+<h2 id="pdcx-fee-asset-for-oracle-attestation">PDCx — fee asset for oracle attestation</h2>
+<p>Some Oracle / sidechain attestation flows charge fees in <strong>PDCX</strong> (on-chain ticker <strong>PDCx</strong>), a confidential asset on PDC.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wrap</td>
+<td>Native <strong>PDC → PDCX</strong> 1:1 on Trade Bridge (<code>/bridge</code>, tab PDC→PDCX)</td>
+</tr>
+<tr>
+<td>Asset id (mainnet)</td>
+<td><code>5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd</code></td>
+</tr>
+<tr>
+<td>Decimals</td>
+<td>PDC 12 · PDCX 8 (human rate stays 1:1)</td>
+</tr>
+<tr>
+<td>Status</td>
+<td><code>GET /api/bridge/pdcx/status</code> on the Trade API</td>
+</tr>
+</tbody>
+</table>
+<h3 id="user-steps-get-pdcx">User steps (get PDCX)</h3>
+<ol>
+<li>Install <a href="../trade/companion.html">PDC Companion</a> and unlock your wallet.</li>
+<li>Open <a href="https://trade.privacydatacoin.com/bridge">Bridge</a> → <strong>PDC→PDCX</strong>.</li>
+<li>Create a deposit invoice and send <strong>native PDC</strong> to the custody address shown (follow the UI; confirmations from status, currently <strong>10</strong>).</li>
+<li>When mint completes, PDCX appears in the wallet (whitelist / Companion balances).</li>
+<li>To unwrap, burn PDCX on Bridge and receive native PDC back.</li>
+</ol>
+<p>Live status must show <code>depositEnabled</code> / <code>withdrawEnabled</code> before you send funds. Details: <a href="../trade/bridge.html">Bridge</a>.</p>
+<h2 id="safety">Safety</h2>
+<ul>
+<li>Pin the Oracle <strong>public key</strong> in any production consumer. Do not rotate trust to whatever <code>publicKey</code> field appears in a random response without an out-of-band pin.</li>
+<li>Reject feeds older than <code>maxAgeSec</code> (or your stricter limit).</li>
+<li>Reject non-increasing <code>sequence</code> (replay).</li>
+<li>External venues can be wrong even when <code>status=verified</code> — multi-venue median reduces, but does not eliminate, source risk.</li>
+<li>Never paste seed phrases into the Oracle site or Trade.</li>
+<li>Admin refresh (<code>POST /api/admin/refresh</code>) is operator-only and must not be public.</li>
+</ul>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="api.html">Oracle API</a> — endpoints, fields, verification checklist</li>
+<li><a href="../trade/trade.html">Trade</a> — exchange UI</li>
+<li><a href="../trade/api.html">Trade API</a> — Trade <code>/api/prices/usd</code></li>
+<li><a href="../trade/bridge.html">Bridge</a> — wraps including PDC→PDCX</li>
+<li>Publisher repo: <a href="https://github.com/PrivacyDataCoin-Project/oracle">PrivacyDataCoin-Project/oracle</a></li>
+</ul>
+        <nav class="pager"><a href="../trade/companion.html">← PDC Companion</a><a href="../oracle/api.html">Oracle API →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#what-it-is-for">What it is for</a></li>
+<li><a href="#quick-start-users">Quick start (users)</a></li>
+<li><a href="#price-book-what-you-see">Price book (what you see)</a><ul>
+<li><a href="#status">Status</a></li>
+</ul>
+</li>
+<li><a href="#how-trade-uses-oracle">How Trade uses Oracle</a></li>
+<li><a href="#pdcx-fee-asset-for-oracle-attestation">PDCx — fee asset for oracle attestation</a><ul>
+<li><a href="#user-steps-get-pdcx">User steps (get PDCX)</a></li>
+</ul>
+</li>
+<li><a href="#safety">Safety</a></li>
+<li><a href="#related">Related</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>

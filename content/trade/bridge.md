@@ -2,7 +2,7 @@
 title: Bridge
 ---
 
-The Trade **Bridge** (`/bridge` on [trade.privacydatacoin.com](https://trade.privacydatacoin.com/)) wraps native coins into confidential assets on PDC and unwraps them again. Sign-in uses [PDC Companion](../use/companion.md). Exchange trading after mint is on [Trade](trade.md).
+The Trade **Bridge** (`/bridge` on [trade.privacydatacoin.com](https://trade.privacydatacoin.com/)) wraps native coins into confidential assets on PDC and unwraps them again. Sign-in uses [PDC Companion](companion.md). Exchange trading after mint is on [Trade](trade.md).
 
 Live limits, fees, pause flags, and confirmation counts always come from Bridge status JSON — prefer that over any fixed number here if they disagree. HTTP reads: [Trade API](api.md#bridge-public-reads).
 
@@ -13,11 +13,12 @@ Trade uses a **markets registry**: one Bridge portal, tabs from `GET /api/bridge
 | Native L1 | Wrap CA on PDC | Decimals | Bridge | Listed markets |
 | --- | --- | --- | --- | --- |
 | BTC | **BTCX** | 8 (sats) | Live (Bitcoin + TSS) | `PDC-BTCX` |
-| ARQ | **ARQX** | 9 | Live (Arqma wallet-rpc) | `ARQX-BTCX` only (no ARQX/PDC) |
+| ARQ | **ARQX** | 9 | Live (Arqma wallet-rpc) | `ARQX-BTCX` |
+| PDC | **PDCX** | 8 | Live (same-L1 wrap) | Oracle fee CA |
 
 Ordinary transfers of wrap assets hide amounts the same way other confidential assets do. Mint and burn keep the native reserve and circulating wrap matched **1:1** (per asset).
 
-CA mint authority for wraps shares the existing BTCX mint / remote mint-signer path. Users never call `emit_asset` from Trade.
+CA mint authority for cross-chain wraps shares the existing BTCX mint / remote mint-signer path. Users never call `emit_asset` from Trade.
 
 ## How the Bridge works
 
@@ -27,7 +28,7 @@ Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L
 ```
 
 1. Connect Companion and open **Bridge**.
-2. Pick a tab (**BTC→BTCX** or **ARQ→ARQX**).
+2. Pick a tab (**BTC→BTCX**, **ARQ→ARQX**, or **PDC→PDCX**).
 3. Create a deposit invoice (or start a withdraw).
 4. After mint, trade on [Trade](trade.md) Exchange / Easy Swap. Hub pairs may require a PDC taker fee before Accept.
 
@@ -92,6 +93,17 @@ Pool / liability fields on ARQX status (`poolAtomic`, `liabilityAtomic`, `reserv
 
 After minting ARQX, trade it on [Trade](trade.md) against **BTCX** (`ARQX-BTCX`).
 
+## PDC → PDCX (oracle fee CA)
+
+**PDCX** (on-chain ticker **PDCx**) is a 1:1 wrap of native PDC used as the Oracle attestation fee asset. It is **same-L1** (not Bitcoin / Arqma).
+
+1. Open Bridge → **PDC→PDCX** (status: `GET /api/bridge/pdcx/status`).
+2. Create a deposit and send **native PDC** to the custody address in the UI.
+3. Wait for confirmations (`minConfirmations` on status — currently **10**). PDCX is minted 1:1 in human units.
+4. Unwrap: burn PDCX on Bridge → receive native PDC.
+
+Asset id: `5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd`. Why it exists: [Oracle](../oracle/oracle.md#pdcx--fee-asset-for-oracle-attestation).
+
 ## Safety
 
 - Never paste seed phrases into Trade or any website.
@@ -104,5 +116,6 @@ After minting ARQX, trade it on [Trade](trade.md) against **BTCX** (`ARQX-BTCX`)
 
 - [Trade](trade.md) — order book, fees, Easy Swap
 - [Trade API](api.md) — bridge HTTP routes
-- [PDC Companion](../use/companion.md) — connect a local wallet
+- [Oracle](../oracle/oracle.md) — signed USD feed and PDCx fees
+- [PDC Companion](companion.md) — connect a local wallet
 - [Confidential assets](../build/assets.md) — how tokens work on PDC
