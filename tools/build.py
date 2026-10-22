@@ -28,6 +28,7 @@ NAV = [
     ]),
     ("Oracle", [
         ("oracle/oracle", "Oracle"),
+        ("oracle/paid-attestation", "Paid attestation"),
         ("oracle/api", "Oracle API"),
     ]),
     ("Build", [
@@ -64,6 +65,7 @@ SUMMARIES = {
     "trade/api": "Public Trade HTTP API — ticker, fees, bridge routes.",
     "trade/companion": "Browser extension that connects Trade to a local PDC wallet.",
     "oracle/oracle": "Signed USD price feed — dashboard, status, PDCx fees.",
+    "oracle/paid-attestation": "Paid CA tip → EVM attestation — how it works and how to pay.",
     "oracle/api": "Oracle HTTP API — verify schema v1 signatures.",
     "build/from-source": "Clone, dependencies, and the daemon build.",
     "build/rpc": "JSON-RPC on port 19211, bound to localhost.",

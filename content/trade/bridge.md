@@ -102,7 +102,7 @@ After minting ARQX, trade it on [Trade](trade.md) against **BTCX** (`ARQX-BTCX`)
 3. Wait for confirmations (`minConfirmations` on status — currently **10**). PDCX is minted 1:1 in human units via remote mint-signer.
 4. Unwrap: burn PDCX on Bridge → attach burn tx → receive native PDC after verify.
 
-Asset id: `5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd`. Why it exists: [Oracle](../oracle/oracle.md#pdcx--fee-asset-for-oracle-attestation).
+Asset id: `5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd`. Why it exists: [Oracle](../oracle/oracle.md#pdcx--fee-asset-for-oracle-attestation). How paid attestation uses it: [Paid attestation](../oracle/paid-attestation.md).
 
 ## Safety
 

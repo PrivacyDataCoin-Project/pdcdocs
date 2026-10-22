@@ -8,7 +8,7 @@ Public HTTP API for [PDC Oracle](https://oracle.privacydatacoin.com/). Base URL:
 https://oracle.privacydatacoin.com
 ```
 
-User overview and PDCx fee wrap: [Oracle](oracle.md). Trade’s mirrored USD book: [Trade API](../trade/api.md).
+User overview and PDCx fee wrap: [Oracle](oracle.md). **Paid** tip path: [Paid attestation](paid-attestation.md). Trade’s mirrored USD book: [Trade API](../trade/api.md).
 
 ## Endpoints
 
@@ -92,16 +92,47 @@ Rollback: disable `ORACLE_FEED_ENABLED` and restart Trade.
 | --- | --- |
 | `/api/prices/streams` | Quorum + per-venue observations (schema v2) |
 | `/api/prices/evm` | Optional secp256k1 Aggregator-style report for EVM tip contracts |
-| `/api/sidechain/attestation` | Disclosable CA tip attestation (when enabled; may require Bearer) |
-| `/api/sidechain/evm` | Sidechain→EVM tip report (when enabled) |
+| `/api/sidechain/attestation` | Disclosable CA tip attestation (**paid** product; may require Bearer) |
+| `/api/sidechain/evm` | Sidechain→EVM tip report for `updateAttestation` |
 
 These must not replace schema v1 verification for Trade USD labels.
 
-Attestation fee asset on PDC is **PDCX** (wrap via Trade Bridge). EVM `feeRecipient` must be the treasury / @dev wallet, not the wrap mint custody address. User wrap flow: [Oracle](oracle.md#pdcx--fee-asset-for-oracle-attestation).
+## Paid sidechain attestation
+
+Narrative and user/integrator checklist: [Paid attestation](paid-attestation.md).
+
+### Read (no L1 debit on GET)
+
+```bash
+curl -sS 'https://oracle.privacydatacoin.com/api/sidechain/attestation'
+curl -sS 'https://oracle.privacydatacoin.com/api/sidechain/evm'
+```
+
+| Field (typical) | Meaning |
+| --- | --- |
+| `schemaVersion` | `ca-1` (attestation) / `ca-evm-1` (EVM report) |
+| `height` / `roundId` | Tip height and publish round |
+| `feeAmount` | Atomic fee (`1000000` = 0.01 @ 8 decimals on mainnet) |
+| `feeAssetId` | L1 PDCx asset id (64 hex) |
+| `feeRecipient` | EVM treasury / @dev — **not** wrap mint custody |
+| `feeTreasuryPdcAddress` | L1 Px hint for treasury |
+| `ethSignature` / `reportHash` | Inputs for on-chain `updateAttestation` |
+| `signerAddress` | secp256k1 reporter |
+
+Optional: `Authorization: Bearer <SIDECHAIN_API_TOKEN>` when the operator enabled a token.
+
+### Pay (on-chain)
+
+1. Acquire PDCx on L1 if needed: [Bridge PDC→PDCX](../trade/bridge.md#pdc--pdcx-oracle-fee-ca).
+2. On the attestation EVM (private Clique soak for operators): `approve` the fee token, then `updateAttestation(...)`.
+3. Confirm `latestTip()` on `PdcSidechainAttestationTokenFee`.
+
+HTTP alone does **not** pull L1 PDCx. The contract `transferFrom` is the hard fee gate. Mainnet fee amount and go-live notes: publisher `docs/oracle-attestation-fee-go-live.md`.
 
 ## Related
 
 - [Oracle](oracle.md) — user guide, status, PDCx fees
+- [Paid attestation](paid-attestation.md) — how payment works end-to-end
 - [Trade API](../trade/api.md) — Trade HTTP including `/api/prices/usd`
 - [Bridge](../trade/bridge.md) — PDC→PDCX wrap
 - Architecture / threat model: [oracle repo docs](https://github.com/PrivacyDataCoin-Project/oracle/tree/main/docs)

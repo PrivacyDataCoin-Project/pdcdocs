@@ -6,7 +6,14 @@ title: Oracle
 
 Oracle is **off-chain**. It is not a Solidity contract on PDC L1 (the chain has no EVM). Native on-chain `oracle_update` is a future daemon track, not required to use the feed today.
 
-Dashboard and JSON live at **https://oracle.privacydatacoin.com**. Integrators: [Oracle API](api.md). Trade USD path: [Trade API](../trade/api.md).
+Dashboard and JSON live at **https://oracle.privacydatacoin.com**. Integrators: [Oracle API](api.md). Trade USD path: [Trade API](../trade/api.md). **Paid** CA tip → EVM attestation: [Paid attestation](paid-attestation.md).
+
+## Two products
+
+| Product | Cost | Start here |
+| --- | --- | --- |
+| Signed USD book (`/api/prices/usd`) | Free to read | This page + [API](api.md) |
+| CA tip → EVM attestation (`/api/sidechain/*` + on-chain fee) | **Paid** (0.01 fee token / update) | [Paid attestation](paid-attestation.md) |
 
 ## What it is for
 
@@ -14,6 +21,7 @@ Dashboard and JSON live at **https://oracle.privacydatacoin.com**. Integrators: 
 | --- | --- |
 | Traders | USD subtitles and reference prices on [Trade](https://trade.privacydatacoin.com/) (via Trade’s `/api/prices/usd`) |
 | Monitors / bots | Pull `GET https://oracle.privacydatacoin.com/api/prices/usd` and verify the signature |
+| Integrators / bridges | Optional **paid** tip attestation — signed CA tip + supply for EVM ([Paid attestation](paid-attestation.md)) |
 | Operators | Run or consume the publisher; pin the public key; never trust unsigned books as “verified” |
 
 Oracle aggregates external spot venues (median), applies bounds and freshness rules, then **Ed25519-signs** each successful publish. Consumers trust the **signature + pinned pubkey**, not the HTTPS path alone.
@@ -86,9 +94,19 @@ Some Oracle / sidechain attestation flows charge fees in **PDCX** (on-chain tick
 
 Confirm `depositEnabled` / `withdrawEnabled` on status before sending funds. Details: [Bridge](../trade/bridge.md).
 
-### Sidechain tip attestation (optional)
+### Sidechain tip attestation (paid, live)
 
-When enabled, Oracle also exposes disclosable CA tip attestation over HTTP (`GET /api/sidechain/attestation`) and related EVM reports. That path is **additive** — it does not replace the signed USD book. Fee payment for those flows uses **PDCX** (see above). Endpoints: [Oracle API](api.md).
+Mainnet Oracle exposes disclosable CA tip attestation over HTTP and a signed EVM report. That path is **additive** — it does not replace the signed USD book.
+
+| Item | Mainnet (2026-10-22) |
+| --- | --- |
+| Status | Enabled (`sidechainAttestation` on `/api/health`) |
+| Fee | `1000000` atomic = **0.01** (8 decimals) |
+| L1 fee CA | PDCx (wrap above) |
+| Payment gate | EVM `PdcSidechainAttestationTokenFee` (`transferFrom` after `approve`) — not a deduction on bare HTTP `GET` |
+| Contract | Unpaused on private Clique soak (operator host; not a public L2) |
+
+Full flow, user wrap steps, and integrator `curl` + contract calls: **[Paid attestation](paid-attestation.md)**. Endpoints: [Oracle API](api.md#paid-sidechain-attestation).
 
 ## Safety
 
@@ -101,6 +119,7 @@ When enabled, Oracle also exposes disclosable CA tip attestation over HTTP (`GET
 
 ## Related
 
+- [Paid attestation](paid-attestation.md) — how the paid path works and how to use it
 - [Oracle API](api.md) — endpoints, fields, verification checklist
 - [Trade](../trade/trade.md) — exchange UI
 - [Trade API](../trade/api.md) — Trade `/api/prices/usd`

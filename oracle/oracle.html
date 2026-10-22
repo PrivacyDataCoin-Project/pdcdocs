@@ -26,7 +26,7 @@
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
 <div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
-<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html" aria-current="page">Oracle</a><a href="../oracle/api.html">Oracle API</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html" aria-current="page">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
 <div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
 <div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
@@ -39,7 +39,29 @@
         <h1>Oracle</h1>
         <p><a href="https://oracle.privacydatacoin.com/">PDC Oracle</a> is the signed <strong>USD price publisher</strong> for Privacy Data Coin. Trade and other clients can read a Trade-compatible price book and verify that it was signed by the pinned Oracle public key.</p>
 <p>Oracle is <strong>off-chain</strong>. It is not a Solidity contract on PDC L1 (the chain has no EVM). Native on-chain <code>oracle_update</code> is a future daemon track, not required to use the feed today.</p>
-<p>Dashboard and JSON live at <strong>https://oracle.privacydatacoin.com</strong>. Integrators: <a href="api.html">Oracle API</a>. Trade USD path: <a href="../trade/api.html">Trade API</a>.</p>
+<p>Dashboard and JSON live at <strong>https://oracle.privacydatacoin.com</strong>. Integrators: <a href="api.html">Oracle API</a>. Trade USD path: <a href="../trade/api.html">Trade API</a>. <strong>Paid</strong> CA tip → EVM attestation: <a href="paid-attestation.html">Paid attestation</a>.</p>
+<h2 id="two-products">Two products</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Cost</th>
+<th>Start here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Signed USD book (<code>/api/prices/usd</code>)</td>
+<td>Free to read</td>
+<td>This page + <a href="api.html">API</a></td>
+</tr>
+<tr>
+<td>CA tip → EVM attestation (<code>/api/sidechain/*</code> + on-chain fee)</td>
+<td><strong>Paid</strong> (0.01 fee token / update)</td>
+<td><a href="paid-attestation.html">Paid attestation</a></td>
+</tr>
+</tbody>
+</table>
 <h2 id="what-it-is-for">What it is for</h2>
 <table>
 <thead>
@@ -56,6 +78,10 @@
 <tr>
 <td>Monitors / bots</td>
 <td>Pull <code>GET https://oracle.privacydatacoin.com/api/prices/usd</code> and verify the signature</td>
+</tr>
+<tr>
+<td>Integrators / bridges</td>
+<td>Optional <strong>paid</strong> tip attestation — signed CA tip + supply for EVM (<a href="paid-attestation.html">Paid attestation</a>)</td>
 </tr>
 <tr>
 <td>Operators</td>
@@ -176,8 +202,39 @@
 <li>To unwrap: burn PDCX on Bridge → attach the burn tx → receive native PDC (worker pays after on-chain verify).</li>
 </ol>
 <p>Confirm <code>depositEnabled</code> / <code>withdrawEnabled</code> on status before sending funds. Details: <a href="../trade/bridge.html">Bridge</a>.</p>
-<h3 id="sidechain-tip-attestation-optional">Sidechain tip attestation (optional)</h3>
-<p>When enabled, Oracle also exposes disclosable CA tip attestation over HTTP (<code>GET /api/sidechain/attestation</code>) and related EVM reports. That path is <strong>additive</strong> — it does not replace the signed USD book. Fee payment for those flows uses <strong>PDCX</strong> (see above). Endpoints: <a href="api.html">Oracle API</a>.</p>
+<h3 id="sidechain-tip-attestation-paid-live">Sidechain tip attestation (paid, live)</h3>
+<p>Mainnet Oracle exposes disclosable CA tip attestation over HTTP and a signed EVM report. That path is <strong>additive</strong> — it does not replace the signed USD book.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Mainnet (2026-10-22)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Status</td>
+<td>Enabled (<code>sidechainAttestation</code> on <code>/api/health</code>)</td>
+</tr>
+<tr>
+<td>Fee</td>
+<td><code>1000000</code> atomic = <strong>0.01</strong> (8 decimals)</td>
+</tr>
+<tr>
+<td>L1 fee CA</td>
+<td>PDCx (wrap above)</td>
+</tr>
+<tr>
+<td>Payment gate</td>
+<td>EVM <code>PdcSidechainAttestationTokenFee</code> (<code>transferFrom</code> after <code>approve</code>) — not a deduction on bare HTTP <code>GET</code></td>
+</tr>
+<tr>
+<td>Contract</td>
+<td>Unpaused on private Clique soak (operator host; not a public L2)</td>
+</tr>
+</tbody>
+</table>
+<p>Full flow, user wrap steps, and integrator <code>curl</code> + contract calls: <strong><a href="paid-attestation.html">Paid attestation</a></strong>. Endpoints: <a href="api.html#paid-sidechain-attestation">Oracle API</a>.</p>
 <h2 id="safety">Safety</h2>
 <ul>
 <li>Pin the Oracle <strong>public key</strong> in any production consumer. Do not rotate trust to whatever <code>publicKey</code> field appears in a random response without an out-of-band pin.</li>
@@ -189,13 +246,14 @@
 </ul>
 <h2 id="related">Related</h2>
 <ul>
+<li><a href="paid-attestation.html">Paid attestation</a> — how the paid path works and how to use it</li>
 <li><a href="api.html">Oracle API</a> — endpoints, fields, verification checklist</li>
 <li><a href="../trade/trade.html">Trade</a> — exchange UI</li>
 <li><a href="../trade/api.html">Trade API</a> — Trade <code>/api/prices/usd</code></li>
 <li><a href="../trade/bridge.html">Bridge</a> — wraps including PDC→PDCX</li>
 <li>Publisher repo: <a href="https://github.com/PrivacyDataCoin-Project/oracle">PrivacyDataCoin-Project/oracle</a></li>
 </ul>
-        <nav class="pager"><a href="../trade/companion.html">← PDC Companion</a><a href="../oracle/api.html">Oracle API →</a></nav>
+        <nav class="pager"><a href="../trade/companion.html">← PDC Companion</a><a href="../oracle/paid-attestation.html">Paid attestation →</a></nav>
         <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>
@@ -203,6 +261,7 @@
       <h2>On this page</h2>
       <div class="toc">
 <ul>
+<li><a href="#two-products">Two products</a></li>
 <li><a href="#what-it-is-for">What it is for</a></li>
 <li><a href="#quick-start-users">Quick start (users)</a></li>
 <li><a href="#price-book-what-you-see">Price book (what you see)</a><ul>
@@ -212,7 +271,7 @@
 <li><a href="#how-trade-uses-oracle">How Trade uses Oracle</a></li>
 <li><a href="#pdcx-fee-asset-for-oracle-attestation">PDCx — fee asset for oracle attestation</a><ul>
 <li><a href="#user-steps-get-pdcx">User steps (get PDCX)</a></li>
-<li><a href="#sidechain-tip-attestation-optional">Sidechain tip attestation (optional)</a></li>
+<li><a href="#sidechain-tip-attestation-paid-live">Sidechain tip attestation (paid, live)</a></li>
 </ul>
 </li>
 <li><a href="#safety">Safety</a></li>

@@ -30,7 +30,7 @@ Public references used in the manual:
 - Learn: what PDC is, how a transfer works, FAQ
 - Use: install the current release, wallets, security, troubleshooting
 - Trade: exchange, Bridge (BTCX / ARQX / PDCX), Trade API, PDC Companion (`content/trade/`)
-- Oracle: signed USD feed and API (`content/oracle/`)
+- Oracle: signed USD feed, paid attestation, and API (`content/oracle/`)
 - Build: compile the tree, node RPC, assets, aliases, escrow and swaps
 - Mine: RandomARQ and stratum port 19777
 - Stake: online staking and the Zarcanum rules
