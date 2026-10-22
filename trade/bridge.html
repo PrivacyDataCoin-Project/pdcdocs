@@ -21,7 +21,7 @@
       <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
       <span><strong>PDC</strong><small>Documentation</small></span>
     </a>
-    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
@@ -150,12 +150,12 @@ Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L
 <p>Pool / liability fields on ARQX status (<code>poolAtomic</code>, <code>liabilityAtomic</code>, <code>reservesOk</code>) are the peg check for this wrap. Public history: <code>GET /api/bridge/arqx/history</code>.</p>
 <p>After minting ARQX, trade it on <a href="trade.html">Trade</a> against <strong>BTCX</strong> (<code>ARQX-BTCX</code>).</p>
 <h2 id="pdc-pdcx-oracle-fee-ca">PDC → PDCX (oracle fee CA)</h2>
-<p><strong>PDCX</strong> (on-chain ticker <strong>PDCx</strong>) is a 1:1 wrap of native PDC used as the Oracle attestation fee asset. It is <strong>same-L1</strong> (not Bitcoin / Arqma).</p>
+<p><strong>PDCX</strong> (on-chain ticker <strong>PDCx</strong>) is a 1:1 wrap of native PDC used as the Oracle attestation fee asset. It is <strong>same-L1</strong> (not Bitcoin / Arqma). Mainnet status (2026-10-22): <strong><code>mode=live</code></strong> with auto mint on confirmed deposit and burn→PDC payout (<code>emitBurnEnabled=true</code>).</p>
 <ol>
 <li>Open Bridge → <strong>PDC→PDCX</strong> (status: <code>GET /api/bridge/pdcx/status</code>).</li>
 <li>Create a deposit and send <strong>native PDC</strong> to the custody address in the UI.</li>
-<li>Wait for confirmations (<code>minConfirmations</code> on status — currently <strong>10</strong>). PDCX is minted 1:1 in human units.</li>
-<li>Unwrap: burn PDCX on Bridge → receive native PDC.</li>
+<li>Wait for confirmations (<code>minConfirmations</code> on status — currently <strong>10</strong>). PDCX is minted 1:1 in human units via remote mint-signer.</li>
+<li>Unwrap: burn PDCX on Bridge → attach burn tx → receive native PDC after verify.</li>
 </ol>
 <p>Asset id: <code>5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd</code>. Why it exists: <a href="../oracle/oracle.html#pdcx--fee-asset-for-oracle-attestation">Oracle</a>.</p>
 <h2 id="safety">Safety</h2>
@@ -175,7 +175,7 @@ Withdraw: burn wrap CA on PDC →  verify burn on-chain     →  pay native on L
 <li><a href="../build/assets.html">Confidential assets</a> — how tokens work on PDC</li>
 </ul>
         <nav class="pager"><a href="../trade/trade.html">← Trade</a><a href="../trade/api.html">Trade API →</a></nav>
-        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>
     <aside class="toc">

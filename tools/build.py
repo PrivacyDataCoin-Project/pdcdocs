@@ -147,7 +147,7 @@ def page(slug: str, title: str, section: str, body_html: str, toc_html: str):
       <img class="brand-mark" src="{prefix}graphics/pdc-mark.png" width="42" height="42" alt="">
       <span><strong>PDC</strong><small>Documentation</small></span>
     </a>
-    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     {render_nav(slug, prefix)}
   </aside>
@@ -158,7 +158,7 @@ def page(slug: str, title: str, section: str, body_html: str, toc_html: str):
         <h1>{title}</h1>
         {body_html}
         {pager}
-        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>
     <aside class="toc">

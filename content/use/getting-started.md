@@ -2,24 +2,24 @@
 title: Getting started
 ---
 
-Use release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>, published <span data-doc-date>10 October 2026</span>. That number is the latest release of [PrivacyDataCoin-Project/PDC](https://github.com/PrivacyDataCoin-Project/PDC). Stay on the current release for both the wallet and the node.
+Use release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>, published <span data-doc-date>19 October 2026</span>. That number is the latest release of [PrivacyDataCoin-Project/PDC](https://github.com/PrivacyDataCoin-Project/PDC). Stay on the current release for both the wallet and the node.
 
 <div data-release-files>
 <table>
 <thead><tr><th>File</th><th>Role</th><th>Size</th></tr></thead>
 <tbody>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-linux-x64-gui-2.4.2.9-337176a.AppImage">pdc-linux-x64-gui-2.4.2.9-337176a.AppImage</a></td><td>Linux desktop wallet</td><td>166 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-linux-arm64-gui-2.4.2.9-337176a.AppImage">pdc-linux-arm64-gui-2.4.2.9-337176a.AppImage</a></td><td>Linux desktop wallet</td><td>175 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-windows-x64-gui-2.4.2.9-337176a-installer.exe">pdc-windows-x64-gui-2.4.2.9-337176a-installer.exe</a></td><td>Windows installer</td><td>194 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-windows-x64-gui-2.4.2.9-337176a.zip">pdc-windows-x64-gui-2.4.2.9-337176a.zip</a></td><td>Windows desktop wallet archive</td><td>281 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-macos-arm64-gui-v2.4.2.9.337176a.dmg">pdc-macos-arm64-gui-v2.4.2.9.337176a.dmg</a></td><td>macOS desktop wallet</td><td>271 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-macos-x64-gui-v2.4.2.9.337176a.dmg">pdc-macos-x64-gui-v2.4.2.9.337176a.dmg</a></td><td>macOS desktop wallet</td><td>244 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-linux-x64-cli-2.4.2.9-337176a.tar.bz2">pdc-linux-x64-cli-2.4.2.9-337176a.tar.bz2</a></td><td>Linux daemon and simplewallet</td><td>15.4 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-linux-arm64-cli-2.4.2.9-337176a.tar.bz2">pdc-linux-arm64-cli-2.4.2.9-337176a.tar.bz2</a></td><td>Linux daemon and simplewallet</td><td>15.7 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-windows-x64-cli-2.4.2.9-337176a.zip">pdc-windows-x64-cli-2.4.2.9-337176a.zip</a></td><td>Windows daemon and simplewallet</td><td>108 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-macos-arm64-cli-v2.4.2.9.337176a.tar.bz2">pdc-macos-arm64-cli-v2.4.2.9.337176a.tar.bz2</a></td><td>macOS daemon and simplewallet</td><td>12.7 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-macos-x64-cli-v2.4.2.9.337176a.tar.bz2">pdc-macos-x64-cli-v2.4.2.9.337176a.tar.bz2</a></td><td>macOS daemon and simplewallet</td><td>12.9 MB</td></tr>
-<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v2.4.2/pdc-macos-universal-cli-v2.4.2.9.337176a.tar.bz2">pdc-macos-universal-cli-v2.4.2.9.337176a.tar.bz2</a></td><td>macOS daemon and simplewallet</td><td>25.6 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-linux-x64-gui-3.0.0.11-aa3985a.AppImage">pdc-linux-x64-gui-3.0.0.11-aa3985a.AppImage</a></td><td>Linux desktop wallet</td><td>166 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-linux-arm64-gui-3.0.0.11-aa3985a.AppImage">pdc-linux-arm64-gui-3.0.0.11-aa3985a.AppImage</a></td><td>Linux desktop wallet</td><td>175 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-windows-x64-gui-3.0.0.11-aa3985a-installer.exe">pdc-windows-x64-gui-3.0.0.11-aa3985a-installer.exe</a></td><td>Windows installer</td><td>194 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-windows-x64-gui-3.0.0.11-aa3985a.zip">pdc-windows-x64-gui-3.0.0.11-aa3985a.zip</a></td><td>Windows desktop wallet archive</td><td>281 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-macos-arm64-gui-v3.0.0.11.aa3985a.dmg">pdc-macos-arm64-gui-v3.0.0.11.aa3985a.dmg</a></td><td>macOS desktop wallet</td><td>271 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-macos-x64-gui-v3.0.0.11.aa3985a.dmg">pdc-macos-x64-gui-v3.0.0.11.aa3985a.dmg</a></td><td>macOS desktop wallet</td><td>244 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-linux-x64-cli-3.0.0.11-aa3985a.tar.bz2">pdc-linux-x64-cli-3.0.0.11-aa3985a.tar.bz2</a></td><td>Linux daemon and simplewallet</td><td>15.4 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-linux-arm64-cli-3.0.0.11-aa3985a.tar.bz2">pdc-linux-arm64-cli-3.0.0.11-aa3985a.tar.bz2</a></td><td>Linux daemon and simplewallet</td><td>15.7 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-windows-x64-cli-3.0.0.11-aa3985a.zip">pdc-windows-x64-cli-3.0.0.11-aa3985a.zip</a></td><td>Windows daemon and simplewallet</td><td>108 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-macos-arm64-cli-v3.0.0.11.aa3985a.tar.bz2">pdc-macos-arm64-cli-v3.0.0.11.aa3985a.tar.bz2</a></td><td>macOS daemon and simplewallet</td><td>12.7 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-macos-x64-cli-v3.0.0.11.aa3985a.tar.bz2">pdc-macos-x64-cli-v3.0.0.11.aa3985a.tar.bz2</a></td><td>macOS daemon and simplewallet</td><td>12.9 MB</td></tr>
+<tr><td><a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/download/v3.0.0/pdc-macos-universal-cli-v3.0.0.11.aa3985a.tar.bz2">pdc-macos-universal-cli-v3.0.0.11.aa3985a.tar.bz2</a></td><td>macOS daemon and simplewallet</td><td>25.6 MB</td></tr>
 </tbody>
 </table>
 </div>

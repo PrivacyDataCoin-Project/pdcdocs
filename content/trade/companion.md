@@ -10,7 +10,7 @@ The published version signal is [trade.privacydatacoin.com/companion/latest.json
 
 | Piece | Role |
 | --- | --- |
-| Desktop wallet `Pdc` (release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.3</span></a>, build **2.4.3.10+** recommended) **or** `simplewallet` with RPC | Holds keys and signs |
+| Desktop wallet `Pdc` (release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>, build **3.0.0.11+** recommended) **or** `simplewallet` with RPC | Holds keys and signs |
 | Chrome, Edge, Brave, or Firefox | Hosts the extension |
 | Companion zip from Trade | Install as unpacked / temporary add-on |
 | Synced node | Wallet must see the chain |
@@ -108,7 +108,7 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 | --- | --- |
 | Trade: Companion not detected | Extension enabled; reload the Trade tab; confirm `window.pdcExtension` after install |
 | Popup: unreachable / HTTP 401 | Wrong port or credentials; Qt needs Secret on **19211**; simplewallet uses **19212** + `--rpc-login` |
-| Connect works, login fails | Wallet unlocked; build **2.4.3.10+** for JWT/`verify_message`; daemon synced |
+| Connect works, login fails | Wallet unlocked; build **3.0.0.11+** for JWT/`verify_message`; daemon synced |
 | Take / swap stuck on wrong address | Active wallet in Companion popup matches the wallet you intend; reconnect on Trade after switch |
 | Accept swap fails after update | Reload Companion on `chrome://extensions`; update from Trade if the banner offers Replace |
 | Firefox add-on gone | Temporary add-ons reset on quit — load `manifest.json` again |

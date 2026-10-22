@@ -21,7 +21,7 @@
       <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
       <span><strong>PDC</strong><small>Documentation</small></span>
     </a>
-    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
@@ -135,7 +135,7 @@
 </ol>
 <p>If Oracle verification fails and legacy fallback is off, Trade should fail closed (e.g. <strong>503</strong>), not invent zeros.</p>
 <h2 id="pdcx-fee-asset-for-oracle-attestation">PDCx — fee asset for oracle attestation</h2>
-<p>Some Oracle / sidechain attestation flows charge fees in <strong>PDCX</strong> (on-chain ticker <strong>PDCx</strong>), a confidential asset on PDC.</p>
+<p>Some Oracle / sidechain attestation flows charge fees in <strong>PDCX</strong> (on-chain ticker <strong>PDCx</strong>), a confidential asset on PDC. This is a <strong>same-L1</strong> wrap of native PDC (not Bitcoin / Arqma).</p>
 <table>
 <thead>
 <tr>
@@ -146,7 +146,7 @@
 <tbody>
 <tr>
 <td>Wrap</td>
-<td>Native <strong>PDC → PDCX</strong> 1:1 on Trade Bridge (<code>/bridge</code>, tab PDC→PDCX)</td>
+<td>Native <strong>PDC ↔ PDCX</strong> 1:1 on Trade Bridge (<code>/bridge</code>, tab PDC→PDCX)</td>
 </tr>
 <tr>
 <td>Asset id (mainnet)</td>
@@ -158,19 +158,26 @@
 </tr>
 <tr>
 <td>Status</td>
-<td><code>GET /api/bridge/pdcx/status</code> on the Trade API</td>
+<td><code>GET https://api.trade.privacydatacoin.com/api/bridge/pdcx/status</code></td>
+</tr>
+<tr>
+<td>Mainnet (2026-10-22)</td>
+<td><code>mode=live</code>, <code>emitBurnEnabled=true</code>, mint and burn E2E verified</td>
 </tr>
 </tbody>
 </table>
+<p><code>feeRecipient</code> for EVM attestation token fees is the <strong>treasury / @dev</strong> pool wallet — not the wrap mint/custody address. See the publisher repo docs under <code>oracle-sidechain-evm</code>.</p>
 <h3 id="user-steps-get-pdcx">User steps (get PDCX)</h3>
 <ol>
-<li>Install <a href="../trade/companion.html">PDC Companion</a> and unlock your wallet.</li>
+<li>Install <a href="../trade/companion.html">PDC Companion</a> and unlock your wallet (desktop <code>Pdc</code> from the <a href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest">current release</a>).</li>
 <li>Open <a href="https://trade.privacydatacoin.com/bridge">Bridge</a> → <strong>PDC→PDCX</strong>.</li>
-<li>Create a deposit invoice and send <strong>native PDC</strong> to the custody address shown (follow the UI; confirmations from status, currently <strong>10</strong>).</li>
+<li>Create a deposit invoice and send <strong>native PDC</strong> to the custody address shown (confirmations from status — currently <strong>10</strong>).</li>
 <li>When mint completes, PDCX appears in the wallet (whitelist / Companion balances).</li>
-<li>To unwrap, burn PDCX on Bridge and receive native PDC back.</li>
+<li>To unwrap: burn PDCX on Bridge → attach the burn tx → receive native PDC (worker pays after on-chain verify).</li>
 </ol>
-<p>Live status must show <code>depositEnabled</code> / <code>withdrawEnabled</code> before you send funds. Details: <a href="../trade/bridge.html">Bridge</a>.</p>
+<p>Confirm <code>depositEnabled</code> / <code>withdrawEnabled</code> on status before sending funds. Details: <a href="../trade/bridge.html">Bridge</a>.</p>
+<h3 id="sidechain-tip-attestation-optional">Sidechain tip attestation (optional)</h3>
+<p>When enabled, Oracle also exposes disclosable CA tip attestation over HTTP (<code>GET /api/sidechain/attestation</code>) and related EVM reports. That path is <strong>additive</strong> — it does not replace the signed USD book. Fee payment for those flows uses <strong>PDCX</strong> (see above). Endpoints: <a href="api.html">Oracle API</a>.</p>
 <h2 id="safety">Safety</h2>
 <ul>
 <li>Pin the Oracle <strong>public key</strong> in any production consumer. Do not rotate trust to whatever <code>publicKey</code> field appears in a random response without an out-of-band pin.</li>
@@ -189,7 +196,7 @@
 <li>Publisher repo: <a href="https://github.com/PrivacyDataCoin-Project/oracle">PrivacyDataCoin-Project/oracle</a></li>
 </ul>
         <nav class="pager"><a href="../trade/companion.html">← PDC Companion</a><a href="../oracle/api.html">Oracle API →</a></nav>
-        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>
     <aside class="toc">
@@ -205,6 +212,7 @@
 <li><a href="#how-trade-uses-oracle">How Trade uses Oracle</a></li>
 <li><a href="#pdcx-fee-asset-for-oracle-attestation">PDCx — fee asset for oracle attestation</a><ul>
 <li><a href="#user-steps-get-pdcx">User steps (get PDCX)</a></li>
+<li><a href="#sidechain-tip-attestation-optional">Sidechain tip attestation (optional)</a></li>
 </ul>
 </li>
 <li><a href="#safety">Safety</a></li>

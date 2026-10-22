@@ -92,9 +92,12 @@ Rollback: disable `ORACLE_FEED_ENABLED` and restart Trade.
 | --- | --- |
 | `/api/prices/streams` | Quorum + per-venue observations (schema v2) |
 | `/api/prices/evm` | Optional secp256k1 Aggregator-style report for EVM tip contracts |
-| `/api/sidechain/*` | CA tip attestation / EVM bridge of disclosable tips — does not replace Trade USD |
+| `/api/sidechain/attestation` | Disclosable CA tip attestation (when enabled; may require Bearer) |
+| `/api/sidechain/evm` | Sidechain→EVM tip report (when enabled) |
 
 These must not replace schema v1 verification for Trade USD labels.
+
+Attestation fee asset on PDC is **PDCX** (wrap via Trade Bridge). EVM `feeRecipient` must be the treasury / @dev wallet, not the wrap mint custody address. User wrap flow: [Oracle](oracle.md#pdcx--fee-asset-for-oracle-attestation).
 
 ## Related
 

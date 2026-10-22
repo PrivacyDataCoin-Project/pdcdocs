@@ -21,7 +21,7 @@
       <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
       <span><strong>PDC</strong><small>Documentation</small></span>
     </a>
-    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/wallets.html">Wallets</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
@@ -222,12 +222,17 @@
 <td>Optional secp256k1 Aggregator-style report for EVM tip contracts</td>
 </tr>
 <tr>
-<td><code>/api/sidechain/*</code></td>
-<td>CA tip attestation / EVM bridge of disclosable tips — does not replace Trade USD</td>
+<td><code>/api/sidechain/attestation</code></td>
+<td>Disclosable CA tip attestation (when enabled; may require Bearer)</td>
+</tr>
+<tr>
+<td><code>/api/sidechain/evm</code></td>
+<td>Sidechain→EVM tip report (when enabled)</td>
 </tr>
 </tbody>
 </table>
 <p>These must not replace schema v1 verification for Trade USD labels.</p>
+<p>Attestation fee asset on PDC is <strong>PDCX</strong> (wrap via Trade Bridge). EVM <code>feeRecipient</code> must be the treasury / @dev wallet, not the wrap mint custody address. User wrap flow: <a href="oracle.html#pdcx--fee-asset-for-oracle-attestation">Oracle</a>.</p>
 <h2 id="related">Related</h2>
 <ul>
 <li><a href="oracle.html">Oracle</a> — user guide, status, PDCx fees</li>
@@ -236,7 +241,7 @@
 <li>Architecture / threat model: <a href="https://github.com/PrivacyDataCoin-Project/oracle/tree/main/docs">oracle repo docs</a></li>
 </ul>
         <nav class="pager"><a href="../oracle/oracle.html">← Oracle</a><a href="../build/from-source.html">Build from source →</a></nav>
-        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v2.4.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>
     <aside class="toc">

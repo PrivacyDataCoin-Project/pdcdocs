@@ -32,7 +32,7 @@ The tree you want is branch `master` of [PrivacyDataCoin-Project/pdc](https://gi
 
 | Piece | Where it is published |
 | --- | --- |
-| Desktop wallet and node binaries | [PrivacyDataCoin-Project/pdc releases](https://github.com/PrivacyDataCoin-Project/pdc/releases/latest), currently <span data-doc-version>v2.4.2</span> |
+| Desktop wallet and node binaries | [PrivacyDataCoin-Project/pdc releases](https://github.com/PrivacyDataCoin-Project/pdc/releases/latest), currently <span data-doc-version>v3.0.0</span> |
 | Project site | [privacydatacoin.com](https://privacydatacoin.com/) |
 | Block explorer | [explorer.privacydatacoin.com](https://explorer.privacydatacoin.com/) |
 | Asset whitelist | [api.privacydatacoin.com/assets_whitelist.json](https://api.privacydatacoin.com/assets_whitelist.json) |

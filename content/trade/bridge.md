@@ -95,12 +95,12 @@ After minting ARQX, trade it on [Trade](trade.md) against **BTCX** (`ARQX-BTCX`)
 
 ## PDC → PDCX (oracle fee CA)
 
-**PDCX** (on-chain ticker **PDCx**) is a 1:1 wrap of native PDC used as the Oracle attestation fee asset. It is **same-L1** (not Bitcoin / Arqma).
+**PDCX** (on-chain ticker **PDCx**) is a 1:1 wrap of native PDC used as the Oracle attestation fee asset. It is **same-L1** (not Bitcoin / Arqma). Mainnet status (2026-10-22): **`mode=live`** with auto mint on confirmed deposit and burn→PDC payout (`emitBurnEnabled=true`).
 
 1. Open Bridge → **PDC→PDCX** (status: `GET /api/bridge/pdcx/status`).
 2. Create a deposit and send **native PDC** to the custody address in the UI.
-3. Wait for confirmations (`minConfirmations` on status — currently **10**). PDCX is minted 1:1 in human units.
-4. Unwrap: burn PDCX on Bridge → receive native PDC.
+3. Wait for confirmations (`minConfirmations` on status — currently **10**). PDCX is minted 1:1 in human units via remote mint-signer.
+4. Unwrap: burn PDCX on Bridge → attach burn tx → receive native PDC after verify.
 
 Asset id: `5292b7984565b21d47e456c381973b700738b9819f9e96b841f68cfa116774bd`. Why it exists: [Oracle](../oracle/oracle.md#pdcx--fee-asset-for-oracle-attestation).
 

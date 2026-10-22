@@ -4,7 +4,7 @@ title: Wallets
 
 Two wallets ship with the project. For [trade.privacydatacoin.com](https://trade.privacydatacoin.com/), also install the [PDC Companion](../trade/companion.md) browser extension so the site can talk to a local wallet without ever seeing your seed.
 
-The desktop program is the `Pdc` executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v2.4.3</span></a>. That GUI build uses Qt 6. It runs a node and a wallet together, which is what staking needs: the wallet has to be online and synced. Settings → **Pdc Companion** turns on the JWT wallet RPC on port 19211 for the extension.
+The desktop program is the `Pdc` executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v3.0.0</span></a>. That GUI build uses Qt 6. It runs a node and a wallet together, which is what staking needs: the wallet has to be online and synced. Settings → **Pdc Companion** turns on the JWT wallet RPC on port 19211 for the extension.
 
 `simplewallet` is the command-line wallet. It talks to a `daemon` over RPC. Use it on a server, in scripts, and when you want the command list in front of you. Companion can also relay to `simplewallet` RPC on port 19212.
 
