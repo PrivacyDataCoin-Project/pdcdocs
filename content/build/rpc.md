@@ -107,3 +107,13 @@ These are separate from `/json_rpc`. A wallet still uses several of the binary o
 The `.bin` routes are the wallet's sync protocol. Integrate with the JSON methods unless you are writing a wallet and are prepared to match the binary layout in `core_rpc_server_commands_defs.h`.
 
 Field-level schemas live in that header as `KV_SERIALIZE` entries. This page names the surface so you can find the struct. It does not duplicate every field.
+
+## Public remote node (allowlist)
+
+Mainnet host `169.58.142.131:19211` is a **filtered** public endpoint for iOS / remote wallets (sync + `sendrawtransaction`). Full RPC (including mining) stays on **localhost** for the pool and operators.
+
+- HTTP allow: `getinfo`, `getheight`, `gettransactions`, `sendrawtransaction`, selected `.bin` sync routes
+- HTTP deny: `start_mining`, `stop_mining`, …
+- `/json_rpc`: method allowlist via `pdcd-json-rpc-filter` (mining methods → 403)
+
+There is **no public EVM L2** RPC. Oracle attestation may use a private Clique geth on localhost only. Policy and ops files: [PDC `docs/PDCD_PUBLIC_RPC_POLICY.md`](https://github.com/PrivacyDataCoin-Project/PDC/blob/dev/docs/PDCD_PUBLIC_RPC_POLICY.md) and `ops/pdcd-public-rpc/`.

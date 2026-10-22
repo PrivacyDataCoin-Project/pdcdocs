@@ -372,6 +372,14 @@
 </table>
 <p>The <code>.bin</code> routes are the wallet's sync protocol. Integrate with the JSON methods unless you are writing a wallet and are prepared to match the binary layout in <code>core_rpc_server_commands_defs.h</code>.</p>
 <p>Field-level schemas live in that header as <code>KV_SERIALIZE</code> entries. This page names the surface so you can find the struct. It does not duplicate every field.</p>
+<h2 id="public-remote-node-allowlist">Public remote node (allowlist)</h2>
+<p>Mainnet host <code>169.58.142.131:19211</code> is a <strong>filtered</strong> public endpoint for iOS / remote wallets (sync + <code>sendrawtransaction</code>). Full RPC (including mining) stays on <strong>localhost</strong> for the pool and operators.</p>
+<ul>
+<li>HTTP allow: <code>getinfo</code>, <code>getheight</code>, <code>gettransactions</code>, <code>sendrawtransaction</code>, selected <code>.bin</code> sync routes</li>
+<li>HTTP deny: <code>start_mining</code>, <code>stop_mining</code>, …</li>
+<li><code>/json_rpc</code>: method allowlist via <code>pdcd-json-rpc-filter</code> (mining methods → 403)</li>
+</ul>
+<p>There is <strong>no public EVM L2</strong> RPC. Oracle attestation may use a private Clique geth on localhost only. Policy and ops files: <a href="https://github.com/PrivacyDataCoin-Project/PDC/blob/dev/docs/PDCD_PUBLIC_RPC_POLICY.html">PDC <code>docs/PDCD_PUBLIC_RPC_POLICY.md</code></a> and <code>ops/pdcd-public-rpc/</code>.</p>
         <nav class="pager"><a href="../build/from-source.html">← Build from source</a><a href="../build/assets.html">Confidential assets →</a></nav>
         <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
@@ -382,6 +390,7 @@
 <ul>
 <li><a href="#json-rpc-methods">JSON-RPC methods</a></li>
 <li><a href="#legacy-http-paths">Legacy HTTP paths</a></li>
+<li><a href="#public-remote-node-allowlist">Public remote node (allowlist)</a></li>
 </ul>
 </div>
 
