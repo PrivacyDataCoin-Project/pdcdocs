@@ -48,6 +48,8 @@ Companion talks only to a wallet RPC on localhost. Pick one path.
 5. Paste the Secret into the JWT secret field. Companion sends it as `Pdc-Access-Token` (HS256 over body hash). Port **19211** requires this secret.
 6. Use **Test connection**. The popup should show your `Px` address and unlocked balances (PDC and whitelisted assets such as BTCX).
 
+While the Qt wallet stays unlocked with Companion **ON**, the extension keeps the stored secret and probes RPC about once a minute (access tokens are minted per request, `exp` ~30 minutes). The secret is cleared only after wallet RPC has been unreachable for about **60 minutes** (Companion OFF or wallet closed), or when you clear it in Options.
+
 With several wallets open in the GUI, Companion’s **Active wallet** dropdown (and the GUI sidebar) select which wallet dApps use. Switching the wallet publishes `accountsChanged` so Trade picks up the new address.
 
 ### Path B — simplewallet RPC
@@ -71,6 +73,16 @@ In Companion Settings use preset **simplewallet · 19212** and the same RPC logi
 4. Trade asks for a challenge, Companion signs it (`sign_message`), and the Trade API verifies with wallet RPC `verify_message`. A session JWT (default **24 h**) is stored for orders, bridge deposit/withdraw, and other authenticated calls.
 
 Public market and bridge **read** endpoints do not need Companion. Creating deposits, withdrawals, and orders does.
+
+## Matrix claim (Messenger web)
+
+[matrix.privacydatacoin.com](https://matrix.privacydatacoin.com) uses the same `window.pdcExtension.signMessage` bridge — no Trade DevTools console:
+
+1. Unlock Qt wallet + Companion (RPC e.g. **19211**).
+2. Companion **0.1.17+** pre-approves `matrix.privacydatacoin.com` and `messenger.privacydatacoin.com`.
+3. Claim → alias → **Request challenge** → **Sign with Companion** → set Matrix password → submit.
+
+Older Companion: add those origins under Options → Approved dApps, then reload the Messenger tab.
 
 ## What Companion does on Trade
 
@@ -97,7 +109,7 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 ## Security notes
 
 - Never paste a seed phrase into Trade or into a website. Companion does not ask for the seed.
-- Keep the Qt Companion **Secret** private. Anyone with the secret and access to `127.0.0.1:19211` can call wallet RPC as that wallet.
+- Keep the Qt Companion **Secret** private. Anyone with the secret and access to `127.0.0.1:19211` can call wallet RPC as that wallet. RPC still requires Companion **ON** in the unlocked wallet; the extension does not force-rotate the secret on a short timer while the wallet is up.
 - Bind wallet RPC to `127.0.0.1` only. Do not expose 19211/19212 to the internet.
 - Verify the site origin is `https://trade.privacydatacoin.com` before approving connection prompts for other dApps.
 - Unapproved origins receive error `-32010` on privileged methods.
@@ -107,6 +119,7 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 | Symptom | What to check |
 | --- | --- |
 | Trade: Companion not detected | Extension enabled; reload the Trade tab; confirm `window.pdcExtension` after install |
+| Matrix claim: Companion not detected / `-32010` | Reload Messenger; update Companion to **0.1.17+** or approve Matrix origins in Options |
 | Popup: unreachable / HTTP 401 | Wrong port or credentials; Qt needs Secret on **19211**; simplewallet uses **19212** + `--rpc-login` |
 | Connect works, login fails | Wallet unlocked; build **3.0.0.11+** for JWT/`verify_message`; daemon synced |
 | Take / swap stuck on wrong address | Active wallet in Companion popup matches the wallet you intend; reconnect on Trade after switch |
