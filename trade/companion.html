@@ -82,7 +82,7 @@
 <li>Open <code>about:debugging#/runtime/this-firefox</code> → <strong>Load Temporary Add-on…</strong> → select <code>manifest.json</code> inside the unzipped folder.</li>
 <li>Temporary add-ons unload when Firefox restarts — reload them after a restart until a signed AMO build is listed.</li>
 </ol>
-<p>Trade auto-approves origin <code>https://trade.privacydatacoin.com</code> in Companion’s Approved dApps list on install and update. Other origins need an explicit approve in Companion Settings before balance, transfer, or swap methods work.</p>
+<p>Trade and Matrix Messenger origins (<code>https://trade.privacydatacoin.com</code>, <code>https://matrix.privacydatacoin.com</code>, <code>https://messenger.privacydatacoin.com</code>) are pre-approved in Companion’s Approved dApps list on install and update (0.1.17+). Other origins need an explicit approve in Companion Settings before balance, transfer, swap, or <code>sign_message</code> methods work.</p>
 <h2 id="point-companion-at-your-wallet">Point Companion at your wallet</h2>
 <p>Companion talks only to a wallet RPC on localhost. Pick one path.</p>
 <h3 id="path-a-qt-desktop-wallet-recommended-for-trade">Path A — Qt desktop wallet (recommended for Trade)</h3>
@@ -111,6 +111,14 @@
 <li>Trade asks for a challenge, Companion signs it (<code>sign_message</code>), and the Trade API verifies with wallet RPC <code>verify_message</code>. A session JWT (default <strong>24 h</strong>) is stored for orders, bridge deposit/withdraw, and other authenticated calls.</li>
 </ol>
 <p>Public market and bridge <strong>read</strong> endpoints do not need Companion. Creating deposits, withdrawals, and orders does.</p>
+<h2 id="matrix-claim-messenger-web">Matrix claim (Messenger web)</h2>
+<p><a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a> uses the same <code>window.pdcExtension.signMessage</code> bridge — no Trade DevTools console:</p>
+<ol>
+<li>Unlock Qt wallet + Companion (RPC e.g. <strong>19211</strong>).</li>
+<li>Companion <strong>0.1.17+</strong> pre-approves <code>matrix.privacydatacoin.com</code> and <code>messenger.privacydatacoin.com</code>.</li>
+<li>Claim → alias → <strong>Request challenge</strong> → <strong>Sign with Companion</strong> → set Matrix password → submit.</li>
+</ol>
+<p>Older Companion: add those origins under Options → Approved dApps, then reload the Messenger tab.</p>
 <h2 id="what-companion-does-on-trade">What Companion does on Trade</h2>
 <table>
 <thead>
@@ -171,6 +179,10 @@
 <tr>
 <td>Trade: Companion not detected</td>
 <td>Extension enabled; reload the Trade tab; confirm <code>window.pdcExtension</code> after install</td>
+</tr>
+<tr>
+<td>Matrix claim: Companion not detected / <code>-32010</code></td>
+<td>Reload Messenger; update Companion to <strong>0.1.17+</strong> or approve Matrix origins in Options</td>
 </tr>
 <tr>
 <td>Popup: unreachable / HTTP 401</td>
