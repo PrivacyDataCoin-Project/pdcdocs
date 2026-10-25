@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Desktop and CLI · PDC Docs</title>
+  <meta name="description" content="Qt GUI, simplewallet, assets, and address types.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/wallets/desktop.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Wallets</h2><a href="../wallets/overview.html">Overview</a><a href="../wallets/desktop.html" aria-current="page">Desktop and CLI</a><a href="../wallets/ios.html">iOS wallet</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Wallets</p>
+        <h1>Desktop and CLI</h1>
+        <p>Two wallets ship in the <a href="https://github.com/PrivacyDataCoin-Project/PDC">PDC</a> release archives: the Qt GUI (<code>Pdc</code>) and the command-line wallet (<code>simplewallet</code>). For phones, see the <a href="ios.html">iOS wallet</a>. For a short comparison, see <a href="overview.html">Wallets overview</a>.</p>
+<p>For <a href="https://trade.privacydatacoin.com/">trade.privacydatacoin.com</a>, also install the <a href="../trade/companion.html">PDC Companion</a> browser extension so the site can talk to a local wallet without ever seeing your seed.</p>
+<h2 id="desktop-wallet-gui">Desktop wallet (GUI)</h2>
+<p>The desktop wallet is the <code>Pdc</code> executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>. Release builds use <strong>Qt 6.8</strong>. The app runs a local <code>pdcd</code> node and one or more wallets in the same process. That is what staking needs: the wallet has to stay online and synced.</p>
+<p>Download the GUI package for your platform from <a href="../use/getting-started.html">Getting started</a> (AppImage, Windows installer/zip, or macOS DMG). Prefer the current GitHub release over an older archive.</p>
+<h3 id="first-run">First run</h3>
+<ol>
+<li>Install or unpack the GUI package.</li>
+<li>Start <code>Pdc</code>. On first launch the app creates a data directory and starts the embedded node.</li>
+<li>Create a new wallet, or restore one from the 24-word phrase.</li>
+<li>Write the phrase down offline. The wallet cannot recover funds from the phrase if you never saved it.</li>
+<li>Wait until the sidebar shows the node online and the wallet height matches the chain.</li>
+</ol>
+<p>Default data directories:</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td><code>~/.PDC</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>~/Library/Application Support/PDC</code></td>
+</tr>
+<tr>
+<td>Windows (64-bit)</td>
+<td>Roaming application data folder named <code>PDC</code></td>
+</tr>
+</tbody>
+</table>
+<p>Override the location with <code>--data-dir</code> when you start the binary from a shell.</p>
+<h3 id="layout">Layout</h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sidebar</td>
+<td>Open wallets, sync status, portfolio value, update notices</td>
+</tr>
+<tr>
+<td>Assets</td>
+<td>Balances for native PDC and whitelisted confidential assets</td>
+</tr>
+<tr>
+<td>Send</td>
+<td>Build a transfer (address or alias, amount, asset, fee)</td>
+</tr>
+<tr>
+<td>Receive</td>
+<td>Show your <code>Px</code> address and QR</td>
+</tr>
+<tr>
+<td>History</td>
+<td>Confirmed transfers for the active wallet</td>
+</tr>
+<tr>
+<td>Staking</td>
+<td>Online staking controls (wallet must be unlocked and synced)</td>
+</tr>
+<tr>
+<td>Settings</td>
+<td>Themes, Companion JWT, wallet options</td>
+</tr>
+</tbody>
+</table>
+<p>You can keep several wallets open. The active wallet in the sidebar is the one Send, Receive, and Companion use.</p>
+<h3 id="assets-and-portfolio">Assets and portfolio</h3>
+<p>The Assets list shows balances for assets on the public whitelist (and any you added locally). Typical mainnet tickers include:</p>
+<table>
+<thead>
+<tr>
+<th>Ticker</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDC</td>
+<td>Native coin</td>
+</tr>
+<tr>
+<td>BTCX</td>
+<td>Wrapped Bitcoin (Bridge)</td>
+</tr>
+<tr>
+<td>ARQX</td>
+<td>Wrapped Arqma (Bridge)</td>
+</tr>
+<tr>
+<td>PDCX</td>
+<td>Wrapped / fee-token PDC (display name in GUI)</td>
+</tr>
+</tbody>
+</table>
+<p>The sidebar can show a USD portfolio mark. The GUI loads marks from the explorer <code>pdc_market</code> feed (Trade-backed prices with CORS allowed for the desktop WebEngine). Direct Trade <code>/api/prices/usd</code> is allow-listed and is not the path the GUI uses.</p>
+<p>Add a non-whitelisted asset only if you trust its asset id. Unknown assets can appear after you approve them locally; that does not make them part of the public whitelist.</p>
+<h3 id="sync-and-updates">Sync and updates</h3>
+<p>The sidebar reports daemon state: offline, syncing, online, or error. During sync it shows block progress. Wait until the wallet is online before staking or relying on balances for large sends.</p>
+<p>When maintainers publish a signed version notice on the P2P network, the sidebar can show an update button:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Update available</td>
+<td>Newer build exists</td>
+</tr>
+<tr>
+<td>Important update</td>
+<td>Upgrade soon</td>
+</tr>
+<tr>
+<td>Critical update</td>
+<td>Upgrade strongly recommended</td>
+</tr>
+</tbody>
+</table>
+<p>The button opens the downloads page. The notice carries a version and alert level only — not free-form text.</p>
+<h3 id="companion-trade">Companion (Trade)</h3>
+<p>Settings → <strong>Pdc Companion</strong> turns on the JWT wallet RPC (default port <strong>19211</strong>) for the browser extension. Copy the Secret into Companion, then use <a href="../trade/companion.html">PDC Companion</a> to connect Trade. The GUI never sends your seed to the site.</p>
+<h3 id="seed-and-keys-in-the-gui">Seed and keys in the GUI</h3>
+<p>Use the wallet details / seed screens in the app to view the 24-word phrase and keys after unlock. Treat them like the <code>simplewallet</code> commands below: anyone with the seed or spend key can spend the funds.</p>
+<h2 id="command-line-wallet-simplewallet">Command-line wallet (<code>simplewallet</code>)</h2>
+<p><code>simplewallet</code> talks to a <code>daemon</code> over RPC. Use it on a server, in scripts, and when you want the full command list. Companion can also relay to <code>simplewallet</code> RPC on port <strong>19212</strong>.</p>
+<p>Against a local daemon:</p>
+<pre><code class="language-text">./simplewallet --wallet-file=mywallet --daemon-address=127.0.0.1:19211
+</code></pre>
+<p><code>help</code> lists every command. The handlers live in <code>src/simplewallet/simplewallet.cpp</code>.</p>
+<h2 id="secrets">Secrets</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it prints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>show_seed</code></td>
+<td>The 24-word recovery phrase</td>
+</tr>
+<tr>
+<td><code>spendkey</code></td>
+<td>The secret spend key</td>
+</tr>
+<tr>
+<td><code>viewkey</code></td>
+<td>The secret view key</td>
+</tr>
+<tr>
+<td><code>tracking_seed</code></td>
+<td>For an auditable wallet, the seed a reviewer can use</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td>The public <code>Px</code> address</td>
+</tr>
+<tr>
+<td><code>integrated_address</code></td>
+<td>Encode or decode an <code>iP</code> address and a payment id</td>
+</tr>
+</tbody>
+</table>
+<p>Anyone with the seed or the spend key can spend the funds. Anyone with the view key can recognize incoming outputs. Treat all three as secrets. The tracking seed is a deliberate exception: you give it to an auditor and to nobody else.</p>
+<h2 id="everyday-commands">Everyday commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>refresh</code></td>
+<td>Pull new transfers and recompute the balance</td>
+</tr>
+<tr>
+<td><code>balance</code></td>
+<td>Show balances for whitelisted assets. <code>balance raw</code> also shows assets outside the whitelist</td>
+</tr>
+<tr>
+<td><code>transfer</code></td>
+<td>Send. The form is <code>transfer &lt;mixin_count&gt; [asset_id:]&lt;address&gt; &lt;amount&gt; ... [payment_id]</code></td>
+</tr>
+<tr>
+<td><code>incoming_transfers</code></td>
+<td>List incoming outputs, optionally <code>available</code> or <code>unavailable</code></td>
+</tr>
+<tr>
+<td><code>list_recent_transfers</code></td>
+<td>The latest transfers, up to 1,000, with offset and count</td>
+</tr>
+<tr>
+<td><code>payments</code></td>
+<td>Find transfers by payment id</td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td>Write the wallet file</td>
+</tr>
+<tr>
+<td><code>resync</code></td>
+<td>Forget cached transfers and scan again</td>
+</tr>
+<tr>
+<td><code>bc_height</code></td>
+<td>Node height</td>
+</tr>
+<tr>
+<td><code>wallet_bc_height</code></td>
+<td>Height the wallet has scanned</td>
+</tr>
+</tbody>
+</table>
+<p><code>transfer</code> still takes a mixin count. After hard fork 4 the protocol requires 15 decoys. Passing a smaller count does not make the transfer public. The node enforces the mandatory set.</p>
+<p>A payment id is an optional hex string. An integrated address carries one inside the <code>iP</code> string so the sender does not have to paste it separately.</p>
+<h2 id="watch-only-and-offline-signing">Watch-only and offline signing</h2>
+<p><code>save_watch_only &lt;filename&gt; &lt;password&gt;</code> writes a wallet that can see funds and prepare transactions. It cannot sign them.</p>
+<p>The signing flow is:</p>
+<ol>
+<li>The watch-only wallet prepares an unsigned transaction.</li>
+<li><code>sign_transfer &lt;unsigned_tx_file&gt; &lt;signed_tx_file&gt;</code> signs it on the machine that holds the spend key.</li>
+<li><code>submit_transfer &lt;signed_tx_file&gt;</code> broadcasts the signed transaction.</li>
+</ol>
+<h2 id="assets-from-the-command-line">Assets from the command line</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Who can run it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deploy_new_asset &lt;json&gt;</code></td>
+<td>Creates an asset. This wallet becomes the maintainer</td>
+</tr>
+<tr>
+<td><code>emit_asset &lt;asset_id&gt; &lt;amount&gt;</code></td>
+<td>Mints more units. Maintainer only</td>
+</tr>
+<tr>
+<td><code>burn_asset &lt;asset_id&gt; &lt;amount&gt;</code></td>
+<td>Burns units the maintainer holds</td>
+</tr>
+<tr>
+<td><code>update_asset &lt;asset_id&gt; &lt;metadata&gt;</code></td>
+<td>Updates the descriptor metadata</td>
+</tr>
+<tr>
+<td><code>transfer_asset_ownership &lt;asset_id&gt; &lt;new_owner_public_key&gt;</code></td>
+<td>Hands the maintainer role to another key</td>
+</tr>
+<tr>
+<td><code>add_custom_asset_id</code></td>
+<td>Show an asset even if it is not on the public whitelist</td>
+</tr>
+<tr>
+<td><code>remove_custom_asset_id</code></td>
+<td>Drop that local approval</td>
+</tr>
+</tbody>
+</table>
+<p>Deploying, minting, and burning are explicit chain operations. They are not hidden the way a later wallet transfer of that asset is hidden.</p>
+<h2 id="tor-relay">Tor relay</h2>
+<p><code>tor_enable</code> and <code>tor_disable</code> switch relaying of transactions over Tor. The wallet registers this relay as enabled by default. Disabling it changes the path your transaction takes to the network. It does not change what the chain stores.</p>
+<h2 id="files">Files</h2>
+<p>Wallet files use signature <code>WALLET_FILE_SIGNATURE_V2</code>. The serialization version in this tree is 168, and the oldest supported version is 165. Copy the wallet file and keep the seed. The file without the password is not a backup you can restore on an empty machine if you also lost the phrase and the password.</p>
+        <nav class="pager"><a href="../wallets/overview.html">← Overview</a><a href="../wallets/ios.html">iOS wallet →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#desktop-wallet-gui">Desktop wallet (GUI)</a><ul>
+<li><a href="#first-run">First run</a></li>
+<li><a href="#layout">Layout</a></li>
+<li><a href="#assets-and-portfolio">Assets and portfolio</a></li>
+<li><a href="#sync-and-updates">Sync and updates</a></li>
+<li><a href="#companion-trade">Companion (Trade)</a></li>
+<li><a href="#seed-and-keys-in-the-gui">Seed and keys in the GUI</a></li>
+</ul>
+</li>
+<li><a href="#command-line-wallet-simplewallet">Command-line wallet (simplewallet)</a></li>
+<li><a href="#secrets">Secrets</a></li>
+<li><a href="#everyday-commands">Everyday commands</a></li>
+<li><a href="#watch-only-and-offline-signing">Watch-only and offline signing</a></li>
+<li><a href="#assets-from-the-command-line">Assets from the command line</a></li>
+<li><a href="#tor-relay">Tor relay</a></li>
+<li><a href="#files">Files</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>

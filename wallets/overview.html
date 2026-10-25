@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wallets overview · PDC Docs</title>
+  <meta name="description" content="Desktop, CLI, and iOS — which wallet to use.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/wallets/overview.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Wallets</h2><a href="../wallets/overview.html" aria-current="page">Overview</a><a href="../wallets/desktop.html">Desktop and CLI</a><a href="../wallets/ios.html">iOS wallet</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Wallets</p>
+        <h1>Wallets overview</h1>
+        <p>Official wallets for Privacy Data Coin. Pick the one that matches how you run the network.</p>
+<table>
+<thead>
+<tr>
+<th>Wallet</th>
+<th>Platform</th>
+<th>Node</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="desktop.html">Desktop GUI (<code>Pdc</code>)</a></td>
+<td>Linux, Windows, macOS</td>
+<td>Embedded local <code>pdcd</code></td>
+<td>Everyday use, staking, <a href="../trade/trade.html">Trade</a> via <a href="../trade/companion.html">Companion</a></td>
+</tr>
+<tr>
+<td><a href="desktop.html#command-line-wallet-simplewallet">Command-line (<code>simplewallet</code>)</a></td>
+<td>Same release archives</td>
+<td>Remote or local daemon RPC</td>
+<td>Servers, scripts, offline signing</td>
+</tr>
+<tr>
+<td><a href="ios.html">iOS wallet</a></td>
+<td>iOS</td>
+<td>Remote PDC node only</td>
+<td>Phone: send, receive, history (no local full node)</td>
+</tr>
+</tbody>
+</table>
+<p>Install desktop and CLI binaries from <a href="../use/getting-started.html">Getting started</a>. The iOS app is published separately as <strong>PDC Wallet</strong> (<code>com.privacydatacoin.pdcwallet</code>).</p>
+<p>All of these are <strong>non-custodial</strong>: the seed and spend key stay on your device. The publisher never holds your funds. Write the 24-word phrase down offline before you rely on a balance.</p>
+<p>For Trade, Bridge, and Ionic Swap you need a desktop or <code>simplewallet</code> RPC session plus <a href="../trade/companion.html">PDC Companion</a>. The iOS wallet does not expose Companion RPC.</p>
+        <nav class="pager"><a href="../use/troubleshooting.html">← Troubleshooting</a><a href="../wallets/desktop.html">Desktop and CLI →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul></ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>

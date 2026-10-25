@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iOS wallet · PDC Docs</title>
+  <meta name="description" content="Official PDC Wallet on iOS — remote node, non-custodial.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/wallets/ios.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Wallets</h2><a href="../wallets/overview.html">Overview</a><a href="../wallets/desktop.html">Desktop and CLI</a><a href="../wallets/ios.html" aria-current="page">iOS wallet</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Wallets</p>
+        <h1>iOS wallet</h1>
+        <p><strong>PDC Wallet</strong> is the official non-custodial wallet for Privacy Data Coin on iOS. It is published by PrivacyDataCoin Project for <strong>one chain and one asset: PDC</strong>. Keys and the seed stay on the device. The app talks to a <strong>remote PDC node</strong> over RPC; it does not run a full node on the phone and does not stake.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>App name</td>
+<td>PDC Wallet</td>
+</tr>
+<tr>
+<td>Bundle ID</td>
+<td><code>com.privacydatacoin.pdcwallet</code></td>
+</tr>
+<tr>
+<td>Current app version</td>
+<td><strong>3.1.0</strong> (build 12)</td>
+</tr>
+<tr>
+<td>Source</td>
+<td><a href="https://github.com/PrivacyDataCoin-Project/pdcwallet_ios">PrivacyDataCoin-Project/pdcwallet_ios</a></td>
+</tr>
+<tr>
+<td>Product site</td>
+<td><a href="https://privacydatacoin.com/">privacydatacoin.com</a></td>
+</tr>
+<tr>
+<td>Privacy policy</td>
+<td><a href="https://privacydatacoin.com/privacy.html">privacydatacoin.com/privacy.html</a></td>
+</tr>
+<tr>
+<td>App Store</td>
+<td><a href="https://apps.apple.com/app/id6818298023">PDC Wallet</a> (listing goes live when App Review approves)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-you-can-do">What you can do</h2>
+<ul>
+<li>Create a new PDC wallet or restore one from the 24-word seed</li>
+<li>See balance, locked balance, and transaction history for PDC</li>
+<li>Send and receive PDC on the PrivacyDataCoin network</li>
+<li>Optional biometric unlock after you turn it on in settings (system Face ID / Touch ID)</li>
+<li>Save the wallet, change the password, and show the seed after the password</li>
+<li>Rescan the account from the start of the chain</li>
+<li>See PoW mining rewards and PoS staking rewards labeled separately in history (rewards earned elsewhere; the phone app does not stake)</li>
+</ul>
+<h2 id="what-it-does-not-do">What it does not do</h2>
+<ul>
+<li>No local daemon / full node on the device</li>
+<li>No online staking from the phone</li>
+<li>No in-app exchange and no service-node registrar</li>
+<li>No publisher account and no in-app purchases</li>
+<li>No <a href="../trade/companion.html">PDC Companion</a> RPC — use the <a href="desktop.html">desktop wallet</a> for Trade</li>
+</ul>
+<h2 id="first-launch">First launch</h2>
+<ol>
+<li>Install <strong>PDC Wallet</strong> from the App Store when the listing is available, or a TestFlight build from the project maintainers.</li>
+<li>Create a wallet or restore from seed. Choose a wallet password on the device.</li>
+<li>Write the seed down offline. The app cannot recover funds if you never saved the phrase.</li>
+<li>Wait until sync against the selected remote node catches up before sending large amounts.</li>
+</ol>
+<p>Biometric unlock is optional and can be skipped. Reviewers and users can create an empty wallet without a demo seed.</p>
+<h2 id="remote-node">Remote node</h2>
+<p>The wallet syncs through a remote PDC node you select (default public nodes use plain HTTP JSON-RPC). The node sees your connection IP and any transaction you broadcast. Prefer a node you trust, or run your own daemon and point the app at it when the UI allows a custom remote.</p>
+<p>The app allows non-HTTPS connections for node RPC because public nodes often speak plain HTTP. Wallet file encryption on device uses ordinary mass-market cryptography.</p>
+<h2 id="seed-and-security">Seed and security</h2>
+<p>Anyone with the seed or the spend key can spend the funds. Treat them like the desktop <code>show_seed</code> / <code>spendkey</code> secrets described in <a href="desktop.html#secrets">Desktop and CLI</a>. The publisher never receives your seed.</p>
+<p>Back up the seed offline. Uninstalling the app without a backup means those funds are gone from that device.</p>
+<h2 id="network-release-alignment">Network release alignment</h2>
+<p>Desktop/daemon releases follow <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The iOS app version <strong>3.1.0</strong> is aligned with the PrivacyDataCoin <strong>3.1.0</strong> network line and PDC-only branding (bundle id, FFI, and product name). Keep the phone wallet and any node you rely on on a compatible network release.</p>
+<h2 id="source-and-builds">Source and builds</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/PrivacyDataCoin-Project/pdcwallet_ios">pdcwallet_ios</a></td>
+<td>Flutter iOS/Android shell + native plain-wallet FFI</td>
+</tr>
+<tr>
+<td><code>flutter-mobile/arqma_wallet_mobile/</code></td>
+<td>App project (version in <code>pubspec.yaml</code>)</td>
+</tr>
+<tr>
+<td><code>native/pdc_plain_wallet_ffi/</code></td>
+<td>C++ FFI (<code>pdc_wallet_ffi_*</code>, <code>libpdc_wallet_flutter_ffi</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Maintainers build and upload App Store / TestFlight packages from that tree. End users should install the signed App Store (or TestFlight) build, not an unsigned sideload.</p>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="overview.html">Wallets overview</a></li>
+<li><a href="desktop.html">Desktop and CLI</a></li>
+<li><a href="../use/getting-started.html">Getting started</a> — desktop/CLI install files</li>
+<li><a href="../use/security.html">Security and privacy</a></li>
+</ul>
+        <nav class="pager"><a href="../wallets/desktop.html">← Desktop and CLI</a><a href="../trade/trade.html">Trade →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#what-you-can-do">What you can do</a></li>
+<li><a href="#what-it-does-not-do">What it does not do</a></li>
+<li><a href="#first-launch">First launch</a></li>
+<li><a href="#remote-node">Remote node</a></li>
+<li><a href="#seed-and-security">Seed and security</a></li>
+<li><a href="#network-release-alignment">Network release alignment</a></li>
+<li><a href="#source-and-builds">Source and builds</a></li>
+<li><a href="#related">Related</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>

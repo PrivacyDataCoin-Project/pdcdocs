@@ -16,9 +16,13 @@ NAV = [
     ]),
     ("Use", [
         ("use/getting-started", "Getting started"),
-        ("use/wallets", "Wallets"),
         ("use/security", "Security and privacy"),
         ("use/troubleshooting", "Troubleshooting"),
+    ]),
+    ("Wallets", [
+        ("wallets/overview", "Overview"),
+        ("wallets/desktop", "Desktop and CLI"),
+        ("wallets/ios", "iOS wallet"),
     ]),
     ("Trade", [
         ("trade/trade", "Trade"),
@@ -57,9 +61,12 @@ SUMMARIES = {
     "learn/how-it-works": "Addresses, proofs, consensus, and the block reward.",
     "learn/faq": "Short answers grounded in the source tree.",
     "use/getting-started": "Install the current release, sync, and make a wallet.",
-    "use/wallets": "Desktop GUI, simplewallet, assets, and address types.",
     "use/security": "What stays private, and what you still have to protect.",
     "use/troubleshooting": "Genesis, ports, and sync.",
+    "wallets/overview": "Desktop, CLI, and iOS — which wallet to use.",
+    "wallets/desktop": "Qt GUI, simplewallet, assets, and address types.",
+    "wallets/ios": "Official PDC Wallet on iOS — remote node, non-custodial.",
+    "use/wallets": "Moved to the Wallets section (legacy URL).",
     "trade/trade": "Exchange, hub fees, Easy Swap, and Matches.",
     "trade/bridge": "Wrap BTC→BTCX and ARQ→ARQX; custody and safety.",
     "trade/api": "Public Trade HTTP API — ticker, fees, bridge routes.",
@@ -201,7 +208,14 @@ def main():
             converter.reset()
             html = re.sub(r"\.md(?=[\"#)])", ".html", converter.convert(body))
             page(slug, title, section, html, converter.toc)
-    print("built", 1 + len(FLAT), "pages")
+    # Preserve old bookmark: use/wallets.html → points at the Wallets section
+    legacy = CONTENT / "use/wallets.md"
+    if legacy.is_file():
+        title, body = parse(legacy)
+        converter.reset()
+        html = re.sub(r"\.md(?=[\"#)])", ".html", converter.convert(body))
+        page("use/wallets", title, "Use", html, converter.toc)
+    print("built", 1 + len(FLAT) + (1 if legacy.is_file() else 0), "pages")
 
 
 if __name__ == "__main__":

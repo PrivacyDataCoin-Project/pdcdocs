@@ -26,6 +26,8 @@ Use release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project
 
 The GUI binaries in that release are a Qt 6.8 build. A source build that should match them uses Qt 6.8.3, as the repository README describes. CMake still accepts Qt 5 if `Qt5WebEngineWidgets` is found. Release builds do not use it.
 
+Wallet guides: [Wallets overview](../wallets/overview.md), [Desktop and CLI](../wallets/desktop.md), [iOS wallet](../wallets/ios.md).
+
 ## First launch
 
 1. Install the desktop wallet, or unpack the command-line archive.

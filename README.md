@@ -28,7 +28,8 @@ Public references used in the manual:
 ## Sections
 
 - Learn: what PDC is, how a transfer works, FAQ
-- Use: install the current release, wallets, security, troubleshooting
+- Use: install the current release, security, troubleshooting
+- Wallets: overview, desktop/CLI, iOS wallet (`content/wallets/`)
 - Trade: exchange, Bridge (BTCX / ARQX / PDCX), Trade API, PDC Companion (`content/trade/`)
 - Oracle: signed USD feed, paid attestation, and API (`content/oracle/`)
 - Build: compile the tree, node RPC, assets, aliases, escrow and swaps

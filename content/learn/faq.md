@@ -34,6 +34,10 @@ The explorer can show blocks, proof type, and public metadata such as aliases. I
 
 Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v3.0.0</span></a> and create or restore a wallet against this network.
 
+## Is there an iOS wallet?
+
+Yes. **PDC Wallet** is the official non-custodial iOS app (bundle id `com.privacydatacoin.pdcwallet`). It syncs to a remote PDC node; it does not run a full node or stake on the phone. See [iOS wallet](../wallets/ios.md). Desktop staking and Trade still use the [desktop wallet](../wallets/desktop.md) plus [PDC Companion](../trade/companion.md) when needed.
+
 ## Are alias fees paid to a foundation?
 
 No. The alias reward account's spend and view keys are all zeros. The comment in the source says the alias money is burned. The registration cost itself moves with a median of recent alias fees. The starting constant, `ALIAS_VERY_INITAL_COAST`, is 10,000 atomic units, which is 0.00000001 PDC, and the median takes over from there. Read the current cost from the node with the `get_alias_reward` RPC instead of assuming a fixed price.
