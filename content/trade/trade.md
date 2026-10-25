@@ -63,5 +63,5 @@ Collected fees sit in escrow; a **daily sweep** (23:59 Europe/Warsaw by default)
 - [Trade API](api.md) — ticker, fees, bridge HTTP routes
 - [PDC Companion](companion.md) — browser extension
 - [Confidential assets](../build/assets.md) — how tokens work on PDC
-- [Desktop and CLI](../wallets/desktop.md) — desktop wallet and simplewallet
-- [Wallets overview](../wallets/overview.md)
+- [GUI](../wallets/gui.md) — desktop wallet and simplewallet
+- [iOS](../wallets/ios.md) — phone wallet

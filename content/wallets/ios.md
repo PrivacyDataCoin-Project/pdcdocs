@@ -1,8 +1,10 @@
 ---
-title: iOS wallet
+title: iOS
 ---
 
-**PDC Wallet** is the official non-custodial wallet for Privacy Data Coin on iOS. It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**. Keys and the seed stay on the device. The app talks to a **remote PDC node** over RPC; it does not run a full node on the phone and does not stake.
+**PDC Wallet** is the official non-custodial wallet for Privacy Data Coin on iOS. This page is only about the phone app. For the desktop Qt wallet, see [GUI](gui.md).
+
+It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**. Keys and the seed stay on the device. The app talks to a **remote PDC node** over RPC; it does not run a full node on the phone and does not stake.
 
 | Item | Value |
 | --- | --- |
@@ -30,7 +32,7 @@ title: iOS wallet
 - No online staking from the phone
 - No in-app exchange and no service-node registrar
 - No publisher account and no in-app purchases
-- No [PDC Companion](../trade/companion.md) RPC — use the [desktop wallet](desktop.md) for Trade
+- No [PDC Companion](../trade/companion.md) RPC — use the [GUI](gui.md) wallet for Trade
 
 ## First launch
 
@@ -49,7 +51,7 @@ The app allows non-HTTPS connections for node RPC because public nodes often spe
 
 ## Seed and security
 
-Anyone with the seed or the spend key can spend the funds. Treat them like the desktop `show_seed` / `spendkey` secrets described in [Desktop and CLI](desktop.md#secrets). The publisher never receives your seed.
+Anyone with the seed or the spend key can spend the funds. Treat them like the desktop `show_seed` / `spendkey` secrets described in [GUI](gui.md#secrets). The publisher never receives your seed.
 
 Back up the seed offline. Uninstalling the app without a backup means those funds are gone from that device.
 
@@ -69,7 +71,6 @@ Maintainers build and upload App Store / TestFlight packages from that tree. End
 
 ## Related
 
-- [Wallets overview](overview.md)
-- [Desktop and CLI](desktop.md)
+- [GUI](gui.md) — desktop Qt wallet and `simplewallet`
 - [Getting started](../use/getting-started.md) — desktop/CLI install files
 - [Security and privacy](../use/security.md)

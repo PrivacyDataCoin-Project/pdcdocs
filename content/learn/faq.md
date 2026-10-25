@@ -36,7 +36,7 @@ Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc
 
 ## Is there an iOS wallet?
 
-Yes. **PDC Wallet** is the official non-custodial iOS app (bundle id `com.privacydatacoin.pdcwallet`). It syncs to a remote PDC node; it does not run a full node or stake on the phone. See [iOS wallet](../wallets/ios.md). Desktop staking and Trade still use the [desktop wallet](../wallets/desktop.md) plus [PDC Companion](../trade/companion.md) when needed.
+Yes. **PDC Wallet** is the official non-custodial iOS app (bundle id `com.privacydatacoin.pdcwallet`). It syncs to a remote PDC node; it does not run a full node or stake on the phone. See [iOS](../wallets/ios.md). Desktop staking and Trade still use the [GUI](../wallets/gui.md) wallet plus [PDC Companion](../trade/companion.md) when needed.
 
 ## Are alias fees paid to a foundation?
 

@@ -25,7 +25,7 @@
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html" aria-current="page">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
-<div class="nav-group"><h2>Wallets</h2><a href="../wallets/overview.html">Overview</a><a href="../wallets/desktop.html">Desktop and CLI</a><a href="../wallets/ios.html">iOS wallet</a></div>
+<div class="nav-group"><h2>Wallets</h2><a href="../wallets/gui.html">GUI</a><a href="../wallets/ios.html">iOS</a></div>
 <div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
 <div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
@@ -55,7 +55,7 @@
 <h2 id="why-did-my-v1-wallet-stop-working">Why did my v1 wallet stop working?</h2>
 <p>Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v3.0.0</span></a> and create or restore a wallet against this network.</p>
 <h2 id="is-there-an-ios-wallet">Is there an iOS wallet?</h2>
-<p>Yes. <strong>PDC Wallet</strong> is the official non-custodial iOS app (bundle id <code>com.privacydatacoin.pdcwallet</code>). It syncs to a remote PDC node; it does not run a full node or stake on the phone. See <a href="../wallets/ios.html">iOS wallet</a>. Desktop staking and Trade still use the <a href="../wallets/desktop.html">desktop wallet</a> plus <a href="../trade/companion.html">PDC Companion</a> when needed.</p>
+<p>Yes. <strong>PDC Wallet</strong> is the official non-custodial iOS app (bundle id <code>com.privacydatacoin.pdcwallet</code>). It syncs to a remote PDC node; it does not run a full node or stake on the phone. See <a href="../wallets/ios.html">iOS</a>. Desktop staking and Trade still use the <a href="../wallets/gui.html">GUI</a> wallet plus <a href="../trade/companion.html">PDC Companion</a> when needed.</p>
 <h2 id="are-alias-fees-paid-to-a-foundation">Are alias fees paid to a foundation?</h2>
 <p>No. The alias reward account's spend and view keys are all zeros. The comment in the source says the alias money is burned. The registration cost itself moves with a median of recent alias fees. The starting constant, <code>ALIAS_VERY_INITAL_COAST</code>, is 10,000 atomic units, which is 0.00000001 PDC, and the median takes over from there. Read the current cost from the node with the <code>get_alias_reward</code> RPC instead of assuming a fixed price.</p>
 <h2 id="is-the-rpc-public">Is the RPC public?</h2>

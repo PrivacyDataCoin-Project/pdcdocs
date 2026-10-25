@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>iOS wallet · PDC Docs</title>
+  <title>iOS · PDC Docs</title>
   <meta name="description" content="Official PDC Wallet on iOS — remote node, non-custodial.">
   <link rel="canonical" href="https://docs.privacydatacoin.com/wallets/ios.html">
   <link rel="icon" href="../favicon.png" type="image/png">
@@ -25,7 +25,7 @@
     <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
-<div class="nav-group"><h2>Wallets</h2><a href="../wallets/overview.html">Overview</a><a href="../wallets/desktop.html">Desktop and CLI</a><a href="../wallets/ios.html" aria-current="page">iOS wallet</a></div>
+<div class="nav-group"><h2>Wallets</h2><a href="../wallets/gui.html">GUI</a><a href="../wallets/ios.html" aria-current="page">iOS</a></div>
 <div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
 <div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
@@ -37,8 +37,9 @@
     <main>
       <article>
         <p class="kicker">Wallets</p>
-        <h1>iOS wallet</h1>
-        <p><strong>PDC Wallet</strong> is the official non-custodial wallet for Privacy Data Coin on iOS. It is published by PrivacyDataCoin Project for <strong>one chain and one asset: PDC</strong>. Keys and the seed stay on the device. The app talks to a <strong>remote PDC node</strong> over RPC; it does not run a full node on the phone and does not stake.</p>
+        <h1>iOS</h1>
+        <p><strong>PDC Wallet</strong> is the official non-custodial wallet for Privacy Data Coin on iOS. This page is only about the phone app. For the desktop Qt wallet, see <a href="gui.html">GUI</a>.</p>
+<p>It is published by PrivacyDataCoin Project for <strong>one chain and one asset: PDC</strong>. Keys and the seed stay on the device. The app talks to a <strong>remote PDC node</strong> over RPC; it does not run a full node on the phone and does not stake.</p>
 <table>
 <thead>
 <tr>
@@ -93,7 +94,7 @@
 <li>No online staking from the phone</li>
 <li>No in-app exchange and no service-node registrar</li>
 <li>No publisher account and no in-app purchases</li>
-<li>No <a href="../trade/companion.html">PDC Companion</a> RPC — use the <a href="desktop.html">desktop wallet</a> for Trade</li>
+<li>No <a href="../trade/companion.html">PDC Companion</a> RPC — use the <a href="gui.html">GUI</a> wallet for Trade</li>
 </ul>
 <h2 id="first-launch">First launch</h2>
 <ol>
@@ -107,7 +108,7 @@
 <p>The wallet syncs through a remote PDC node you select (default public nodes use plain HTTP JSON-RPC). The node sees your connection IP and any transaction you broadcast. Prefer a node you trust, or run your own daemon and point the app at it when the UI allows a custom remote.</p>
 <p>The app allows non-HTTPS connections for node RPC because public nodes often speak plain HTTP. Wallet file encryption on device uses ordinary mass-market cryptography.</p>
 <h2 id="seed-and-security">Seed and security</h2>
-<p>Anyone with the seed or the spend key can spend the funds. Treat them like the desktop <code>show_seed</code> / <code>spendkey</code> secrets described in <a href="desktop.html#secrets">Desktop and CLI</a>. The publisher never receives your seed.</p>
+<p>Anyone with the seed or the spend key can spend the funds. Treat them like the desktop <code>show_seed</code> / <code>spendkey</code> secrets described in <a href="gui.html#secrets">GUI</a>. The publisher never receives your seed.</p>
 <p>Back up the seed offline. Uninstalling the app without a backup means those funds are gone from that device.</p>
 <h2 id="network-release-alignment">Network release alignment</h2>
 <p>Desktop/daemon releases follow <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The iOS app version <strong>3.1.0</strong> is aligned with the PrivacyDataCoin <strong>3.1.0</strong> network line and PDC-only branding (bundle id, FFI, and product name). Keep the phone wallet and any node you rely on on a compatible network release.</p>
@@ -137,12 +138,11 @@
 <p>Maintainers build and upload App Store / TestFlight packages from that tree. End users should install the signed App Store (or TestFlight) build, not an unsigned sideload.</p>
 <h2 id="related">Related</h2>
 <ul>
-<li><a href="overview.html">Wallets overview</a></li>
-<li><a href="desktop.html">Desktop and CLI</a></li>
+<li><a href="gui.html">GUI</a> — desktop Qt wallet and <code>simplewallet</code></li>
 <li><a href="../use/getting-started.html">Getting started</a> — desktop/CLI install files</li>
 <li><a href="../use/security.html">Security and privacy</a></li>
 </ul>
-        <nav class="pager"><a href="../wallets/desktop.html">← Desktop and CLI</a><a href="../trade/trade.html">Trade →</a></nav>
+        <nav class="pager"><a href="../wallets/gui.html">← GUI</a><a href="../trade/trade.html">Trade →</a></nav>
         <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
       </article>
     </main>

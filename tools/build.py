@@ -20,9 +20,8 @@ NAV = [
         ("use/troubleshooting", "Troubleshooting"),
     ]),
     ("Wallets", [
-        ("wallets/overview", "Overview"),
-        ("wallets/desktop", "Desktop and CLI"),
-        ("wallets/ios", "iOS wallet"),
+        ("wallets/gui", "GUI"),
+        ("wallets/ios", "iOS"),
     ]),
     ("Trade", [
         ("trade/trade", "Trade"),
@@ -63,9 +62,10 @@ SUMMARIES = {
     "use/getting-started": "Install the current release, sync, and make a wallet.",
     "use/security": "What stays private, and what you still have to protect.",
     "use/troubleshooting": "Genesis, ports, and sync.",
-    "wallets/overview": "Desktop, CLI, and iOS — which wallet to use.",
-    "wallets/desktop": "Qt GUI, simplewallet, assets, and address types.",
+    "wallets/gui": "Desktop Qt Pdc GUI, staking, Companion, and simplewallet.",
     "wallets/ios": "Official PDC Wallet on iOS — remote node, non-custodial.",
+    "wallets/overview": "Legacy pointer — use GUI or iOS.",
+    "wallets/desktop": "Legacy pointer — moved to GUI.",
     "use/wallets": "Moved to the Wallets section (legacy URL).",
     "trade/trade": "Exchange, hub fees, Easy Swap, and Matches.",
     "trade/bridge": "Wrap BTC→BTCX and ARQ→ARQX; custody and safety.",
@@ -208,14 +208,22 @@ def main():
             converter.reset()
             html = re.sub(r"\.md(?=[\"#)])", ".html", converter.convert(body))
             page(slug, title, section, html, converter.toc)
-    # Preserve old bookmark: use/wallets.html → points at the Wallets section
-    legacy = CONTENT / "use/wallets.md"
-    if legacy.is_file():
-        title, body = parse(legacy)
+    # Preserve old bookmarks outside the Wallets nav
+    legacy_pages = 0
+    for slug, section in (
+        ("use/wallets", "Use"),
+        ("wallets/overview", "Wallets"),
+        ("wallets/desktop", "Wallets"),
+    ):
+        path = CONTENT / f"{slug}.md"
+        if not path.is_file():
+            continue
+        title, body = parse(path)
         converter.reset()
         html = re.sub(r"\.md(?=[\"#)])", ".html", converter.convert(body))
-        page("use/wallets", title, "Use", html, converter.toc)
-    print("built", 1 + len(FLAT) + (1 if legacy.is_file() else 0), "pages")
+        page(slug, title, section, html, converter.toc)
+        legacy_pages += 1
+    print("built", 1 + len(FLAT) + legacy_pages, "pages")
 
 
 if __name__ == "__main__":
