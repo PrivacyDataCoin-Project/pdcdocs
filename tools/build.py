@@ -57,7 +57,7 @@ SUMMARIES = {
     "learn/how-it-works": "Addresses, proofs, consensus, and the block reward.",
     "learn/faq": "Short answers grounded in the source tree.",
     "use/getting-started": "Install the current release, sync, and make a wallet.",
-    "use/wallets": "Desktop wallet, simplewallet, and address types.",
+    "use/wallets": "Desktop GUI, simplewallet, assets, and address types.",
     "use/security": "What stays private, and what you still have to protect.",
     "use/troubleshooting": "Genesis, ports, and sync.",
     "trade/trade": "Exchange, hub fees, Easy Swap, and Matches.",

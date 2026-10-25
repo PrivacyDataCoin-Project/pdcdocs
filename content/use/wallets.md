@@ -2,11 +2,94 @@
 title: Wallets
 ---
 
-Two wallets ship with the project. For [trade.privacydatacoin.com](https://trade.privacydatacoin.com/), also install the [PDC Companion](../trade/companion.md) browser extension so the site can talk to a local wallet without ever seeing your seed.
+Two wallets ship with the project. The desktop program is the Qt GUI (`Pdc`). The command-line wallet is `simplewallet`. For [trade.privacydatacoin.com](https://trade.privacydatacoin.com/), also install the [PDC Companion](../trade/companion.md) browser extension so the site can talk to a local wallet without ever seeing your seed.
 
-The desktop program is the `Pdc` executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v3.0.0</span></a>. That GUI build uses Qt 6. It runs a node and a wallet together, which is what staking needs: the wallet has to be online and synced. Settings → **Pdc Companion** turns on the JWT wallet RPC on port 19211 for the extension.
+## Desktop wallet (GUI)
 
-`simplewallet` is the command-line wallet. It talks to a `daemon` over RPC. Use it on a server, in scripts, and when you want the command list in front of you. Companion can also relay to `simplewallet` RPC on port 19212.
+The desktop wallet is the `Pdc` executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>. Release builds use **Qt 6.8**. The app runs a local `pdcd` node and one or more wallets in the same process. That is what staking needs: the wallet has to stay online and synced.
+
+Download the GUI package for your platform from [Getting started](getting-started.md) (AppImage, Windows installer/zip, or macOS DMG). Prefer the current GitHub release over an older archive.
+
+### First run
+
+1. Install or unpack the GUI package.
+2. Start `Pdc`. On first launch the app creates a data directory and starts the embedded node.
+3. Create a new wallet, or restore one from the 24-word phrase.
+4. Write the phrase down offline. The wallet cannot recover funds from the phrase if you never saved it.
+5. Wait until the sidebar shows the node online and the wallet height matches the chain.
+
+Default data directories:
+
+| OS | Path |
+| --- | --- |
+| Linux | `~/.PDC` |
+| macOS | `~/Library/Application Support/PDC` |
+| Windows (64-bit) | Roaming application data folder named `PDC` |
+
+Override the location with `--data-dir` when you start the binary from a shell.
+
+### Layout
+
+| Area | What it does |
+| --- | --- |
+| Sidebar | Open wallets, sync status, portfolio value, update notices |
+| Assets | Balances for native PDC and whitelisted confidential assets |
+| Send | Build a transfer (address or alias, amount, asset, fee) |
+| Receive | Show your `Px` address and QR |
+| History | Confirmed transfers for the active wallet |
+| Staking | Online staking controls (wallet must be unlocked and synced) |
+| Settings | Themes, Companion JWT, wallet options |
+
+You can keep several wallets open. The active wallet in the sidebar is the one Send, Receive, and Companion use.
+
+### Assets and portfolio
+
+The Assets list shows balances for assets on the public whitelist (and any you added locally). Typical mainnet tickers include:
+
+| Ticker | Meaning |
+| --- | --- |
+| PDC | Native coin |
+| BTCX | Wrapped Bitcoin (Bridge) |
+| ARQX | Wrapped Arqma (Bridge) |
+| PDCX | Wrapped / fee-token PDC (display name in GUI) |
+
+The sidebar can show a USD portfolio mark. The GUI loads marks from the explorer `pdc_market` feed (Trade-backed prices with CORS allowed for the desktop WebEngine). Direct Trade `/api/prices/usd` is allow-listed and is not the path the GUI uses.
+
+Add a non-whitelisted asset only if you trust its asset id. Unknown assets can appear after you approve them locally; that does not make them part of the public whitelist.
+
+### Sync and updates
+
+The sidebar reports daemon state: offline, syncing, online, or error. During sync it shows block progress. Wait until the wallet is online before staking or relying on balances for large sends.
+
+When maintainers publish a signed version notice on the P2P network, the sidebar can show an update button:
+
+| Level | Meaning |
+| --- | --- |
+| Update available | Newer build exists |
+| Important update | Upgrade soon |
+| Critical update | Upgrade strongly recommended |
+
+The button opens the downloads page. The notice carries a version and alert level only — not free-form text.
+
+### Companion (Trade)
+
+Settings → **Pdc Companion** turns on the JWT wallet RPC (default port **19211**) for the browser extension. Copy the Secret into Companion, then use [PDC Companion](../trade/companion.md) to connect Trade. The GUI never sends your seed to the site.
+
+### Seed and keys in the GUI
+
+Use the wallet details / seed screens in the app to view the 24-word phrase and keys after unlock. Treat them like the `simplewallet` commands below: anyone with the seed or spend key can spend the funds.
+
+## Command-line wallet (`simplewallet`)
+
+`simplewallet` talks to a `daemon` over RPC. Use it on a server, in scripts, and when you want the full command list. Companion can also relay to `simplewallet` RPC on port **19212**.
+
+Against a local daemon:
+
+```text
+./simplewallet --wallet-file=mywallet --daemon-address=127.0.0.1:19211
+```
+
+`help` lists every command. The handlers live in `src/simplewallet/simplewallet.cpp`.
 
 ## Secrets
 
