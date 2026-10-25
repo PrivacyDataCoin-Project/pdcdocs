@@ -15,6 +15,7 @@ It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**.
 | Product site | [privacydatacoin.com](https://privacydatacoin.com/) |
 | Privacy policy | [privacydatacoin.com/privacy.html](https://privacydatacoin.com/privacy.html) |
 | App Store | [PDC Wallet](https://apps.apple.com/app/id6818298023) (listing goes live when App Review approves) |
+| TestFlight | [Join the public beta](https://testflight.apple.com/join/NwmhAhfi) |
 
 ## What you can do
 
@@ -34,9 +35,19 @@ It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**.
 - No publisher account and no in-app purchases
 - No [PDC Companion](../trade/companion.md) RPC — use the [GUI](gui.md) wallet for Trade
 
+## Get the beta (TestFlight)
+
+Install via the public TestFlight link: [testflight.apple.com/join/NwmhAhfi](https://testflight.apple.com/join/NwmhAhfi).
+
+1. Install [TestFlight](https://apps.apple.com/app/testflight/id899247664) from the App Store if you do not already have it.
+2. Open the invite link on your device and accept **PDC Wallet** / PDC Mobile.
+3. Install the latest available beta build (currently aligned with app version **3.1.0**).
+
+Builds expire 90 days after upload. When the App Store listing is live, prefer the production app for everyday use.
+
 ## First launch
 
-1. Install **PDC Wallet** from the App Store when the listing is available, or a TestFlight build from the project maintainers.
+1. Install **PDC Wallet** from [TestFlight](https://testflight.apple.com/join/NwmhAhfi), or from the App Store when the listing is available.
 2. Create a wallet or restore from seed. Choose a wallet password on the device.
 3. Write the seed down offline. The app cannot recover funds if you never saved the phrase.
 4. Wait until sync against the selected remote node catches up before sending large amounts.
