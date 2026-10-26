@@ -330,9 +330,10 @@ curl -s 'https://api.trade.privacydatacoin.com/api/ticker?symbol=ARQX-BTCX'
 <h2 id="health">Health</h2>
 <pre><code class="language-bash">curl -s 'https://api.trade.privacydatacoin.com/api/health'
 </code></pre>
+<p>Response includes <code>proposalVerify</code> (order-book quality gates: verify mode, open-order TTL, accept-failure threshold). User-facing explanation: <a href="trade.html#clearer-safer-trade-offers">Trade — clearer, safer offers</a>. Open orders may also expose <code>liquidityClass</code> (<code>indicative</code> | <code>firm</code>).</p>
 <h2 id="related">Related</h2>
 <ul>
-<li><a href="trade.html">Trade</a> — exchange, fees, Easy Swap</li>
+<li><a href="trade.html">Trade</a> — exchange, fees, Easy Swap, firm vs indicative offers</li>
 <li><a href="bridge.html">Bridge</a> — BTCX + ARQX + PDCX wrap flows</li>
 <li><a href="../oracle/oracle.html">Oracle</a> — signed USD publisher</li>
 <li><a href="../build/assets.html">Confidential assets</a> — on-chain tokens</li>

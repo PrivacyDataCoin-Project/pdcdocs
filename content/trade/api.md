@@ -124,9 +124,11 @@ There is **no** public `emit_asset` / mint endpoint. Wrap mint happens only in t
 curl -s 'https://api.trade.privacydatacoin.com/api/health'
 ```
 
+Response includes `proposalVerify` (order-book quality gates: verify mode, open-order TTL, accept-failure threshold). User-facing explanation: [Trade — clearer, safer offers](trade.md#clearer-safer-trade-offers). Open orders may also expose `liquidityClass` (`indicative` | `firm`).
+
 ## Related
 
-- [Trade](trade.md) — exchange, fees, Easy Swap
+- [Trade](trade.md) — exchange, fees, Easy Swap, firm vs indicative offers
 - [Bridge](bridge.md) — BTCX + ARQX + PDCX wrap flows
 - [Oracle](../oracle/oracle.md) — signed USD publisher
 - [Confidential assets](../build/assets.md) — on-chain tokens

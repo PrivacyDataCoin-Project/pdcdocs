@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trade · PDC Docs</title>
-  <meta name="description" content="Exchange, hub fees, Easy Swap, and Matches.">
+  <meta name="description" content="Exchange, hub fees, Easy Swap, Matches, and firmer order-book offers.">
   <link rel="canonical" href="https://docs.privacydatacoin.com/trade/trade.html">
   <link rel="icon" href="../favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -132,11 +132,47 @@
 <li><strong>Easy Swap</strong> (<code>/swap</code>) builds a simple swap UX; the displayed rate uses the live ticker mid/last (not a hardcoded 1:1).</li>
 <li><strong>Matches</strong> shows offer/want amounts, price, and the escrow trading-fee plus gas hints when a hub fee applies.</li>
 </ul>
+<h2 id="clearer-safer-trade-offers">Clearer, safer trade offers</h2>
+<p>Trade improved how offers appear in the order book so you can better tell which ones are real and ready to trade.</p>
+<h3 id="two-kinds-of-offers">Two kinds of offers</h3>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Indicative</strong></td>
+<td>Someone says they want to trade, but the swap proposal is not fully prepared yet.</td>
+</tr>
+<tr>
+<td><strong>Firm</strong></td>
+<td>The offer includes a real Ionic Swap proposal from their wallet and is checked more carefully before it goes live.</td>
+</tr>
+</tbody>
+</table>
+<p>In the API and UI these map to <code>liquidityClass</code>: <code>indicative</code> (open intent) and <code>firm</code> (directed proposal with hex).</p>
+<h3 id="stronger-checks-for-firm-offers">Stronger checks for firm offers</h3>
+<p>A firm offer can no longer be posted with a fake or incomplete proposal. Trade checks that the proposal looks valid and that the amounts match what the order shows.</p>
+<h3 id="offers-do-not-stay-forever">Offers do not stay forever</h3>
+<p>Indicative offers must expire within a set time (about <strong>15 minutes</strong> on the live site), so old or abandoned quotes do not clutter the book.</p>
+<h3 id="failed-swaps-clean-themselves-up">Failed swaps clean themselves up</h3>
+<p>If someone tries to complete a trade and the wallet <strong>accept</strong> fails (for example the seller no longer has the funds), Companion can report that failure. After a few failures, Trade removes the bad offer automatically.</p>
+<h3 id="what-this-means-for-you">What this means for you</h3>
+<ul>
+<li>The book should have <strong>fewer empty or misleading offers</strong>.</li>
+<li><strong>Firm</strong> offers are more trustworthy than <strong>indicative</strong> ones.</li>
+<li>Completing a trade still happens in your wallet — Ionic Swap works as before. Trade does <strong>not</strong> hold your money and does <strong>not</strong> lock funds on-chain until the other party accepts.</li>
+</ul>
+<p>Live book-quality flags (for monitors): <code>GET /api/health</code> → <code>proposalVerify</code> (mode, open-order TTL, accept-failure threshold).</p>
 <h2 id="safety">Safety</h2>
 <ul>
 <li>Never paste seed phrases into Trade or any website.</li>
 <li>Verify you are on <code>trade.privacydatacoin.com</code> and that Companion is talking to your own wallet.</li>
 <li>Prefer live <code>/api/trade-fees</code> and Bridge status before sending size that depends on mins or pause flags.</li>
+<li>Prefer <strong>firm</strong> offers when you care about fill quality; treat <strong>indicative</strong> quotes as intent until a proposal is attached.</li>
 </ul>
 <h2 id="related">Related</h2>
 <ul>
@@ -159,6 +195,14 @@
 <li><a href="#markets">Markets</a></li>
 <li><a href="#trading-fees">Trading fees</a></li>
 <li><a href="#easy-swap-and-matches">Easy Swap and Matches</a></li>
+<li><a href="#clearer-safer-trade-offers">Clearer, safer trade offers</a><ul>
+<li><a href="#two-kinds-of-offers">Two kinds of offers</a></li>
+<li><a href="#stronger-checks-for-firm-offers">Stronger checks for firm offers</a></li>
+<li><a href="#offers-do-not-stay-forever">Offers do not stay forever</a></li>
+<li><a href="#failed-swaps-clean-themselves-up">Failed swaps clean themselves up</a></li>
+<li><a href="#what-this-means-for-you">What this means for you</a></li>
+</ul>
+</li>
 <li><a href="#safety">Safety</a></li>
 <li><a href="#related">Related</a></li>
 </ul>

@@ -67,7 +67,7 @@ SUMMARIES = {
     "wallets/overview": "Legacy pointer — use GUI or iOS.",
     "wallets/desktop": "Legacy pointer — moved to GUI.",
     "use/wallets": "Moved to the Wallets section (legacy URL).",
-    "trade/trade": "Exchange, hub fees, Easy Swap, and Matches.",
+    "trade/trade": "Exchange, hub fees, Easy Swap, Matches, and firmer order-book offers.",
     "trade/bridge": "Wrap BTC→BTCX and ARQ→ARQX; custody and safety.",
     "trade/api": "Public Trade HTTP API — ticker, fees, bridge routes.",
     "trade/companion": "Browser extension that connects Trade to a local PDC wallet.",
@@ -88,7 +88,7 @@ SUMMARIES = {
 
 
 def parse(path: Path):
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8")
     title = path.stem
     if text.startswith("---\n"):
         _, meta, body = text.split("---", 2)
@@ -183,7 +183,7 @@ def page(slug: str, title: str, section: str, body_html: str, toc_html: str):
 """
     out = ROOT / "index.html" if slug == "index" else ROOT / f"{slug}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(html)
+    out.write_text(html, encoding="utf-8")
 
 
 def main():
