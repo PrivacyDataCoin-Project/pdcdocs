@@ -3,3 +3,6 @@ __pycache__/
 .DS_Store
 .venv/
 .venv
+
+# Local theme experiments (production uses css/docs.css + tools/build.py)
+preview-site/

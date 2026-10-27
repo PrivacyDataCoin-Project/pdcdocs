@@ -8,12 +8,14 @@ Protocol numbers come from the PDC source, especially `src/currency_core/currenc
 
 The rendered manual is published at https://docs.privacydatacoin.com/.
 
-The markdown sources are in `content/`. The HTML next to this README is what that address serves. Regenerate it after an edit:
+The markdown sources are in `content/`. The HTML next to this README is what that address serves. The layout matches [privacydatacoin.com](https://privacydatacoin.com/) (Space Grotesk / Inter / JetBrains Mono). Regenerate after an edit:
 
 ```text
 python3 -m pip install markdown
 python3 tools/build.py
 ```
+
+`tools/build.py` also writes `robots.txt` and `sitemap.xml` for search engines.
 
 Public references used in the manual:
 
