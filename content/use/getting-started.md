@@ -26,7 +26,7 @@ Use release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project
 
 The GUI binaries in that release are a Qt 6.8 build. A source build that should match them uses Qt 6.8.3, as the repository README describes. CMake still accepts Qt 5 if `Qt5WebEngineWidgets` is found. Release builds do not use it.
 
-Wallet guides: [GUI](../wallets/gui.md), [iOS](../wallets/ios.md).
+Wallet guides: [GUI](../wallets/gui.md), [iOS](../wallets/ios.md). After you have an on-chain alias, claim Matrix chat in [PDC Messenger](../matrix/messenger.md).
 
 ## First launch
 

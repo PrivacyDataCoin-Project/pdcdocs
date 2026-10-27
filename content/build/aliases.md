@@ -41,3 +41,5 @@ curl -s http://127.0.0.1:19211/json_rpc \
 ```
 
 Register from the desktop wallet's alias screen, or build the alias transaction from a wallet that implements the attachment. The daemon will reject a registration that does not burn the current fee. The chain checks that burn in `check_native_coins_amount_burnt_in_outs`.
+
+After the alias is on-chain, claim Matrix chat as `@alias:privacydatacoin.com` in [PDC Messenger](../matrix/messenger.md).

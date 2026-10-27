@@ -30,6 +30,7 @@ Public references used in the manual:
 - Learn: what PDC is, how a transfer works, FAQ
 - Use: install the current release, security, troubleshooting
 - Wallets: GUI and iOS (`content/wallets/`)
+- Matrix: PDC Messenger (`content/matrix/`) — [matrix.privacydatacoin.com](https://matrix.privacydatacoin.com)
 - Trade: exchange, Bridge (BTCX / ARQX / PDCX), Trade API, PDC Companion (`content/trade/`)
 - Oracle: signed USD feed, paid attestation, and API (`content/oracle/`)
 - Build: compile the tree, node RPC, assets, aliases, escrow and swaps

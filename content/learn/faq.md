@@ -38,6 +38,10 @@ Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc
 
 Yes. **PDC Wallet** is the official non-custodial iOS app (bundle id `com.privacydatacoin.pdcwallet`). It syncs to a remote PDC node; it does not run a full node or stake on the phone. See [iOS](../wallets/ios.md). Desktop staking and Trade still use the [GUI](../wallets/gui.md) wallet plus [PDC Companion](../trade/companion.md) when needed.
 
+## How do I get a Matrix / Messenger account?
+
+Register a PDC alias on-chain (at least **7** characters for a new public claim), then open [matrix.privacydatacoin.com](https://matrix.privacydatacoin.com) → **Claim**. Unlock the desktop wallet, enable [PDC Companion](../trade/companion.md) **0.1.18+**, sign the challenge, set a Matrix password, and sign in as `@alias:privacydatacoin.com`. Public Synapse registration is off — only the claim path creates accounts. Full steps: [PDC Messenger](../matrix/messenger.md).
+
 ## Are alias fees paid to a foundation?
 
 No. The alias reward account's spend and view keys are all zeros. The comment in the source says the alias money is burned. The registration cost itself moves with a median of recent alias fees. The starting constant, `ALIAS_VERY_INITAL_COAST`, is 10,000 atomic units, which is 0.00000001 PDC, and the median takes over from there. Read the current cost from the node with the `get_alias_reward` RPC instead of assuming a fixed price.

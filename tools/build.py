@@ -23,6 +23,9 @@ NAV = [
         ("wallets/gui", "GUI"),
         ("wallets/ios", "iOS"),
     ]),
+    ("Matrix", [
+        ("matrix/messenger", "PDC Messenger"),
+    ]),
     ("Trade", [
         ("trade/trade", "Trade"),
         ("trade/bridge", "Bridge"),
@@ -67,6 +70,8 @@ SUMMARIES = {
     "wallets/overview": "Legacy pointer — use GUI or iOS.",
     "wallets/desktop": "Legacy pointer — moved to GUI.",
     "use/wallets": "Moved to the Wallets section (legacy URL).",
+    "matrix/messenger": "Matrix chat for PDC aliases — claim, sign-in, E2EE, Telegram bridge.",
+    "use/messenger": "Moved to the Matrix section (legacy URL).",
     "trade/trade": "Exchange, hub fees, Easy Swap, Matches, and firmer order-book offers.",
     "trade/bridge": "Wrap BTC→BTCX and ARQ→ARQX; custody and safety.",
     "trade/api": "Public Trade HTTP API — ticker, fees, bridge routes.",
@@ -208,10 +213,11 @@ def main():
             converter.reset()
             html = re.sub(r"\.md(?=[\"#)])", ".html", converter.convert(body))
             page(slug, title, section, html, converter.toc)
-    # Preserve old bookmarks outside the Wallets nav
+    # Preserve old bookmarks outside the primary nav
     legacy_pages = 0
     for slug, section in (
         ("use/wallets", "Use"),
+        ("use/messenger", "Use"),
         ("wallets/overview", "Wallets"),
         ("wallets/desktop", "Wallets"),
     ):

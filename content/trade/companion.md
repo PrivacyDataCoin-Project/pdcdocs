@@ -76,13 +76,13 @@ Public market and bridge **read** endpoints do not need Companion. Creating depo
 
 ## Matrix claim (Messenger web)
 
-[matrix.privacydatacoin.com](https://matrix.privacydatacoin.com) uses the same `window.pdcExtension.signMessage` bridge — no Trade DevTools console:
+[matrix.privacydatacoin.com](https://matrix.privacydatacoin.com) uses the same `window.pdcExtension.signMessage` bridge — no Trade DevTools console. Full user guide: [PDC Messenger](../matrix/messenger.md).
 
 1. Unlock Qt wallet + Companion (RPC e.g. **19211**).
-2. Companion **0.1.17+** pre-approves `matrix.privacydatacoin.com` and `messenger.privacydatacoin.com`.
+2. Companion **0.1.18+** pre-approves `https://matrix.privacydatacoin.com`.
 3. Claim → alias → **Request challenge** → **Sign with Companion** → set Matrix password → submit.
 
-Older Companion: add those origins under Options → Approved dApps, then reload the Messenger tab.
+Older Companion: add that origin under Options → Approved dApps, then reload the Messenger tab.
 
 ## What Companion does on Trade
 
@@ -119,7 +119,7 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 | Symptom | What to check |
 | --- | --- |
 | Trade: Companion not detected | Extension enabled; reload the Trade tab; confirm `window.pdcExtension` after install |
-| Matrix claim: Companion not detected / `-32010` | Reload Messenger; update Companion to **0.1.17+** or approve Matrix origins in Options |
+| Matrix claim: Companion not detected / `-32010` | Reload Messenger; update Companion to **0.1.18+** or approve `matrix.privacydatacoin.com` in Options |
 | Popup: unreachable / HTTP 401 | Wrong port or credentials; Qt needs Secret on **19211**; simplewallet uses **19212** + `--rpc-login` |
 | Connect works, login fails | Wallet unlocked; build **3.0.0.11+** for JWT/`verify_message`; daemon synced |
 | Take / swap stuck on wrong address | Active wallet in Companion popup matches the wallet you intend; reconnect on Trade after switch |
@@ -134,4 +134,5 @@ Release notes and tagged builds: [PrivacyDataCoin-Project/pdc_web3 releases](htt
 - [GUI](../wallets/gui.md) — desktop wallet and `simplewallet`
 - [iOS](../wallets/ios.md) — phone wallet (no Companion RPC)
 - [Getting started](../use/getting-started.md) — install and sync
+- [PDC Messenger](../matrix/messenger.md) — Matrix claim with Companion
 - [Escrow, swaps, and offers](../build/services.md) — Ionic Swap context in the protocol

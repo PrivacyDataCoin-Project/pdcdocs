@@ -26,6 +26,7 @@
     <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
 <div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
 <div class="nav-group"><h2>Wallets</h2><a href="../wallets/gui.html">GUI</a><a href="../wallets/ios.html">iOS</a></div>
+<div class="nav-group"><h2>Matrix</h2><a href="../matrix/messenger.html">PDC Messenger</a></div>
 <div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html" aria-current="page">PDC Companion</a></div>
 <div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
 <div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
@@ -114,13 +115,13 @@
 </ol>
 <p>Public market and bridge <strong>read</strong> endpoints do not need Companion. Creating deposits, withdrawals, and orders does.</p>
 <h2 id="matrix-claim-messenger-web">Matrix claim (Messenger web)</h2>
-<p><a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a> uses the same <code>window.pdcExtension.signMessage</code> bridge — no Trade DevTools console:</p>
+<p><a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a> uses the same <code>window.pdcExtension.signMessage</code> bridge — no Trade DevTools console. Full user guide: <a href="../matrix/messenger.html">PDC Messenger</a>.</p>
 <ol>
 <li>Unlock Qt wallet + Companion (RPC e.g. <strong>19211</strong>).</li>
-<li>Companion <strong>0.1.17+</strong> pre-approves <code>matrix.privacydatacoin.com</code> and <code>messenger.privacydatacoin.com</code>.</li>
+<li>Companion <strong>0.1.18+</strong> pre-approves <code>https://matrix.privacydatacoin.com</code>.</li>
 <li>Claim → alias → <strong>Request challenge</strong> → <strong>Sign with Companion</strong> → set Matrix password → submit.</li>
 </ol>
-<p>Older Companion: add those origins under Options → Approved dApps, then reload the Messenger tab.</p>
+<p>Older Companion: add that origin under Options → Approved dApps, then reload the Messenger tab.</p>
 <h2 id="what-companion-does-on-trade">What Companion does on Trade</h2>
 <table>
 <thead>
@@ -184,7 +185,7 @@
 </tr>
 <tr>
 <td>Matrix claim: Companion not detected / <code>-32010</code></td>
-<td>Reload Messenger; update Companion to <strong>0.1.17+</strong> or approve Matrix origins in Options</td>
+<td>Reload Messenger; update Companion to <strong>0.1.18+</strong> or approve <code>matrix.privacydatacoin.com</code> in Options</td>
 </tr>
 <tr>
 <td>Popup: unreachable / HTTP 401</td>
@@ -216,6 +217,7 @@
 <li><a href="../wallets/gui.html">GUI</a> — desktop wallet and <code>simplewallet</code></li>
 <li><a href="../wallets/ios.html">iOS</a> — phone wallet (no Companion RPC)</li>
 <li><a href="../use/getting-started.html">Getting started</a> — install and sync</li>
+<li><a href="../matrix/messenger.html">PDC Messenger</a> — Matrix claim with Companion</li>
 <li><a href="../build/services.html">Escrow, swaps, and offers</a> — Ionic Swap context in the protocol</li>
 </ul>
         <nav class="pager"><a href="../trade/api.html">← Trade API</a><a href="../oracle/oracle.html">Oracle →</a></nav>

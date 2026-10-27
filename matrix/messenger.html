@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDC Messenger · PDC Docs</title>
+  <meta name="description" content="Matrix chat for PDC aliases — claim, sign-in, E2EE, Telegram bridge.">
+  <link rel="canonical" href="https://docs.privacydatacoin.com/matrix/messenger.html">
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Montserrat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/docs.css">
+</head>
+<body>
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false">Menu</button>
+  <div class="backdrop" data-backdrop hidden></div>
+  <aside class="sidebar">
+    <a class="brand" href="../index.html">
+      <img class="brand-mark" src="../graphics/pdc-mark.png" width="42" height="42" alt="">
+      <span><strong>PDC</strong><small>Documentation</small></span>
+    </a>
+    <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
+    <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
+    <div class="nav-group"><h2>Learn</h2><a href="../learn/what-is-pdc.html">What PDC is</a><a href="../learn/how-it-works.html">How PDC works</a><a href="../learn/faq.html">FAQ</a></div>
+<div class="nav-group"><h2>Use</h2><a href="../use/getting-started.html">Getting started</a><a href="../use/security.html">Security and privacy</a><a href="../use/troubleshooting.html">Troubleshooting</a></div>
+<div class="nav-group"><h2>Wallets</h2><a href="../wallets/gui.html">GUI</a><a href="../wallets/ios.html">iOS</a></div>
+<div class="nav-group"><h2>Matrix</h2><a href="../matrix/messenger.html" aria-current="page">PDC Messenger</a></div>
+<div class="nav-group"><h2>Trade</h2><a href="../trade/trade.html">Trade</a><a href="../trade/bridge.html">Bridge</a><a href="../trade/api.html">Trade API</a><a href="../trade/companion.html">PDC Companion</a></div>
+<div class="nav-group"><h2>Oracle</h2><a href="../oracle/oracle.html">Oracle</a><a href="../oracle/paid-attestation.html">Paid attestation</a><a href="../oracle/api.html">Oracle API</a></div>
+<div class="nav-group"><h2>Build</h2><a href="../build/from-source.html">Build from source</a><a href="../build/rpc.html">Node RPC</a><a href="../build/assets.html">Confidential assets</a><a href="../build/aliases.html">Aliases</a><a href="../build/services.html">Escrow, swaps, and offers</a></div>
+<div class="nav-group"><h2>Mine</h2><a href="../mine/mining.html">Mining</a></div>
+<div class="nav-group"><h2>Stake</h2><a href="../stake/staking.html">Staking</a><a href="../stake/proof-of-stake.html">Proof of stake</a></div>
+<div class="nav-group"><h2>Code</h2><a href="../code/parameters.html">Network parameters</a><a href="../code/source-map.html">Source map</a></div>
+  </aside>
+  <div class="layout">
+    <main>
+      <article>
+        <p class="kicker">Matrix</p>
+        <h1>PDC Messenger</h1>
+        <p>PDC Messenger is the first-party Matrix chat for Privacy Data Coin. Your Matrix user is your on-chain <a href="../build/aliases.html">alias</a>: <code>@alias:privacydatacoin.com</code>. Ownership is proven with a wallet signature. Public Synapse registration is disabled — accounts are created only through the claim flow.</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web app + homeserver</td>
+<td><a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a></td>
+</tr>
+<tr>
+<td>Matrix user</td>
+<td><code>@youralias:privacydatacoin.com</code></td>
+</tr>
+<tr>
+<td>Claim API</td>
+<td><code>https://matrix.privacydatacoin.com/claim/</code></td>
+</tr>
+<tr>
+<td>Health check</td>
+<td><a href="https://matrix.privacydatacoin.com/claim/health">matrix.privacydatacoin.com/claim/health</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-it-works">How it works</h2>
+<ol>
+<li>You register a PDC alias on-chain (GUI / simplewallet). The name is public; transfers that use it stay confidential.</li>
+<li>On Messenger you open <strong>Claim</strong>, enter the alias, and request a challenge (<code>PDC-MATRIX-CLAIM/v1</code> …).</li>
+<li>The unlocked desktop wallet signs that message (spend key) via <a href="../trade/companion.html">PDC Companion</a>, or you paste a Schnorr signature from wallet RPC <code>sign_message</code>.</li>
+<li>The claim service checks the alias on-chain, verifies the signature, and creates (or resets) <code>@alias:privacydatacoin.com</code> on Synapse with the Matrix password you chose.</li>
+<li>You sign in. Room messages use Matrix E2EE (Megolm). Wallet private keys never leave the wallet process.</li>
+</ol>
+<p>The homeserver name is the apex <code>privacydatacoin.com</code>. Clients discover it through well-known at that domain and talk to Synapse on <code>matrix.privacydatacoin.com</code>.</p>
+<h2 id="what-you-need-before-claiming">What you need before claiming</h2>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDC alias (≥ 7 characters for a <strong>new</strong> Matrix account)</td>
+<td>Becomes the Matrix localpart</td>
+</tr>
+<tr>
+<td>Desktop wallet unlocked (<a href="../use/getting-started.html">Getting started</a>)</td>
+<td>Holds the alias owner spend key</td>
+</tr>
+<tr>
+<td><a href="../trade/companion.html">PDC Companion</a> <strong>0.1.18+</strong></td>
+<td>Signs the challenge in the browser (<code>window.pdcExtension.signMessage</code>)</td>
+</tr>
+<tr>
+<td>Browser on <a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a></td>
+<td>Claim UI (Companion signing is web-only)</td>
+</tr>
+</tbody>
+</table>
+<p>Short aliases (≤ 6 characters) cannot create a Matrix account through the public claim form. Those names are reserved / pre-provisioned. If such an account already exists, a valid wallet signature can still <strong>reset the Matrix password</strong>.</p>
+<h2 id="register-claim-a-matrix-account">Register (claim) a Matrix account</h2>
+<ol>
+<li>Unlock the Qt wallet. Turn <strong>Pdc Companion</strong> <strong>ON</strong> and copy the Companion <strong>Secret</strong> into the extension (preset <strong>Qt GUI Companion · 19211</strong>). Details: <a href="../trade/companion.html">PDC Companion</a>.</li>
+<li>Install or update Companion to <strong>0.1.18+</strong>. That build pre-approves <code>https://matrix.privacydatacoin.com</code>. Older builds: add the origin under Options → Approved dApps, then reload the Messenger tab.</li>
+<li>Open <a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a> → <strong>Claim</strong>.</li>
+<li>Enter your alias (for example <code>alice12</code>, <code>@alice12</code>, or <code>@alice12:privacydatacoin.com</code>) → <strong>Request challenge</strong>.</li>
+<li>Click <strong>Sign with Companion</strong>. The Signature field fills with a Schnorr signature (128 hex chars, or base64 of 64 bytes). Do not paste a seed, spend key, or Companion JWT secret.</li>
+<li>Choose a Matrix password → <strong>Claim / reset password &amp; sign in</strong>. Messenger logs you in as <code>@alice12:privacydatacoin.com</code>.</li>
+</ol>
+<p>Without Companion you can still copy the challenge text, sign it with wallet RPC <code>sign_message</code>, and paste the signature. Prefer Companion on web.</p>
+<p>Claim again with a valid signature when you need to <strong>reset</strong> the Matrix password for an existing account.</p>
+<h2 id="sign-in-existing-account">Sign in (existing account)</h2>
+<p>On the login screen enter your alias (or full <code>@alias:privacydatacoin.com</code>) and the Matrix password you set at claim time. No wallet signature is required for ordinary login.</p>
+<h2 id="encryption-keys-between-devices">Encryption keys between devices</h2>
+<p>Matrix cannot decrypt history on a new device without keys. PDC Messenger follows the same model as Element:</p>
+<ol>
+<li>On a device that already works, open <strong>Settings</strong>.</li>
+<li><strong>Create &amp; export recovery key</strong> (or <strong>Export recovery key</strong>). Store it offline — never share it.</li>
+<li>On the new device, <strong>Settings</strong> → paste under <strong>Import</strong> → <strong>Import recovery key</strong>.</li>
+<li>Leave <strong>Sync history across my devices</strong> enabled so online devices can answer key requests.</li>
+</ol>
+<p><strong>Sign out other sessions</strong> removes old logins. Prefer a fresh message after fixing sessions rather than expecting every historical “Cannot decrypt” bubble to recover.</p>
+<h2 id="rooms-and-telegram">Rooms and Telegram</h2>
+<p>Community rooms include <code>#general</code>, <code>#announcements</code>, <code>#community</code>, and <code>#trade</code> on <code>privacydatacoin.com</code>. Prefer encrypted rooms; the UI shows a lock when E2EE is active.</p>
+<p><code>#general</code> can bridge both ways with Telegram <code>@privacydatacoin</code> (bot <code>@PDCNetworkBot</code>). Bridge user on Matrix: <code>@tgbridge:privacydatacoin.com</code>. Messages use prefixes <code>[TG]</code> / <code>[Matrix]</code> to avoid loops.</p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Telegram → Matrix</td>
+<td>Bot can read group messages; bot is admin in the Telegram group</td>
+</tr>
+<tr>
+<td>Matrix → Telegram</td>
+<td>Your client shares Megolm session keys with <code>@tgbridge</code> (recovery import + sync, or send a <strong>new</strong> message after sessions are cleaned)</td>
+</tr>
+</tbody>
+</table>
+<p>If a bubble says <strong>Cannot decrypt — missing Megolm session key</strong>, tap <strong>Request keys</strong> while another of your devices (or the bridge, for bridge-sent messages) is online.</p>
+<h2 id="clients">Clients</h2>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>How to run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web</td>
+<td><a href="https://matrix.privacydatacoin.com">matrix.privacydatacoin.com</a></td>
+</tr>
+<tr>
+<td>Desktop (macOS / Linux / Windows)</td>
+<td><strong>PDC Matrix Messenger</strong> release builds (GPG <code>FAB8833900C876FF</code>)</td>
+</tr>
+<tr>
+<td>iOS / Android</td>
+<td><strong>PDC Messenger</strong> (iOS signed; Android scaffold / local APK)</td>
+</tr>
+</tbody>
+</table>
+<p>Desktop claim still needs a browser + Companion for one-click signing, or a pasted <code>sign_message</code> signature. Companion is not available inside the native desktop shell.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>What to check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Companion not detected / <code>-32010</code></td>
+<td>Extension enabled; reload Messenger; Companion <strong>0.1.18+</strong> or approve <code>matrix.privacydatacoin.com</code> in Options</td>
+</tr>
+<tr>
+<td>Signature rejected</td>
+<td>Wallet unlocked; active wallet owns the alias; challenge not expired; signature is 128 hex or base64 of 64 bytes</td>
+</tr>
+<tr>
+<td><code>create_not_allowed</code></td>
+<td>Alias ≤ 6 characters — public create blocked; use a longer alias, or reset only if the Matrix user already exists</td>
+</tr>
+<tr>
+<td>Login fails after claim</td>
+<td>Use the Matrix password you just set; user id is <code>@alias:privacydatacoin.com</code></td>
+</tr>
+<tr>
+<td>Cannot decrypt</td>
+<td>Export/import recovery key; keep another session online; send a new message after key share</td>
+</tr>
+<tr>
+<td>Claim health down</td>
+<td>Check <a href="https://matrix.privacydatacoin.com/claim/health">claim/health</a> and <a href="https://matrix.privacydatacoin.com/_matrix/client/versions">client versions</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="security-notes">Security notes</h2>
+<ul>
+<li>Wallet keys never leave the wallet. Only a challenge signature and a Matrix password go to the claim service.</li>
+<li>The Matrix password is separate from the wallet password. Treat it like any chat login secret.</li>
+<li>Alias names are public on-chain. Chat content in E2EE rooms is not readable by the homeserver in cleartext when encryption works as designed.</li>
+<li>Bind wallet RPC to <code>127.0.0.1</code> only. Do not expose Companion ports to the internet.</li>
+</ul>
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="../build/aliases.html">Aliases</a> — on-chain names and fees</li>
+<li><a href="../trade/companion.html">PDC Companion</a> — signing bridge for Trade and Matrix claim</li>
+<li><a href="../use/getting-started.html">Getting started</a> — install the desktop wallet</li>
+<li><a href="../use/security.html">Security and privacy</a> — what the chain hides vs what you protect</li>
+<li><a href="../use/troubleshooting.html">Troubleshooting</a> — node and sync issues</li>
+</ul>
+        <nav class="pager"><a href="../wallets/ios.html">← iOS</a><a href="../trade/trade.html">Trade →</a></nav>
+        <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+      </article>
+    </main>
+    <aside class="toc">
+      <h2>On this page</h2>
+      <div class="toc">
+<ul>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="#what-you-need-before-claiming">What you need before claiming</a></li>
+<li><a href="#register-claim-a-matrix-account">Register (claim) a Matrix account</a></li>
+<li><a href="#sign-in-existing-account">Sign in (existing account)</a></li>
+<li><a href="#encryption-keys-between-devices">Encryption keys between devices</a></li>
+<li><a href="#rooms-and-telegram">Rooms and Telegram</a></li>
+<li><a href="#clients">Clients</a></li>
+<li><a href="#troubleshooting">Troubleshooting</a></li>
+<li><a href="#security-notes">Security notes</a></li>
+<li><a href="#related">Related</a></li>
+</ul>
+</div>
+
+    </aside>
+  </div>
+  <script src="../js/rain.js"></script>
+  <script src="../js/docs.js"></script>
+  <script src="../js/release.js"></script>
+</body>
+</html>
