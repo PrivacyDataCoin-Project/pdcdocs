@@ -55,6 +55,10 @@ NAV = [
         ("stake/staking", "Staking"),
         ("stake/proof-of-stake", "Proof of stake"),
     ]),
+    ("Tools", [
+        ("tools/tipbot", "TIP Bot"),
+        ("tools/funding", "Funding"),
+    ]),
     ("Code", [
         ("code/parameters", "Network parameters"),
         ("code/source-map", "Source map"),
@@ -91,6 +95,8 @@ SUMMARIES = {
     "mine/mining": "RandomARQ, XMRig, and the stratum port.",
     "stake/staking": "Keep a synced wallet online and stake PDC.",
     "stake/proof-of-stake": "Zarcanum, coinstake age, and the PoS run limit.",
+    "tools/tipbot": "Telegram and Matrix tip bot: tips, rain, deposits, and withdraw.",
+    "tools/funding": "Community crowdfunding: proposals, escrow donations, milestone payouts.",
     "code/parameters": "The numbers a node boots with.",
     "code/source-map": "Where each subsystem lives in the tree.",
 }

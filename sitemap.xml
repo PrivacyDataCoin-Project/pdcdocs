@@ -126,6 +126,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://docs.privacydatacoin.com/tools/tipbot.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://docs.privacydatacoin.com/tools/funding.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://docs.privacydatacoin.com/code/parameters.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
