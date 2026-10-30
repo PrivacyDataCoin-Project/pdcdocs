@@ -61,7 +61,7 @@ def json_ld_blocks(slug: str, title: str, section: str, description: str) -> str
         "name": SITE_NAME,
         "alternateName": ["Privacy Data Coin Docs", "PDC Documentation"],
         "url": f"{SITE}/",
-        "description": "Official documentation for Privacy Data Coin (PDC): wallets, Matrix Messenger, Trade, Oracle, mining, and staking.",
+        "description": "Official documentation for Privacy Data Coin (PDC): wallets, Matrix Messenger, Trade, Oracle, mining, staking, TIP Bot, and Funding.",
         "publisher": {"@type": "Organization", "name": ORG_NAME, "url": ORG_URL, "logo": LOGO},
         "inLanguage": "en",
     }
