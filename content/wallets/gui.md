@@ -8,7 +8,7 @@ For phones, see the separate [iOS](ios.md) page. The same release archives also 
 
 ## Desktop wallet (GUI)
 
-The desktop wallet is the `Pdc` executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>. Release builds use **Qt 6.8**. The app runs a local `pdcd` node and one or more wallets in the same process. That is what staking needs: the wallet has to stay online and synced.
+The desktop wallet is the `Pdc` executable from release <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.3.2</span></a>. Release builds use **Qt 6.8**. The app runs a local `pdcd` node and one or more wallets in the same process. That is what staking needs: the wallet has to stay online and synced.
 
 Download the GUI package for your platform from [Getting started](../use/getting-started.md) (AppImage, Windows installer/zip, or macOS DMG). Prefer the current GitHub release over an older archive.
 

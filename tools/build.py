@@ -197,7 +197,7 @@ def page(slug: str, title: str, section: str, body_html: str, toc_html: str):
   <div class="backdrop" data-backdrop hidden></div>
   <div class="shell">
     <aside class="sidebar" aria-label="Documentation topics">
-      <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a>
+      <a class="release-chip" data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.3.2</span></a>
       <input class="search" type="search" placeholder="Filter topics" aria-label="Filter topics">
       {render_nav(slug, prefix)}
     </aside>
@@ -211,7 +211,7 @@ def page(slug: str, title: str, section: str, body_html: str, toc_html: str):
           {body_html}
           </div>
           {pager}
-          <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.0.0</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
+          <p class="footer">Edition <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/PDC/releases/latest"><span data-doc-version>v3.3.2</span></a> follows the latest release of <a href="https://github.com/PrivacyDataCoin-Project/PDC">PrivacyDataCoin-Project/PDC</a>. The manual is <a href="https://docs.privacydatacoin.com/">docs.privacydatacoin.com</a>. The public site is <a href="https://privacydatacoin.com/">privacydatacoin.com</a>. The block explorer is <a href="https://explorer.privacydatacoin.com/">explorer.privacydatacoin.com</a>.</p>
         </article>
       </main>
       <aside class="toc" aria-label="On this page">
