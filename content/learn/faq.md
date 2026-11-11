@@ -32,7 +32,7 @@ The explorer can show blocks, proof type, and public metadata such as aliases. I
 
 ## Why did my v1 wallet stop working?
 
-Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v3.0.0</span></a> and create or restore a wallet against this network.
+Install <a data-doc-release href="https://github.com/PrivacyDataCoin-Project/pdc/releases/latest"><span data-doc-version>v3.3.2</span></a> and create or restore a wallet against this network.
 
 ## Is there an iOS wallet?
 
