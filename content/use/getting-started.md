@@ -32,7 +32,7 @@ Wallet guides: [GUI](../wallets/gui.md), [iOS](../wallets/ios.md). After you hav
 
 1. Install the desktop wallet, or unpack the command-line archive.
 2. Let the node sync from the hardcoded seeds `169.58.142.131:19121` and `169.58.142.131:18121` (added in v3.3.2 so clients whose path to 19121 is filtered still reach a seed). A new node keeps those seeds as priority peers.
-3. Create a new wallet, or restore one from the 24-word phrase.
+3. Create a new wallet, or restore one from the 26-word phrase.
 4. Write the phrase down offline. The wallet cannot recover funds from the phrase if you never saved it.
 5. Wait until the wallet height matches the node. Coinbase outputs spend after 10 confirmations. A coinstake also needs to age 10 blocks.
 

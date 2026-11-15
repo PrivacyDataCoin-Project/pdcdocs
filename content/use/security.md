@@ -18,7 +18,7 @@ The published address, the amount, and the asset type do not appear in the clear
 
 ## What you must store
 
-The 24-word seed and the spend key spend the funds. The view key recognizes incoming outputs. The wallet password encrypts the local file. Lose the seed and the password together and the funds are not recoverable from the chain. There is no custodian account in the protocol.
+The 26-word seed and the spend key spend the funds. The view key recognizes incoming outputs. The wallet password encrypts the local file. Lose the seed and the password together and the funds are not recoverable from the chain. There is no custodian account in the protocol.
 
 Write the seed on paper or stamp it into metal. A screenshot in a cloud photo library is a copy you do not control.
 

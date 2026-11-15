@@ -204,7 +204,7 @@
 <li><strong>Stake timing, not the stake size.</strong> After height 100, Zarcanum keeps the staked amount sealed. The fact that a proof-of-stake block exists is public. An observer still cannot read the balance from that block.</li>
 </ul>
 <h2 id="what-you-must-store">What you must store</h2>
-<p>The 24-word seed and the spend key spend the funds. The view key recognizes incoming outputs. The wallet password encrypts the local file. Lose the seed and the password together and the funds are not recoverable from the chain. There is no custodian account in the protocol.</p>
+<p>The 26-word seed and the spend key spend the funds. The view key recognizes incoming outputs. The wallet password encrypts the local file. Lose the seed and the password together and the funds are not recoverable from the chain. There is no custodian account in the protocol.</p>
 <p>Write the seed on paper or stamp it into metal. A screenshot in a cloud photo library is a copy you do not control.</p>
 <h2 id="the-node-rpc">The node RPC</h2>
 <p><code>daemon</code> binds RPC to <code>127.0.0.1:19211</code> unless you set <code>--rpc-bind-ip</code>. Methods such as <code>decrypt_tx_details</code> are documented in the source as something to run only against your own daemon. Do not publish port 19211 on a public interface so that a website can call it.</p>

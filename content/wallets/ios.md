@@ -19,7 +19,7 @@ It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**.
 
 ## What you can do
 
-- Create a new PDC wallet or restore one from the 24-word seed
+- Create a new PDC wallet or restore one from the 26-word seed
 - See balance, locked balance, and transaction history for PDC
 - Send and receive PDC on the PrivacyDataCoin network
 - Optional biometric unlock after you turn it on in settings (system Face ID / Touch ID)

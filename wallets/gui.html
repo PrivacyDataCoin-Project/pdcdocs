@@ -201,7 +201,7 @@
 <ol>
 <li>Install or unpack the GUI package.</li>
 <li>Start <code>Pdc</code>. On first launch the app creates a data directory and starts the embedded node.</li>
-<li>Create a new wallet, or restore one from the 24-word phrase.</li>
+<li>Create a new wallet, or restore one from the 26-word phrase.</li>
 <li>Write the phrase down offline. The wallet cannot recover funds from the phrase if you never saved it.</li>
 <li>Wait until the sidebar shows the node online and the wallet height matches the chain.</li>
 </ol>
@@ -328,7 +328,7 @@
 <h3 id="companion-trade">Companion (Trade)</h3>
 <p>Settings → <strong>Pdc Companion</strong> turns on the JWT wallet RPC (default port <strong>19211</strong>) for the browser extension. Copy the Secret into Companion, then use <a href="../trade/companion.html">PDC Companion</a> to connect Trade. The GUI never sends your seed to the site.</p>
 <h3 id="seed-and-keys-in-the-gui">Seed and keys in the GUI</h3>
-<p>Use the wallet details / seed screens in the app to view the 24-word phrase and keys after unlock. Treat them like the <code>simplewallet</code> commands below: anyone with the seed or spend key can spend the funds.</p>
+<p>Use the wallet details / seed screens in the app to view the 26-word phrase and keys after unlock. Treat them like the <code>simplewallet</code> commands below: anyone with the seed or spend key can spend the funds.</p>
 <h2 id="command-line-wallet-simplewallet">Command-line wallet (<code>simplewallet</code>)</h2>
 <p><code>simplewallet</code> talks to a <code>daemon</code> over RPC. Use it on a server, in scripts, and when you want the full command list. Companion can also relay to <code>simplewallet</code> RPC on port <strong>19212</strong>.</p>
 <p>Against a local daemon:</p>
@@ -346,7 +346,7 @@
 <tbody>
 <tr>
 <td><code>show_seed</code></td>
-<td>The 24-word recovery phrase</td>
+<td>The 26-word recovery phrase</td>
 </tr>
 <tr>
 <td><code>spendkey</code></td>
