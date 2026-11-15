@@ -16,7 +16,7 @@ Download the GUI package for your platform from [Getting started](../use/getting
 
 1. Install or unpack the GUI package.
 2. Start `Pdc`. On first launch the app creates a data directory and starts the embedded node.
-3. Create a new wallet, or restore one from the 24-word phrase.
+3. Create a new wallet, or restore one from the 26-word phrase.
 4. Write the phrase down offline. The wallet cannot recover funds from the phrase if you never saved it.
 5. Wait until the sidebar shows the node online and the wallet height matches the chain.
 
@@ -79,7 +79,7 @@ Settings → **Pdc Companion** turns on the JWT wallet RPC (default port **19211
 
 ### Seed and keys in the GUI
 
-Use the wallet details / seed screens in the app to view the 24-word phrase and keys after unlock. Treat them like the `simplewallet` commands below: anyone with the seed or spend key can spend the funds.
+Use the wallet details / seed screens in the app to view the 26-word phrase and keys after unlock. Treat them like the `simplewallet` commands below: anyone with the seed or spend key can spend the funds.
 
 ## Command-line wallet (`simplewallet`)
 
@@ -97,7 +97,7 @@ Against a local daemon:
 
 | Command | What it prints |
 | --- | --- |
-| `show_seed` | The 24-word recovery phrase |
+| `show_seed` | The 26-word recovery phrase |
 | `spendkey` | The secret spend key |
 | `viewkey` | The secret view key |
 | `tracking_seed` | For an auditable wallet, the seed a reviewer can use |

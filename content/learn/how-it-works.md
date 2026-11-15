@@ -17,7 +17,7 @@ The published address is for people you give it to. It does not appear on the ch
 
 An integrated address lets a sender attach a payment id without a separate field. An auditable wallet can hand a tracking seed to a reviewer. That seed is for the reviewer you choose. It is not published by a normal transfer.
 
-The wallet recovery phrase is 24 words. `simplewallet` prints it with `show_seed`. The spend key and the view key are separate secrets (`spendkey`, `viewkey`).
+The wallet recovery phrase is 26 words. `simplewallet` prints it with `show_seed`. The spend key and the view key are separate secrets (`spendkey`, `viewkey`).
 
 ## The privacy stack
 
