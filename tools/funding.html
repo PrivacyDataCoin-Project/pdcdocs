@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Funding · PDC Docs</title>
-  <meta name="description" content="Community crowdfunding: proposals, escrow donations, milestone payouts. Privacy Data Coin (PDC) documentation.">
+  <meta name="description" content="Community crowdfunding in PDC, BTCX, and BTC: proposals, escrow donations, milestone payouts.">
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
   <meta name="author" content="Privacy Data Coin">
   <meta name="theme-color" content="#05060d">
@@ -16,13 +16,13 @@
   <meta property="og:site_name" content="PDC Docs">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Funding · PDC Docs">
-  <meta property="og:description" content="Community crowdfunding: proposals, escrow donations, milestone payouts. Privacy Data Coin (PDC) documentation.">
+  <meta property="og:description" content="Community crowdfunding in PDC, BTCX, and BTC: proposals, escrow donations, milestone payouts.">
   <meta property="og:url" content="https://docs.privacydatacoin.com/tools/funding.html">
   <meta property="og:image" content="https://docs.privacydatacoin.com/graphics/pdc-logo.png">
   <meta property="og:image:alt" content="Privacy Data Coin">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Funding · PDC Docs">
-  <meta name="twitter:description" content="Community crowdfunding: proposals, escrow donations, milestone payouts. Privacy Data Coin (PDC) documentation.">
+  <meta name="twitter:description" content="Community crowdfunding in PDC, BTCX, and BTC: proposals, escrow donations, milestone payouts.">
   <meta name="twitter:image" content="https://docs.privacydatacoin.com/graphics/pdc-logo.png">
   <link rel="icon" href="../favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="../graphics/pdc-logo.png">
@@ -72,7 +72,7 @@
   "@type": "TechArticle",
   "headline": "Funding",
   "name": "Funding",
-  "description": "Community crowdfunding: proposals, escrow donations, milestone payouts. Privacy Data Coin (PDC) documentation.",
+  "description": "Community crowdfunding in PDC, BTCX, and BTC: proposals, escrow donations, milestone payouts.",
   "url": "https://docs.privacydatacoin.com/tools/funding.html",
   "mainEntityOfPage": "https://docs.privacydatacoin.com/tools/funding.html",
   "isPartOf": {
@@ -192,8 +192,8 @@
           <p class="kicker">Tools</p>
           <h1 itemprop="headline">Funding</h1>
           <div itemprop="articleBody">
-          <p><a href="https://funding.privacydatacoin.com/">PDC Funding</a> is the community <strong>crowdfunding</strong> site for Privacy Data Coin. Authors open proposals, donors send PDC into escrow, and admins release milestone payouts when work lands.</p>
-<p>It follows the same idea as classic CryptoNote FFS (Wownero / AEON style), rebuilt for PDC. Escrow uses the tipbot wallet pattern: one hot <code>simplewallet</code> and per-proposal <strong>integrated addresses</strong> (<code>payment_id</code>) — not Monero subaccounts.</p>
+          <p><a href="https://funding.privacydatacoin.com/">PDC Funding</a> is the community <strong>crowdfunding</strong> site for Privacy Data Coin. Authors open proposals, donors send <strong>PDC</strong>, <strong>BTCX</strong>, or <strong>BTC</strong> into escrow, and admins release milestone payouts when work lands.</p>
+<p>It follows the same idea as classic CryptoNote FFS (Wownero / AEON style), rebuilt for PDC. PDC and BTCX sit in one hot <code>simplewallet</code>. One proposal gets one <strong>integrated address</strong> (<code>payment_id</code>, 8 bytes / 16 hex characters) for both of those assets — not Monero subaccounts. Native BTC sits in a separate Bitcoin Core wallet. The default wallet name is <code>funding</code> (<code>BTC_WALLET_NAME</code>). That wallet is not the Trade bridge wallet.</p>
 <table>
 <thead>
 <tr>
@@ -220,7 +220,63 @@
 </tr>
 </tbody>
 </table>
-<p>Related: <a href="tipbot.html">TIP Bot</a> (chat tips), <a href="../trade/trade.html">Trade</a> (USD display prices), <a href="../build/aliases.html">Aliases</a> (payout destinations).</p>
+<p>Related: <a href="tipbot.html">TIP Bot</a> (chat tips), <a href="../trade/trade.html">Trade</a> (USD display quotes), <a href="../trade/bridge.html">Bridge</a> (BTCX on PDC), <a href="../build/aliases.html">Aliases</a> (L1 payout destinations).</p>
+<h2 id="supported-assets">Supported assets</h2>
+<p>A proposal lists one or more of these. Each selected asset has its own target, donation address, received total, and paid total.</p>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Chain</th>
+<th>Atomic unit</th>
+<th>Shown in the UI</th>
+<th>Deposit address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PDC</strong></td>
+<td>PDC L1, native</td>
+<td><code>1 PDC = 10^12</code></td>
+<td>about <code>0.001 PDC</code> (3 decimal places)</td>
+<td>Integrated address, shared with BTCX on the same proposal</td>
+</tr>
+<tr>
+<td><strong>BTCX</strong></td>
+<td>PDC L1, confidential asset</td>
+<td><code>1 BTCX = 10^8</code></td>
+<td>8 decimal places</td>
+<td>The same integrated address as PDC</td>
+</tr>
+<tr>
+<td><strong>BTC</strong></td>
+<td>Bitcoin</td>
+<td><code>1 BTC = 10^8</code> satoshis</td>
+<td>8 decimal places</td>
+<td>A new bech32 address from the <code>funding</code> Bitcoin Core wallet</td>
+</tr>
+</tbody>
+</table>
+<p>Default asset ids (override with <code>PDC_ASSET_ID</code> and <code>BTCX_ASSET_ID</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Default id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDC</td>
+<td><code>d6329b5b1f7c0805b5c345f4957554002a2f557845f64d7645dae0e051a6498a</code></td>
+</tr>
+<tr>
+<td>BTCX</td>
+<td><code>c2bf0410873b49ec7e7dd19d62bca9625d80cd3123670a67b48d997d3127426d</code></td>
+</tr>
+</tbody>
+</table>
+<p>The scanner credits an L1 payment only when its <code>asset_id</code> matches one of those ids <strong>and</strong> that asset is on the proposal. Any other id is left uncredited. A payment that omits <code>asset_id</code> is credited as PDC only when the proposal’s L1 assets are PDC without BTCX. If the proposal accepts both PDC and BTCX, a payment with an empty <code>asset_id</code> is left uncredited, because both assets share the payment id.</p>
 <h2 id="what-it-is-for">What it is for</h2>
 <table>
 <thead>
@@ -232,26 +288,26 @@
 <tbody>
 <tr>
 <td>A donor</td>
-<td>Browse proposals, send PDC to a proposal’s donation address while it is in <strong>funding</strong> or <strong>WIP</strong></td>
+<td>Browse proposals and send PDC, BTCX, or BTC to the address shown for that asset while the proposal is in <strong>funding</strong>, <strong>WIP</strong>, or <strong>completed</strong></td>
 </tr>
 <tr>
 <td>An author</td>
-<td>Register, submit a proposal (scope, target, milestones, payout address)</td>
+<td>Register, submit a proposal (scope, per-asset targets, payout address per asset)</td>
 </tr>
 <tr>
 <td>An admin</td>
-<td>Open funding, comment, pay milestones from escrow, mark completed</td>
+<td>Open funding, comment, pay milestones from that proposal’s escrow, mark completed</td>
 </tr>
 </tbody>
 </table>
-<p>USD amounts on the page are <strong>display only</strong>. They come from Trade <code>GET /api/prices/usd</code> (oracle when Trade enables it). They do not gate donations or payouts.</p>
+<p>USD figures on the page are <strong>display only</strong>. They come from Trade <code>GET /api/prices/usd</code> (oracle when Trade enables it). A donation credit does not depend on them. The same feed is read only when a BTCX payout has to size an L1 fee shortfall (see <a href="#fees">Fees</a>).</p>
 <h2 id="custodial-escrow-read-this">Custodial escrow (read this)</h2>
-<p>Escrow sits in an operator hot wallet. Admins can release funds. Prefer a thin wallet and clear accountability.</p>
+<p>Escrow sits in operator hot wallets: one PDC <code>simplewallet</code> for PDC and BTCX, and one Bitcoin Core wallet for BTC. Admins can release funds. Prefer a thin wallet and clear accountability.</p>
 <ul>
-<li>Donate only to the <strong>integrated address shown on that proposal</strong> after funding is opened.</li>
+<li>Send each asset only to the address the proposal shows for that asset, after funding is opened. PDC and BTCX use the integrated address. BTC uses the bech32 address.</li>
 <li>Prefer your own wallet for long-term holdings — Funding is for campaigns, not a vault.</li>
 <li>Never send seeds, spend keys, or wallet passwords to the site or admins.</li>
-<li>Loss of the hot-wallet keys or a compromised admin session is loss of escrow. There is no on-chain multisig in this service.</li>
+<li>Loss of a hot-wallet key or a compromised admin session is loss of that escrow. There is no on-chain multisig in this service.</li>
 </ul>
 <h2 id="status-flow">Status flow</h2>
 <pre><code class="language-text">proposal → funding → wip → completed
@@ -271,7 +327,7 @@
 </tr>
 <tr>
 <td><strong>funding</strong></td>
-<td>Admin opened funding; donation address assigned; scanner credits confirmed payments</td>
+<td>Admin opened funding; deposit addresses assigned; scanner credits confirmed payments</td>
 </tr>
 <tr>
 <td><strong>wip</strong></td>
@@ -279,35 +335,107 @@
 </tr>
 <tr>
 <td><strong>completed</strong></td>
-<td>Archive; payouts may already have been made</td>
+<td>Archive; the scanner still credits late donations; payouts remain allowed</td>
 </tr>
 <tr>
 <td><strong>disabled</strong></td>
-<td>Hidden / stopped</td>
+<td>Hidden / stopped; the scanner does not credit it</td>
 </tr>
 </tbody>
 </table>
-<p>When an admin moves a proposal into <strong>funding</strong>, the app assigns <code>payment_id</code> and <code>integrated_address</code> once. The deposit scanner credits proposals in <strong>funding</strong> or <strong>WIP</strong> only.</p>
+<p>When an admin sets a proposal to <strong>funding</strong> or any later open status (<code>funding</code>, <strong>WIP</strong>, <strong>completed</strong>), the app assigns deposit addresses once. The scanner credits those three statuses only.</p>
 <h2 id="how-to-donate">How to donate</h2>
 <ol>
-<li>Open <a href="https://funding.privacydatacoin.com/">funding.privacydatacoin.com</a> and pick a proposal in <strong>funding</strong> (or <strong>WIP</strong> if still raising).</li>
-<li>Copy the proposal’s <strong>integrated donation address</strong>.</li>
-<li>Send <strong>PDC</strong> (native) from any wallet to that address.</li>
-<li>Wait for confirmations and unlock. The site credits only after the payment is unlocked and has enough confirmations against daemon height.</li>
-<li>Progress bars use <code>received / target</code>. Available escrow is <code>received − paid</code> (including pending payout reservations).</li>
+<li>Open <a href="https://funding.privacydatacoin.com/">funding.privacydatacoin.com</a> and pick a proposal whose status is <strong>funding</strong>, <strong>WIP</strong>, or <strong>completed</strong>. The donate block appears once the status is <strong>funding</strong> or later.</li>
+<li>Send the asset that proposal lists:
+   - <strong>PDC</strong> or <strong>BTCX</strong> — the shared integrated address. The payment id is inside that address. The scanner reads <code>get_bulk_payments</code> and credits the asset whose chain id matches.
+   - <strong>BTC</strong> — the proposal’s bech32 address. The scanner reads <code>getreceivedbyaddress</code> on the <code>funding</code> wallet and credits only the increase since the last credited total.</li>
+<li>Wait for confirmations, and on PDC or BTCX for unlock, before the site adds the payment to that asset’s <strong>received</strong> total.</li>
+<li>Each asset has its own progress bar: <code>received / target</code> for that asset, capped at 100%. Available escrow for that asset is <code>received − paid</code> (paid includes pending payout reservations).</li>
 </ol>
-<p>Do not send a different confidential asset. Wrong asset ids are ignored by the scanner.</p>
+<h3 id="confirmations">Confirmations</h3>
+<table>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Setting</th>
+<th>Default</th>
+<th>When a deposit counts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDC, BTCX</td>
+<td><code>DEPOSIT_MIN_CONFIRMATIONS</code></td>
+<td><strong>10</strong></td>
+<td>Confirmations are daemon <code>getinfo</code> height minus the payment’s <code>block_height</code>. A transaction in the tip has 1 confirmation when <code>height == block_height + 1</code>. If that height is unknown, the L1 scan credits nothing. The payment must also be unlocked: <code>unlock_time</code> of <code>0</code> is unlocked; a value below <code>500000000</code> is a block height and unlocks when <code>height &gt;= unlock_time</code>; a larger value is a unix timestamp.</td>
+</tr>
+<tr>
+<td>BTC</td>
+<td><code>BTC_MIN_CONFIRMATIONS</code></td>
+<td><strong>3</strong></td>
+<td>Passed as <code>minconf</code> to Bitcoin Core <code>getreceivedbyaddress</code>. The ledger stores the delta of that confirmed total. There is no separate unlock-time check in this service.</td>
+</tr>
+</tbody>
+</table>
+<p>The scanner loops every <code>DEPOSIT_SCAN_INTERVAL_SEC</code> seconds (default <strong>30</strong>). The L1 watermark stays at least <code>DEPOSIT_MIN_CONFIRMATIONS + 5</code> blocks behind the tip, and behind any payment that is still locked, so a payment that was not ready on the first pass is queried again. L1 credits are unique on <code>(tx_hash, payment_id, asset)</code>.</p>
+<p>An empty <code>BTC_RPC_URL</code> leaves BTC in dry-run: the page can show a placeholder address, and the BTC scanner does not credit. An empty <code>WALLET_RPC_URL</code> does the same for PDC and BTCX.</p>
 <h2 id="how-to-propose-work">How to propose work</h2>
 <ol>
 <li><strong>Register</strong> / <strong>Log in</strong> on the Funding site.</li>
-<li>Submit a proposal: headline, category, description, funding target, milestones, and a payout address or <code>@alias</code> when ready.</li>
-<li>Wait for an admin to move it to <strong>funding</strong> (that assigns the donation address).</li>
-<li>Share the proposal link; donors pay the integrated address.</li>
+<li>Submit a proposal: headline, category, description, and at least one asset. Each selected asset has a target and a payout address. PDC and BTCX payout destinations may be an address or <code>@alias</code> (resolved with the daemon <code>get_alias_details</code>). A BTC payout destination is a Bitcoin address.</li>
+<li>Selecting <strong>BTCX</strong> without <strong>PDC</strong> adds a PDC lane automatically. Its default target is one L1 network fee (<code>TRANSFER_FEE_ATOMIC</code>, default <strong>0.01 PDC</strong>). If the author sets a PDC target on a proposal that also has BTCX, that target must be at least that fee. Selecting <strong>BTC</strong> alone does not add a PDC lane.</li>
+<li>Wait for an admin to move the proposal to <strong>funding</strong>. That assigns the integrated address and, when BTC is selected, the bech32 address.</li>
+<li>Share the proposal link. Donors pay the address for the asset they send.</li>
 <li>Post updates in comments while status is <strong>WIP</strong>.</li>
-<li>Admins release milestone amounts to the author payout address. A payout of amount <code>A</code> sends <code>A − network fee</code> on-chain; the fee is taken from the same escrow debit.</li>
+<li>An admin releases a milestone for one asset at a time, to that asset’s payout address unless the payout form names another destination. The milestone is the payout note (the proposal body describes the stages; there is no separate milestone table). Payouts are allowed in <strong>funding</strong>, <strong>WIP</strong>, and <strong>completed</strong>, and only from the primary admin account.</li>
 </ol>
 <p>Categories in the UI include wallets, marketing, core, design, docs, and misc.</p>
+<h2 id="fees">Fees</h2>
+<p>Fees are taken when funds leave escrow (a milestone payout). The scanner credits the amount it sees on the deposit. This service does not take a percentage of donations.</p>
+<p>The chain fee is paid from <strong>that proposal’s escrow</strong>. Defaults below are the code defaults. Operators can change the environment values; the 2% shortfall buffer and the 546 sat dust floor are constants in the source.</p>
+<table>
+<thead>
+<tr>
+<th>Payout</th>
+<th>Who pays</th>
+<th>What is sent</th>
+<th>Fee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PDC</strong></td>
+<td>This proposal’s PDC escrow</td>
+<td>Recipient receives <code>A − fee</code>. The ledger debits the full amount <code>A</code>.</td>
+<td><code>TRANSFER_FEE_ATOMIC</code>, default <code>10000000000</code> atomic units = <strong>0.01 PDC</strong>. The amount must be greater than the fee. Passed as the L1 <code>transfer</code> fee.</td>
+</tr>
+<tr>
+<td><strong>BTCX</strong></td>
+<td>This proposal’s escrow, not a cut of the BTCX the recipient receives</td>
+<td>Recipient receives the full BTCX amount. The L1 fee is an extra debit.</td>
+<td>Same <code>TRANSFER_FEE_ATOMIC</code> (default <strong>0.01 PDC</strong>), paid in PDC on the L1 transfer. Cover order: PDC escrow on this proposal, then leftover BTCX (after the milestone), then leftover BTC on this proposal. <code>BTCX_TRANSFER_FEE_ATOMIC</code> defaults to <strong>0</strong> and is not used for this fee.</td>
+</tr>
+<tr>
+<td><strong>BTC</strong></td>
+<td>This proposal’s BTC escrow</td>
+<td>The ledger debits the full reserved amount. Bitcoin Core sends it with <code>subtractfeefromamount</code>, so the recipient receives that amount minus the miner fee.</td>
+<td>The miner fee is the fee Bitcoin Core chooses for that send. <code>BTC_TRANSFER_FEE_SATS</code> (default <strong>1000</strong>) is not that fee. The payout must be greater than <code>max(BTC_TRANSFER_FEE_SATS, 546)</code> satoshis (default floor <strong>1000</strong> sats, <strong>0.00001000 BTC</strong>).</td>
+</tr>
+</tbody>
+</table>
+<p>BTCX fee cover (<code>funding/fee_convert.py</code>):</p>
+<ul>
+<li>PDC already credited to this proposal is used first, up to the L1 fee.</li>
+<li>A shortfall is reserved from leftover BTCX, then leftover BTC, on the same proposal.</li>
+<li>The reserved size is the fee measured with the Trade USD feed (<code>PRICES_USD_URL</code>, default <code>https://api.trade.privacydatacoin.com/api/prices/usd</code>), plus <strong>2%</strong> (<code>_SLIP_BPS = 200</code>), rounded up. That 2% is not an environment setting. It is a buffer on the shortfall reservation, not a percentage charged on the donation.</li>
+<li>Those rows are ledger reservations (<code>l1-network-fee</code> on PDC, <code>l1-fee-convert</code> on BTCX or BTC). They count in that asset’s <strong>paid</strong> total and share the payout transaction id after the send. The service does not broadcast a second conversion transaction.</li>
+<li>The hot L1 wallet must already have at least <code>TRANSFER_FEE_ATOMIC</code> unlocked PDC, or the payout is refused. A BTCX or BTC reservation does not replace that unlocked PDC on the chain.</li>
+<li>If this proposal cannot cover the fee, or the Trade feed is unavailable while PDC escrow is short, the payout is refused.</li>
+</ul>
+<p>A payout is <strong>reserved in SQLite before</strong> the wallet RPC call. An uncertain RPC result keeps the reservation so the same balance cannot be sent twice. Pending rows count toward <strong>paid</strong> until an operator reconciles them.</p>
 <h2 id="money-model-short">Money model (short)</h2>
+<p>Totals are per asset, on <code>proposal_assets</code>. They are sums of rows, not a cached balance.</p>
 <table>
 <thead>
 <tr>
@@ -318,24 +446,31 @@
 <tbody>
 <tr>
 <td>Received</td>
-<td>Sum of credited deposits for that proposal</td>
+<td>Sum of credited deposits for that asset on that proposal</td>
 </tr>
 <tr>
 <td>Paid</td>
-<td>Sum of payout rows (including <strong>pending</strong> reservations)</td>
+<td>Sum of payout rows for that asset, including <strong>pending</strong> reservations and any BTCX fee-cover rows in that asset</td>
 </tr>
 <tr>
 <td>Available</td>
-<td><code>received − paid</code> — what admins can still release</td>
+<td><code>received − paid</code> — what admins can still release for that asset</td>
 </tr>
 <tr>
-<td>Hot wallet</td>
-<td>One pooled balance; per-proposal numbers are an app ledger, not a chain partition</td>
+<td>Target</td>
+<td>The target stored for that asset</td>
+</tr>
+<tr>
+<td>Progress</td>
+<td><code>received / target</code> for that asset, capped at 100%</td>
+</tr>
+<tr>
+<td>Hot wallets</td>
+<td>One pooled L1 wallet for PDC and BTCX, and one pooled Bitcoin wallet for BTC. Per-proposal numbers are an application ledger, not a chain partition</td>
 </tr>
 </tbody>
 </table>
-<p>A payout is <strong>reserved in SQLite before</strong> the wallet RPC call. An uncertain RPC result keeps the reservation so the same balance cannot be sent twice. Pending rows show until an operator reconciles them.</p>
-<p>Atomic unit: <code>1 PDC = 10^12</code>. UI amounts are shown to about <code>0.001 PDC</code>.</p>
+<p><code>GET /api/v1/proposals</code> still returns one <code>funds_target_atomic</code>, <code>received_atomic</code>, and <code>paid_atomic</code> per proposal. <code>funds_target_atomic</code> is the PDC target when the proposal has PDC, otherwise the first selected asset. <code>received_atomic</code> and <code>paid_atomic</code> add raw atomic units across every asset and do not convert between <code>10^12</code> and <code>10^8</code>. <code>addr_donation</code> is the integrated address copied onto the proposal header when the PDC row is assigned. Per-asset totals and the BTC address are on the proposal page.</p>
 <h2 id="public-api">Public API</h2>
 <table>
 <thead>
@@ -349,21 +484,16 @@
 <tr>
 <td><code>GET</code></td>
 <td><code>/api/v1/proposals</code></td>
-<td>Public list (status, targets, received, paid, donation address when assigned)</td>
+<td>Public list (status, header target, summed atomics, integrated address when the PDC row has one)</td>
 </tr>
 <tr>
 <td><code>GET</code></td>
 <td><code>/api/v1/health</code></td>
-<td><code>wallet</code> is <code>live</code> or <code>dry-run</code></td>
-</tr>
-<tr>
-<td><code>POST</code></td>
-<td><code>/api/v1/scan</code></td>
-<td>Admin session — force one deposit scan</td>
+<td><code>wallet</code> and <code>btc_wallet</code> are each <code>live</code> or <code>dry-run</code>. <code>assets</code> lists <code>PDC</code>, <code>BTCX</code>, <code>BTC</code></td>
 </tr>
 </tbody>
 </table>
-<p>Example: <a href="https://funding.privacydatacoin.com/api/v1/proposals">https://funding.privacydatacoin.com/api/v1/proposals</a>.</p>
+<p>JSON <code>/api/v1</code> is read-only. Example: <a href="https://funding.privacydatacoin.com/api/v1/proposals">https://funding.privacydatacoin.com/api/v1/proposals</a>.</p>
 <h2 id="what-this-is-not">What this is not</h2>
 <ul>
 <li>Not an on-chain smart contract (PDC L1 has no EVM).</li>
@@ -374,7 +504,8 @@
 <h2 id="related">Related</h2>
 <ul>
 <li>Live UI: <a href="https://funding.privacydatacoin.com/">funding.privacydatacoin.com</a></li>
-<li>Operator docs in the repo: <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/blob/master/docs/architecture.html">architecture</a>, <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/blob/master/docs/DEPLOYMENT.html">deployment</a>, <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/blob/master/docs/security-audit.html">security audit</a></li>
+<li>Operator docs in the repo: <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/blob/main/docs/architecture.html">architecture</a>, <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/blob/main/docs/DEPLOYMENT.html">deployment</a>, <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/blob/main/docs/security-audit.html">security audit</a></li>
+<li>Source of the multi-asset fee rules: <a href="https://github.com/PrivacyDataCoin-Project/pdc-funding/commit/01c84936211f44e6c614b85242e38d6f584ea1f5">commit <code>01c84936</code></a> (<code>funding/assets.py</code>, <code>funding/scanner.py</code>, <code>funding/service.py</code>, <code>funding/fee_convert.py</code>, <code>funding/config.py</code>)</li>
 <li><a href="tipbot.html">TIP Bot</a> · <a href="../build/aliases.html">Aliases</a> · <a href="../oracle/oracle.html">Oracle</a></li>
 </ul>
           </div>
@@ -386,11 +517,16 @@
         <h2>On this page</h2>
         <div class="toc">
 <ul>
+<li><a href="#supported-assets">Supported assets</a></li>
 <li><a href="#what-it-is-for">What it is for</a></li>
 <li><a href="#custodial-escrow-read-this">Custodial escrow (read this)</a></li>
 <li><a href="#status-flow">Status flow</a></li>
-<li><a href="#how-to-donate">How to donate</a></li>
+<li><a href="#how-to-donate">How to donate</a><ul>
+<li><a href="#confirmations">Confirmations</a></li>
+</ul>
+</li>
 <li><a href="#how-to-propose-work">How to propose work</a></li>
+<li><a href="#fees">Fees</a></li>
 <li><a href="#money-model-short">Money model (short)</a></li>
 <li><a href="#public-api">Public API</a></li>
 <li><a href="#what-this-is-not">What this is not</a></li>

@@ -38,5 +38,5 @@ Public references used in the manual:
 - Build: compile the tree, node RPC, assets, aliases, escrow and swaps
 - Mine: RandomARQ and stratum port 19777
 - Stake: online staking and the Zarcanum rules
-- Tools: TIP Bot (Telegram + Matrix) and Funding (community crowdfunding)
+- Tools: TIP Bot (Telegram + Matrix) and Funding (community crowdfunding in PDC, BTCX, and BTC)
 - Code: the parameter table and a map of the source tree

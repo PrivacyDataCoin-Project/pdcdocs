@@ -96,7 +96,7 @@ SUMMARIES = {
     "stake/staking": "Keep a synced wallet online and stake PDC.",
     "stake/proof-of-stake": "Zarcanum, coinstake age, and the PoS run limit.",
     "tools/tipbot": "Telegram and Matrix tip bot: tips, rain, deposits, and withdraw.",
-    "tools/funding": "Community crowdfunding: proposals, escrow donations, milestone payouts.",
+    "tools/funding": "Community crowdfunding in PDC, BTCX, and BTC: proposals, escrow donations, milestone payouts.",
     "code/parameters": "The numbers a node boots with.",
     "code/source-map": "Where each subsystem lives in the tree.",
 }

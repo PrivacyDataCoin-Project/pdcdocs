@@ -113,7 +113,7 @@ If the hot wallet cannot cover liabilities, on-chain payouts are refused until t
 
 ## Related
 
-- [Funding](funding.md) — community proposals and escrow crowdfunding
+- [Funding](funding.md) — community proposals and escrow for PDC, BTCX, and BTC
 - [PDC Messenger](../matrix/messenger.md) — Matrix homeserver and alias claim
 - [Aliases](../build/aliases.md) — `@name` destinations for withdraw / send
 - [Getting started](../use/getting-started.md) — your own wallet for long-term holdings
