@@ -216,6 +216,8 @@
 <p>No. The alias reward account's spend and view keys are all zeros. The comment in the source says the alias money is burned. The registration cost itself moves with a median of recent alias fees. The starting constant, <code>ALIAS_VERY_INITAL_COAST</code>, is 10,000 atomic units, which is 0.00000001 PDC, and the median takes over from there. Read the current cost from the node with the <code>get_alias_reward</code> RPC instead of assuming a fixed price.</p>
 <h2 id="is-the-rpc-public">Is the RPC public?</h2>
 <p>By default the RPC binds to <code>127.0.0.1</code> on port 19211. A remote host cannot call it until you change <code>--rpc-bind-ip</code>. Leave it on localhost unless you have a reason and a firewall plan.</p>
+<h2 id="does-funding-accept-only-pdc">Does Funding accept only PDC?</h2>
+<p>No. A proposal can take PDC, BTCX, and native BTC, each with its own target and total. PDC and BTCX share one integrated address. BTC uses a separate Bitcoin address. Fees are taken on milestone payout. See <a href="../tools/funding.html">Funding</a>.</p>
 <h2 id="where-is-the-asset-list">Where is the asset list?</h2>
 <p>The wallet downloads <code>https://api.privacydatacoin.com/assets_whitelist.json</code> and checks it with <code>WALLET_ASSETS_WHITELIST_VALIDATION_PUBLIC_KEY</code>. <code>balance</code> hides assets that are not on that list. <code>balance raw</code>, or <code>add_custom_asset_id</code>, shows assets you have approved yourself.</p>
           </div>
@@ -239,6 +241,7 @@
 <li><a href="#how-do-i-get-a-matrix-messenger-account">How do I get a Matrix / Messenger account?</a></li>
 <li><a href="#are-alias-fees-paid-to-a-foundation">Are alias fees paid to a foundation?</a></li>
 <li><a href="#is-the-rpc-public">Is the RPC public?</a></li>
+<li><a href="#does-funding-accept-only-pdc">Does Funding accept only PDC?</a></li>
 <li><a href="#where-is-the-asset-list">Where is the asset list?</a></li>
 </ul>
 </div>

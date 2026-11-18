@@ -50,6 +50,10 @@ No. The alias reward account's spend and view keys are all zeros. The comment in
 
 By default the RPC binds to `127.0.0.1` on port 19211. A remote host cannot call it until you change `--rpc-bind-ip`. Leave it on localhost unless you have a reason and a firewall plan.
 
+## Does Funding accept only PDC?
+
+No. A proposal can take PDC, BTCX, and native BTC, each with its own target and total. PDC and BTCX share one integrated address. BTC uses a separate Bitcoin address. Fees are taken on milestone payout. See [Funding](../tools/funding.md).
+
 ## Where is the asset list?
 
 The wallet downloads `https://api.privacydatacoin.com/assets_whitelist.json` and checks it with `WALLET_ASSETS_WHITELIST_VALIDATION_PUBLIC_KEY`. `balance` hides assets that are not on that list. `balance raw`, or `add_custom_asset_id`, shows assets you have approved yourself.
