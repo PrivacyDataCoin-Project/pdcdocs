@@ -10,12 +10,12 @@ It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**.
 | --- | --- |
 | App name | PDC Wallet |
 | Bundle ID | `com.privacydatacoin.pdcwallet` |
-| Current app version | **3.1.0** (build 12) |
+| Current app version | **3.1.0** (build 45) |
 | Source | [PrivacyDataCoin-Project/pdcwallet_ios](https://github.com/PrivacyDataCoin-Project/pdcwallet_ios) |
 | Product site | [privacydatacoin.com](https://privacydatacoin.com/) |
 | Privacy policy | [privacydatacoin.com/privacy.html](https://privacydatacoin.com/privacy.html) |
 | App Store | [PDC Wallet](https://apps.apple.com/app/id6818298023) (listing goes live when App Review approves) |
-| TestFlight | [Join the public beta](https://testflight.apple.com/join/NwmhAhfi) |
+| TestFlight | [Join the public beta](https://testflight.apple.com/join/gcDqJweD) |
 
 ## What you can do
 
@@ -37,17 +37,17 @@ It is published by PrivacyDataCoin Project for **one chain and one asset: PDC**.
 
 ## Get the beta (TestFlight)
 
-Install via the public TestFlight link: [testflight.apple.com/join/NwmhAhfi](https://testflight.apple.com/join/NwmhAhfi).
+Install via the public TestFlight link: [testflight.apple.com/join/gcDqJweD](https://testflight.apple.com/join/gcDqJweD).
 
 1. Install [TestFlight](https://apps.apple.com/app/testflight/id899247664) from the App Store if you do not already have it.
 2. Open the invite link on your device and accept **PDC Wallet** / PDC Mobile.
-3. Install the latest available beta build (currently aligned with app version **3.1.0**).
+3. Install the latest available beta build (currently **3.1.0**, build 45).
 
 Builds expire 90 days after upload. When the App Store listing is live, prefer the production app for everyday use.
 
 ## First launch
 
-1. Install **PDC Wallet** from [TestFlight](https://testflight.apple.com/join/NwmhAhfi), or from the App Store when the listing is available.
+1. Install **PDC Wallet** from [TestFlight](https://testflight.apple.com/join/gcDqJweD), or from the App Store when the listing is available.
 2. Create a wallet or restore from seed. Choose a wallet password on the device.
 3. Write the seed down offline. The app cannot recover funds if you never saved the phrase.
 4. Wait until sync against the selected remote node catches up before sending large amounts.
